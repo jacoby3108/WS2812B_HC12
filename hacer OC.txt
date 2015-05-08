@@ -1,0 +1,211 @@
+#include "mc9s12xdp512.h"
+#include "rti.h"
+#include "pll_asm.h"
+#define T1H 16
+#define T0H 8
+#define TP 25
+
+                                       
+
+unsigned  int delta;
+unsigned char mask=0x80,ByteCtr=3,temp;
+unsigned char *p2rgb;
+
+static void system_init(void);
+
+void main(void) {                  
+   
+ ////    maintest1();
+ system_init();
+    
+    //largamos!
+//    _asm cli;
+
+    
+  TSCR2 = (TSCR2 & 0xF8) | 0x01;    // Preescaler en 8, cuenta cada 2/40MHz = 50ns
+  TSCR1 |= TSCR1_TEN_MASK;          // Habilita el timer para el IOC
+
+  TIOS_IOS7=1;
+  TIOS_IOS6=1;
+ 
+
+  TCTL1_OL7 = 1;   // toggle 
+  TCTL1_OM7 = 0;
+//  TCTL1_OL7 =1;   //Set=1
+//  TCTL1_OM7 =1;
+  
+//  TCTL1_OL6 =1;   //Set=1
+//  TCTL1_OM6 =1;
+
+
+//  TCTL1_OL7 =0;   //Set=0
+//  TCTL1_OM7 =1;
+  
+  TCTL1_OL6 =0;   //Set=0
+  TCTL1_OM6 =1;
+
+
+  TC7=TCNT+2000;   // lets breathle 
+  TC6=TCNT+2000;
+   
+    
+  TFLG1=0x80; //  Clr C7F
+  TFLG1=0x40; //  Clr C6F
+  
+  
+  
+  while (!TFLG1_C7F); // Sync 
+  
+  while (!TFLG1_C6F); // Sync 
+  
+//  CFORC_FOC6=1; 
+//  CFORC_FOC7=1; 
+  
+  
+  
+  
+     // Reset flags
+  
+  TFLG1=0x80; //  Clr C7F
+  TFLG1=0x40; //  Clr C6F
+  
+  
+   
+  TC7=TC7+1000;
+  TC6=TC6+250;
+     
+// **********************************************     
+// DIN signal of WS2812B is generated at OC6 pin 
+   
+// OC7 Timer generates the signal period (always 1.25us)
+// OC6 Timer generates the signal pulse width 0.4us for 0 and 0.8us for 1
+
+
+
+// At OC7 compare the following takes place:
+  
+// OC7 sets OC6 at 1
+// 
+
+
+// set up 
+
+    OC7M_OC7M6=1;          // OC7 controls OC6 pin 
+    OC7D=0x40;             // When OC7 is reached OC6 pin goes HI
+        
+    TCTL1_OL6 =0;         // When OC6 is reached OC6 pin goes LO 
+    TCTL1_OM6 =1;
+
+     delta=8;
+   
+for(;;)
+  
+  {
+
+    
+    
+    while (!TFLG1_C7F); 
+  
+
+      TC6=TC7+delta;
+    
+//    TC6=TC7+8;
+
+
+//      TC7=TC7+25;  // 1.25us
+      TC7=TC7+65;     // 1.25us +5us
+      TFLG1=0x80|0x40; //  Clr C7F  and C6F
+
+
+     if((*p2rgb)&mask)
+          temp=1;
+     else
+          temp=0;
+     
+     mask>>=1;
+      
+     if(!mask){
+      
+     
+       p2rgb++;
+       ByteCtr--;    
+       mask=0x80;  
+       
+     if(!ByteCtr)
+        delta--;  // va un break  
+
+       
+     }
+   } // for
+   
+        
+   
+   
+   
+}
+
+
+
+
+
+ maintest1(void) {                  
+
+
+    system_init();
+    
+    //largamos!
+//    _asm cli;
+    
+  TSCR2 = (TSCR2 & 0xF8) | 0x03;    // Preescaler en 8, cuenta cada 8/40MHz
+  TSCR1 |= TSCR1_TEN_MASK;          // Habilita el timer para el IOC
+
+  TIOS_IOS7=1;
+
+  TCTL1_OL7 = 1;
+  TCTL1_OM7 = 0;
+
+      for(;;) {
+
+   
+    
+   while (!TFLG1_C7F); 
+   
+   TFLG1=0x80; //  Clr C7F 
+   
+   TC7=TC7+1000;
+   TC6=TC6+250;
+   
+      }
+   
+  
+
+
+
+
+    //programa principal
+    for(;;) {
+        PORTA &= 0xFE;
+        delayms(100);
+        PORTA |= 0x01;
+        delayms(300);
+	}
+}
+
+static void system_init(void) 
+{
+
+
+  #ifdef FLASH     
+
+    pll_init();	  // solo para flash  (ver config.h)
+
+  #endif				     
+   
+    //PORTA = todas salidas en 0
+    PORTA = 0x00;
+    DDRA = 0xFF;
+    
+//    rti_init();
+}
+
+
