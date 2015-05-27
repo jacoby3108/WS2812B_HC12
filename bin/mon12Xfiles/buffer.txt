@@ -1,36 +1,36 @@
-regs
-
-
-
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
 port com9
-
+port com9
 regs
 load ram.s19
 g
-load ram.s19
-g
-load ram.s19
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
 load ram.s19
 g
 load ram.s19

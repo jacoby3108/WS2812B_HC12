@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "Z:\mi home\Documents\RGB LED Strip\HC12\LEDRGB\bin\templ_C_12X_nofloat_ram.abs"
+PROGRAM "Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin\templ_C_12X_nofloat_ram.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -3371,10 +3371,15 @@ OBJECT LIST SORTED BY ADDRESS
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
+main.c.o:
+  LEDtest 
 ivt.c.o:
   UnimplementedISR 
 rti.c.o:
   rti_init delayms 
+NOT USED VARIABLES
+main.c.o:
+  STRING.HOLA.mundo.1 
 
 *********************************************************************************************
 COPYDOWN SECTION

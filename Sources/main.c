@@ -2,6 +2,8 @@
 #include "rti.h"
 #include "pll_asm.h"
 
+#include "LEDscreen.h"
+
 //#define TP 25  // 1.25 us @ 50ns OCTic
 
 
@@ -26,7 +28,7 @@ unsigned char temp[]={0xA5,0x5A};
 
 static void system_init(void);
 void init_display(void);
-
+void LEDtest(void);
 
 
 void main(void) {                  
@@ -259,7 +261,7 @@ static void system_init(void)
 
   #endif				     
    
-    //PORTA = todas salidas en 0
+
     PORTA = 0x00;
     DDRA = 0xFF;
     
@@ -267,3 +269,30 @@ static void system_init(void)
 }
 
 
+
+//*************** TEST AREA ***************//
+
+/* This test evaluates how much time 
+tates the LEDscreen_setMSJ to update
+the screen */
+
+void LEDtest(void) {
+  
+  LEDscreen_setMSJ("HOLA mundo");
+    //programa principal                 
+    for(;;) {
+       
+         PORTA |= 0x01;
+        
+       
+        LEDscreen_ShiftMSJ();
+         PORTA &= 0xFE;
+        
+       _asm nop;
+       _asm nop;
+       _asm nop;
+       _asm nop;
+    }
+  
+  
+}
