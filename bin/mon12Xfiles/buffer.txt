@@ -1,42 +1,42 @@
-g
+
+
 load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
+g -t 
+rb 0x0
+regs
+
+
 load ram.s19
 load ram.s19
-g
+g -t 
+regs
+load ram.s19
 load ram.s19
 g
+term
 load ram.s19
 g
+regs
+
+regs
+term
+
+regs
 load ram.s19
 g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-port com9
-port com9
 regs
 load ram.s19
 g
 load ram.s19
 g
-load ram.s19
-g
-load ram.s19
-g
+regs
+rb 0x1000
+help
+
+nrd 0x100.3
+nrd 0x100,3
+
+
 load ram.s19
 g
 load ram.s19

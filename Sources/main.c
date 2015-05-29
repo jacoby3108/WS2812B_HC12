@@ -1,8 +1,17 @@
 #include "mc9s12xdp512.h"
+
+
+
+#include <stdio.h>
+#include "sci.h"
+
 #include "rti.h"
 #include "pll_asm.h"
 
 #include "LEDscreen.h"
+#define _putchar            (void)putchar
+#define _printf            (void)printf
+
 
 //#define TP 25  // 1.25 us @ 50ns OCTic
 
@@ -29,6 +38,7 @@ unsigned char temp[]={0xA5,0x5A};
 static void system_init(void);
 void init_display(void);
 void LEDtest(void);
+void Scitest(void);
 
 
 void main(void) {                  
@@ -36,6 +46,12 @@ void main(void) {
  
  
  system_init();
+ 
+ _asm cli;
+ 
+ for (;;)
+  Scitest();
+ 
  
  init_display();
  
@@ -261,6 +277,7 @@ static void system_init(void)
 
   #endif				     
    
+    Sci_Init();
 
     PORTA = 0x00;
     DDRA = 0xFF;
@@ -289,10 +306,36 @@ void LEDtest(void) {
          PORTA &= 0xFE;
         
        _asm nop;
-       _asm nop;
+       _asm nop;   
        _asm nop;
        _asm nop;
     }
+  
+  
+}
+
+
+void Scitest(void) {
+  
+char c;
+  
+//   c=Sci1_Gechar();
+//    Sci1_Putchar(c+1);
+
+
+
+    //_putchar(0xA5);
+    //putchar(0xA5);
+    //putchar(0xA5);  
+    //putchar(0xA5);
+    
+    //_printf("  1234   ");
+   
+   while (Sci1_GetQueueSatus()==EMPTY);
+   
+   Sci1_Putchar(Sci1_GetQueueData());
+     
+    
   
   
 }

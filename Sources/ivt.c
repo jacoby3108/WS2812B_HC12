@@ -8,6 +8,7 @@
 
 extern void _Startup(); /* startup routine */
 extern void ISR_rti();
+extern void ISR_sci();
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED /* Interrupt section for this module. Placement will be in NON_BANKED area. */
 
@@ -116,7 +117,7 @@ void (* const interrupt_vector_table[])() ={
     NOTUSED,	// VECT24	portj
     NOTUSED,	// VECT23	atd1
     NOTUSED,	// VECT22	atd0
-    NOTUSED,	// VECT21	sci1
+    ISR_sci,	// VECT21	sci1
     NOTUSED,	// VECT20	sci0
     NOTUSED,	// VECT19	spi0
     NOTUSED,	// VECT18	timpaie
