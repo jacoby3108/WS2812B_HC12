@@ -2,13 +2,14 @@
 //  LEDscreen.h
 //  Interface
 //
-//  Created by Sergio N. Deligiannis on 27/4/15.
+//  Created by Sergio N. Deligiannis on 29/5/15.
 //  Copyright (c) 2015 Sergio N. Deligiannis. All rights reserved.
 //
 
 #ifndef __Interface__LEDscreen__
 #define __Interface__LEDscreen__
 
+#include <stdio.h>
 
 
 #define LED_SCREEN_DIM_MATRIX 8  // Filas y columnas de un bloque de LEDs
@@ -17,9 +18,21 @@
 #define LED_SCREEN_MAX_CHARACTERS 200  // Para el mensaje
 
 
+typedef struct
+{
+    unsigned char Green;
+    unsigned char Red;
+    unsigned char Blue;
+}LEDSTR;
+
+
 void LEDscreen_setMSJ(const char *newMSJ);
+void LEDscreen_setLEDcolorON(LEDSTR color);
 void LEDscreen_ShiftMSJ(void);
 void LEDscreen_update(void);
+
+LEDSTR *LEDscreen_getScreenData();
+unsigned int LEDscreen_getScreenBytes();
 
 
 

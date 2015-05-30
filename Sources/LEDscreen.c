@@ -2,9 +2,9 @@
 //  LEDscreen.c
 //  Interface
 //
-//  Created by Sergio N. Deligiannis on 27/4/15.
+//  Created by Sergio N. Deligiannis on 29/5/15.
 //  Copyright (c) 2015 Sergio N. Deligiannis. All rights reserved.
-//
+//  
 
 #include "LEDscreen.h"
 #include "characters8x8.h"
@@ -28,43 +28,105 @@ void LEDscreen_ShiftEnded(void);
 
 char msj[MAX_CHARACTERS] = "ITBA";
 int msjSize = 4;
+char nextMsj[MAX_CHARACTERS] = "ITBA";
+int nextMsjSize = 4;
 
-unsigned char screen[DIM_MATRIX][N_BLOCKS * DIM_MATRIX];
+LEDSTR colorLEDsON = {0xff,0xff,0xff};
+LEDSTR colorLEDsOFF = {0x00,0x00,0x00};
+
+
+static LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX];
 
 
 /////////////////////////////////////////
 
+LEDSTR *LEDscreen_getScreenData()
+{
+    return (LEDSTR *)LedScreen;
+}
+
+unsigned int LEDscreen_getScreenBytes()
+{
+    return 3 * LED_SCREEN_DIM_MATRIX * LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX; // 3 por las estructura de LEDs
+}
 
 void LEDscreen_setMSJ(const char *newMSJ)
 {
-    msjSize = 0;
+    nextMsjSize = 0;
     
-    while(newMSJ[msjSize] != '\0')
+    while(newMSJ[nextMsjSize] != '\0')
     {
-        msj[msjSize] = newMSJ[msjSize];
-        msjSize++;
+        nextMsj[nextMsjSize] = newMSJ[nextMsjSize];
+        nextMsjSize++;
     }
-    msj[msjSize] = '\0';
+    nextMsj[nextMsjSize] = '\0';
     
+}
+
+void LEDscreen_setLEDcolorON(LEDSTR color)
+{
+    colorLEDsON = color;
 }
 
 void LEDscreen_update(void)
 {
 
-    // hay que usar unsigned char screen[8][32];
+    
+    // hay que usar: LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX];
     
 }
 
 void LEDscreen_ShiftEnded(void)
 {
-    LEDscreen_setMSJ("HOLA");
+    msjSize = 0;
+    
+    while(nextMsj[msjSize] != '\0')
+    {
+        msj[msjSize] = nextMsj[msjSize];
+        msjSize++;
+    }
+    msj[msjSize] = '\0';
+    
+    /*
+    static int i=0;
+    if(i==0)
+    {
+        colorLEDsON.Green = 0xff;
+        colorLEDsON.Blue = 0x00;
+        colorLEDsON.Red = 0x00;
+    }
+    else if(i==1)
+    {
+        colorLEDsON.Green = 0x00;
+        colorLEDsON.Blue = 0xff;
+        colorLEDsON.Red = 0x00;
+    }
+    else if(i==2)
+    {
+        colorLEDsON.Green = 0x00;
+        colorLEDsON.Blue = 0x00;
+        colorLEDsON.Red = 0xff;
+    }
+    else if(i==3)
+    {
+        colorLEDsON.Green = 0xff;
+        colorLEDsON.Blue = 0xff;
+        colorLEDsON.Red = 0xff;
+    }
+
+    i++;
+    if(i>=4)
+        i=0;
+    */
 }
+
+
 
 
 const unsigned char* LEDscreen_decode_MSJ(const char data)
 {
     int pos=0;
-    const unsigned char* retAddr = 0;
+    const unsigned char* retAddr = NULL;
     if(data >= 'a' && data <= 'z')
     {
         pos = data - 'a';
@@ -85,8 +147,8 @@ const unsigned char* LEDscreen_decode_MSJ(const char data)
     else if(data == '!')
         retAddr = Exclamacion;
     else if(data == '.')
-        retAddr = Dot;
-    
+        retAddr = Dot;              
+                                      
     
     return retAddr;
     
@@ -99,10 +161,10 @@ void LEDscreen_ShiftMSJ(void)
 {
     static int iShift=0;
     
-    const unsigned char* symbolAddrFirst = 0;
-    const unsigned char* symbolAddrSecond = 0;
-    char data[DIM_MATRIX];
-    int  i=0, j=0,k=0,iBlock=0;
+    const unsigned char* symbolAddrFirst = NULL;
+    const unsigned char* symbolAddrSecond = NULL;
+    unsigned char data[DIM_MATRIX],k=0;
+    int  i=0, j=0,iBlock=0;
     int Shift=0;
     
    
@@ -148,12 +210,17 @@ void LEDscreen_ShiftMSJ(void)
                     data[j] = 0;
         }
         
+        
     
         for(j=0 ; j < DIM_MATRIX  ; j++)
         {
             for(k=0 ; k < DIM_MATRIX  ; k++)
             {
-                screen[j][k+iBlock*DIM_MATRIX] = ((data[j] & (0x80>>k))>0);
+                if(((data[j] & (0x80>>k))>0))
+                    LedScreen[j][k+iBlock*DIM_MATRIX] = colorLEDsON;
+                else
+                    LedScreen[j][k+iBlock*DIM_MATRIX] = colorLEDsOFF;
+                    
             }
         }
     }

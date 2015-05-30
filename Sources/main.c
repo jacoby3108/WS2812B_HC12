@@ -35,22 +35,60 @@ unsigned char *p2rgb;
 unsigned char temp[]={0xA5,0x5A};
 
 
+   
+   
+/*
+typedef struct// es GRB
+
+{
+  unsigned char Green;
+  unsigned char Red ;
+  unsigned char Blue;
+  
+}LEDSTR; 
+
+*/
+
+LEDSTR LedScreen [8][32];
+
+unsigned char *p2led=NULL;
+LEDSTR *p2led2=NULL;
+
+
+
+
 static void system_init(void);
 void init_display(void);
 void LEDtest(void);
 void Scitest(void);
 
 
+
+
+
+                       
 void main(void) {                  
+                                   
+p2led=(unsigned char *)LedScreen;
+p2led2 =(LEDSTR *) LedScreen;
+
+
    
- 
+p2led2->Blue=255;
+p2led2++;
+p2led2->Red=255;
+p2led2++;
+p2led2->Green=255;
+
+*p2led=255;
+p2led++;
  
  system_init();
  
  _asm cli;
  
- for (;;)
-  Scitest();
+// for (;;)
+///  Scitest();
  
  
  init_display();
@@ -310,7 +348,12 @@ void LEDtest(void) {
        _asm nop;
        _asm nop;
     }
+
+
+
+
   
+   
   
 }
 
