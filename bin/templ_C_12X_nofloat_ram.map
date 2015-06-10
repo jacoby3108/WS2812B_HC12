@@ -28,7 +28,7 @@ _startupData is allocated at 0x1032 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x3100     13
-  _Copy    *toCopyDownBeg 0x1174
+  _Copy    *toCopyDownBeg 0x1173
 } _startupData;
 
 *********************************************************************************************
@@ -37,8 +37,8 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             50     R     0x1000     0x1031   RAM_RO
 .startData                        34     R     0x1032     0x1053   RAM_RO
-.text                            288     R     0x1054     0x1173   RAM_RO
-.copy                             10     R     0x1174     0x117D   RAM_RO
+.text                            287     R     0x1054     0x1172   RAM_RO
+.copy                             10     R     0x1173     0x117C   RAM_RO
 VECTORS                          240     R     0x3F10     0x3FFF   RAMVECTORS
 .stack                           256   R/W     0x3000     0x30FF   RAM_RW
 .data                              4   R/W     0x3100     0x3103   RAM_RW
@@ -692,7 +692,7 @@ VECTORS                          240     R     0x3F10     0x3FFF   RAMVECTORS
 .bss                               9   R/W     0x3104     0x310C   RAM_RW
 
 Summary of section sizes per section type:
-READ_ONLY (R):         26E (dec:      622)
+READ_ONLY (R):         26D (dec:      621)
 READ_WRITE (R/W):      10D (dec:      269)
 NO_INIT (N/I):         300 (dec:      768)
 
@@ -1357,8 +1357,8 @@ MODULE:                 -- mc9s12xdp512.c.o --
      _XGR7                                      3AE       2       2       0   .abs_section_3ae
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                      1054      18      24       1   .text       
-     system_init                               106C       B      11       1   .text       
+     main                                      1054      17      23       1   .text       
+     system_init                               106B       B      11       1   .text       
 - VARIABLES:
      temp                                      3100       2       2       1   .data       
 MODULE:                 -- ivt.c.o --
@@ -1374,22 +1374,22 @@ MODULE:                 -- simple_start12.c.o --
      __SEG_END_SSTACK                          3100       0       0       1               
 MODULE:                 -- rti.c.o --
 - PROCEDURES:
-     ISR_rti                                   1077      14      20       1   .text       
+     ISR_rti                                   1076      14      20       1   .text       
 - VARIABLES:
      rti_dly                                   3104       2       2       2   .bss        
 MODULE:                 -- sci.c.o --
 - PROCEDURES:
-     Sci_Init                                  108B       F      15       1   .text       
-     ISR_sci                                   109A       D      13       1   .text       
+     Sci_Init                                  108A       F      15       1   .text       
+     ISR_sci                                   1099       D      13       1   .text       
 - VARIABLES:
      rxdata                                    3106       1       1       1   .bss        
      RxQueueStatus                             3107       1       1       1   .bss        
 MODULE:                 -- WS2812B.c.o --
 - PROCEDURES:
-     WS2812B_Set_Data_Length                   10A7       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  10AB       4       4       1   .text       
-     WS2812B_Send_data                         10AF      A1     161       1   .text       
-     WS2812B_Init                              1150      24      36       1   .text       
+     WS2812B_Set_Data_Length                   10A6       4       4       1   .text       
+     WS2812B_Set_Data_pointer                  10AA       4       4       1   .text       
+     WS2812B_Send_data                         10AE      A1     161       1   .text       
+     WS2812B_Init                              114F      24      36       1   .text       
 - VARIABLES:
      ByteCtr                                   3102       2       2       3   .data       
      delta                                     3108       2       2       3   .bss        
@@ -1401,7 +1401,7 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12xdp512.c.o                           768      0      0
-  main.c.o                                     2     35      0
+  main.c.o                                     2     34      0
   ivt.c.o                                      0      0    240
   simple_start12.c.o                           0     50      0
   rti.c.o                                      2     20      0
@@ -3370,15 +3370,15 @@ OBJECT LIST SORTED BY ADDRESS
      _XGR6                                      3AC       2       2       0   .abs_section_3ac
      _XGR7                                      3AE       2       2       0   .abs_section_3ae
      _Startup                                  1000      32      50       1   .init       
-     main                                      1054      18      24       1   .text       
-     system_init                               106C       B      11       1   .text       
-     ISR_rti                                   1077      14      20       1   .text       
-     Sci_Init                                  108B       F      15       1   .text       
-     ISR_sci                                   109A       D      13       1   .text       
-     WS2812B_Set_Data_Length                   10A7       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  10AB       4       4       1   .text       
-     WS2812B_Send_data                         10AF      A1     161       1   .text       
-     WS2812B_Init                              1150      24      36       1   .text       
+     main                                      1054      17      23       1   .text       
+     system_init                               106B       B      11       1   .text       
+     ISR_rti                                   1076      14      20       1   .text       
+     Sci_Init                                  108A       F      15       1   .text       
+     ISR_sci                                   1099       D      13       1   .text       
+     WS2812B_Set_Data_Length                   10A6       4       4       1   .text       
+     WS2812B_Set_Data_pointer                  10AA       4       4       1   .text       
+     WS2812B_Send_data                         10AE      A1     161       1   .text       
+     WS2812B_Init                              114F      24      36       1   .text       
      temp                                      3100       2       2       1   .data       
      ByteCtr                                   3102       2       2       3   .data       
      rti_dly                                   3104       2       2       2   .bss        
@@ -3409,19 +3409,19 @@ main.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x1174 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x1173 ---- SIZE       4 ---
 Filling bytes inserted
  00043100
-------- ROM-ADDRESS: 0x1178 ---- RAM-ADDRESS: 0x3100 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x1177 ---- RAM-ADDRESS: 0x3100 ---- SIZE       2 ---
 Name of initialized Object : temp
  A55A
-------- ROM-ADDRESS: 0x117A ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x1179 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0x117B ---- RAM-ADDRESS: 0x3103 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x117A ---- RAM-ADDRESS: 0x3103 ---- SIZE       1 ---
 Name of initialized Object : ByteCtr:1
  02
-------- ROM-ADDRESS: 0x117C ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x117B ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3479,6 +3479,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 4
-Total size of all blocks to be downloaded: 622
+Number of blocks to be downloaded: 5
+Total size of all blocks to be downloaded: 621
 

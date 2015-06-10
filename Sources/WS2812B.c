@@ -1,6 +1,7 @@
 
 //#define TP 25  // 1.25 us @ 50ns OCTic
 #include "mc9s12xdp512.h"
+#include "ws2812b.h"
 
     
 #define OCTIC 50            // 50ns (prescaler must be at 2)  
@@ -47,7 +48,7 @@ void WS2812B_Send_data(void)  // Important we don't use any local variables for 
 
 {
   
-    
+     
  
   
      _asm sei;          // Disable Interrupts Critical timing starts here

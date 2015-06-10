@@ -66,7 +66,7 @@ void main(void) {
  
  system_init();
  
- _asm cli;
+/// _asm cli;
  
 // for (;;)
 ///  Scitest();
@@ -75,7 +75,7 @@ void main(void) {
  WS2812B_Init();
     
  WS2812B_Set_Data_pointer(temp);
- WS2812B_Set_Data_Length(2);
+ WS2812B_Set_Data_Length(3);
  WS2812B_Send_data();
  for (;;) ;   // stop for test
  
