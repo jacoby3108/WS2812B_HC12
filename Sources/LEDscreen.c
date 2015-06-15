@@ -40,14 +40,14 @@ static LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_
 
 /////////////////////////////////////////
 
-LEDSTR *LEDscreen_getScreenData()
+LEDSTR *LEDscreen_getScreenData(void)
 {
     return (LEDSTR *)LedScreen;
 }
 
-unsigned int LEDscreen_getScreenBytes()
+unsigned int LEDscreen_getScreenBytes(void)
 {
-    return 3 * LED_SCREEN_DIM_MATRIX * LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX; // 3 por las estructura de LEDs
+    return sizeof(LEDSTR) * LED_SCREEN_DIM_MATRIX * LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX; // 3 por las estructura de LEDs
 }
 
 void LEDscreen_setMSJ(const char *newMSJ)

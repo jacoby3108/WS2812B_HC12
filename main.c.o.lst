@@ -1,0 +1,404 @@
+*** EVALUATION ***
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  #include "mc9s12xdp512.h"
+    2:  
+    3:  
+    4:  
+    5:  #include <stdio.h>
+    6:  #include "sci.h"
+    7:  
+    8:  #include "rti.h"
+    9:  #include "pll_asm.h"
+   10:  
+   11:  #include "LEDscreen.h"
+   12:  #include "ws2812b.h"
+   13:  
+   14:  #define _putchar            (void)putchar
+   15:  #define _printf            (void)printf
+   16:  
+   17:  
+   18:  // ===================================================================
+   19:  //8 *32 Pixel WS2812B WS2812 Digital Color Flexible Led Panel Display
+   20:  // ===================================================================
+   21:  #define RGB_COLS 32
+   22:  #define RGB_ROWS 8
+   23:    
+   24:  // LED Internal Structure 
+   25:     
+   26:  /*
+   27:  typedef struct// es GRB
+   28:  
+   29:  {
+   30:    unsigned char Green;
+   31:    unsigned char Red ;
+   32:    unsigned char Blue;
+   33:    
+   34:  }LEDSTR; 
+   35:  
+   36:  */
+   37:  
+   38:  
+   39:  
+   40:  int i,j;
+   41:  
+   42:  
+   43:  
+   44:  static void system_init(void);
+   45:  /////void init_display(void);
+   46:  
+   47:  
+   48:  void WS2812B_Test(void);
+   49:  void LEDtest(void);
+   50:  void Scitest(void);
+   51:  void pointerAccessTest(void);
+   52:  void pointerAccessTest2(void);
+   53:  
+   54:  
+   55:  
+   56:  
+   57:  
+   58:  
+   59:  
+   60:                         
+   61:  void main(void) {                  
+*** EVALUATION ***
+
+Function: main
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\main.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o.lst" -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o" -WmsgSd1106
+
+   62:                                     
+   63:  
+   64:  
+   65:  
+   66:   pointerAccessTest2();
+  0000 160000       [4]     JSR   pointerAccessTest2
+   67:    
+   68:    
+   69:   
+   70:   system_init();
+  0003 160000       [4]     JSR   system_init
+   71:   
+   72:   _asm cli;
+  0006 10ef         [1]     CLI   
+   73:   
+   74:    for (;;)
+   75:    Scitest();
+  0008 160000       [4]     JSR   Scitest
+  000b 20fb         [3]     BRA   *-3 ;abs = 0008
+   76:   
+   77:  //  WS2812B_Test();
+   78:  
+   79:   
+   80:     
+   81:   
+   82:  }
+   83:  
+   84:  
+   85:  
+   86:  
+   87:  static void system_init(void) 
+   88:  {
+*** EVALUATION ***
+
+Function: system_init
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\main.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o.lst" -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o" -WmsgSd1106
+
+   89:  
+   90:  
+   91:    #ifdef FLASH     
+   92:  
+   93:      pll_init();	  // solo para flash  (ver config.h)
+   94:  
+   95:    #endif				     
+   96:      
+   97:      Sci_Init();
+  0000 160000       [4]     JSR   Sci_Init
+   98:  
+   99:  
+  100:      PORTA = 0x00;
+  0003 790000       [3]     CLR   _PORTAB
+  101:      DDRA = 0xFF;
+  0006 c6ff         [1]     LDAB  #255
+  0008 5b00         [2]     STAB  _DDRAB
+  102:      
+  103:  //    rti_init();
+  104:  }
+  000a 3d           [5]     RTS   
+  105:  
+  106:  
+  107:  
+  108:  //*************** TEST AREA ***************//
+  109:  
+  110:  //================================================
+  111:  
+  112:  
+  113:  // This array is for testing WS2812B DIN on osciloscope
+  114:  
+  115:  //unsigned char temp[]={0x00,0xFF,0x00, 0xFF,0x00,0x00, 0x00,0x00,0xFF};
+  116:  
+  117:  //unsigned char temp[]={0x00,0x7F,0x00, 0x7F,0x00,0x00, 0x00,0x00,0x7F};
+  118:  
+  119:  //unsigned char temp[]={0x00,0x30,0x00, 0x30,0x00,0x00, 0x00,0x00,0x30};
+  120:  
+  121:  //unsigned char temp[]={0xff,0xfF,0xff, 0xfF,0xff,0xff, 0xff,0xff,0xfF};
+  122:  
+  123:  unsigned char temp[]={0xff,0xfF,0xff, 0xfF,0xff,0xff, 0xff,0xff,0xfF,
+  124:  0xff,0xfF,0xff, 0xfF,0xff,0xff, 0xff,0xff,0xfF,0xff,0xff,0xfF,0xff,0xff,0xfF };
+  125:  
+  126:  
+  127:  void WS2812B_Test(void) {
+*** EVALUATION ***
+
+Function: WS2812B_Test
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\main.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o.lst" -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o" -WmsgSd1106
+
+  128:  
+  129:    
+  130:   WS2812B_Init();
+  0000 160000       [4]     JSR   WS2812B_Init
+  131:   WS2812B_Set_Data_pointer(temp);
+  0003 cc0000       [2]     LDD   #temp
+  0006 160000       [4]     JSR   WS2812B_Set_Data_pointer
+  132:   WS2812B_Set_Data_Length(sizeof(temp)/sizeof(temp[0]));
+  0009 c618         [1]     LDAB  #24
+  000b 87           [1]     CLRA  
+  000c 160000       [4]     JSR   WS2812B_Set_Data_Length
+  133:   WS2812B_Send_data();
+  000f 160000       [4]     JSR   WS2812B_Send_data
+  134:   for (;;) ;   // stop for test
+  0012 20fe         [3]     BRA   *+0 ;abs = 0012
+  135:   
+  136:  
+  137:  
+  138:  
+  139:  }
+  140:  
+  141:  
+  142:  
+  143:  
+  144:  /* This test evaluates how much time 
+  145:  takes the LEDscreen_setMSJ to update
+  146:  the screen */
+  147:  
+  148:  void LEDtest(void) {
+*** EVALUATION ***
+
+Function: LEDtest
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\main.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o.lst" -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o" -WmsgSd1106
+
+  149:    
+  150:    LEDscreen_setMSJ("HOLA mundo");
+  0000 cc0000       [2]     LDD   #"HOLA mundo"
+  0003 160000       [4]     JSR   LEDscreen_setMSJ
+  151:      //programa principal                 
+  152:      for(;;) {
+  153:         
+  154:           PORTA |= 0x01;
+  0006 4c0001       [4]     BSET  _PORTAB,#1
+  155:          
+  156:         // LEDSTR *LEDscreen_getScreenData()
+  157:         // ws2812B();
+  158:          LEDscreen_ShiftMSJ();
+  0009 160000       [4]     JSR   LEDscreen_ShiftMSJ
+  159:           PORTA &= 0xFE;
+  000c 4d0001       [4]     BCLR  _PORTAB,#1
+  160:          
+  161:         _asm nop;
+  000f a7           [1]     NOP   
+  162:         _asm nop;   
+  0010 a7           [1]     NOP   
+  163:         _asm nop;
+  0011 a7           [1]     NOP   
+  164:         _asm nop;
+  0012 a7           [1]     NOP   
+  0013 20f1         [3]     BRA   *-13 ;abs = 0006
+  165:      }
+  166:     
+  167:    
+  168:  }     
+  169:  
+  170:  
+  171:  void Scitest(void) {
+*** EVALUATION ***
+
+Function: Scitest
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\main.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o.lst" -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o" -WmsgSd1106
+
+  172:    
+  173:  ///////char c;
+  174:    
+  175:  //   c=Sci1_Gechar();
+  176:  //    Sci1_Putchar(c+1);
+  177:  
+  178:  
+  179:  
+  180:      //_putchar(0xA5);       // SCI 0
+  181:      //putchar(0xA5);         // SCI 0
+  182:      //putchar(0xA5);          // SCI 0
+  183:      //putchar(0xA5);           // SCI 0
+  184:      
+  185:      //_printf("  1234   ");         // SCI 0
+  186:     
+  187:     while (Sci1_GetQueueSatus()==EMPTY);           // SCI 1
+  0000 160000       [4]     JSR   Sci1_GetQueueSatus
+  0003 0451fa       [3]     TBEQ  B,*-3 ;abs = 0000
+  188:     
+  189:     Sci1_Putchar(Sci1_GetQueueData()+2);
+  0006 160000       [4]     JSR   Sci1_GetQueueData
+  0009 cb02         [1]     ADDB  #2
+  000b 060000       [3]     JMP   Sci1_Putchar
+  190:       
+  191:      
+  192:    
+  193:    
+  194:  }
+  195:  
+  196:  
+  197:  unsigned char *p2led=NULL;
+  198:  LEDSTR *p2led2=NULL;
+  199:  
+  200:  
+  201:  #define TEST_COLS 4
+  202:  #define TEST_ROWS 8 
+  203:  
+  204:  
+  205:  LEDSTR LedScreen [TEST_ROWS][TEST_COLS]={
+  206:  {{0x01,0x02,0x03},{0x04,0x05,0x06},{0x07,0x08,0x09}},             // first 3 elem of first row (rest are zero)
+  207:  {{0x10,0x20,0x30},{0x40,0x50,0x60},{0x70,0x80,0x90}},    // first 3 elem of second row (rest are zero)
+  208:  {{0x11,0x12,0x13},{0x14,0x15,0x16},{0x17,0x18,0x19}}
+  209:  };
+  210:  
+  211:  unsigned char DestLedScreen [TEST_ROWS*TEST_COLS*sizeof(LEDSTR)];
+  212:  
+  213:  void pointerAccessTest(void)
+  214:  {
+*** EVALUATION ***
+
+Function: pointerAccessTest
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\main.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o.lst" -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o" -WmsgSd1106
+
+  215:    
+  216:    p2led=(unsigned char *)LedScreen;  // This pointer will access array bytes
+  0000 180300000000 [5]     MOVW  #LedScreen,p2led
+  217:    p2led2 =(LEDSTR *) LedScreen;    // This pointer will access array elements
+  0006 180300000000 [5]     MOVW  #LedScreen,p2led2
+  218:     
+  219:    p2led2->Blue=255;
+  000c c6ff         [1]     LDAB  #255
+  000e fe0000       [3]     LDX   p2led2
+  0011 6b02         [2]     STAB  2,X
+  220:    p2led2++;
+  0013 1a03         [2]     LEAX  3,X
+  221:    p2led2->Red=255;
+  0015 6b01         [2]     STAB  1,X
+  222:    p2led2++;
+  0017 1a03         [2]     LEAX  3,X
+  0019 7e0000       [3]     STX   p2led2
+  223:    p2led2->Green=255;
+  001c 6bfb0000     [4]     STAB  [p2led2,PCR]
+  224:  
+  225:    for(i=0;i<24;i++){
+  0020 18790000     [4]     CLRW  i
+  0024 fe0000       [3]     LDX   p2led
+  226:      
+  227:        *p2led=0x33;
+  0027 c633         [1]     LDAB  #51
+  0029 6b30         [2]     STAB  1,X+
+  002b 18720000     [5]     INCW  i
+  002f fc0000       [3]     LDD   i
+  0032 8c0018       [2]     CPD   #24
+  0035 2df0         [3/1]   BLT   *-14 ;abs = 0027
+  228:        p2led++;
+  229:    }
+  230:  
+  231:  
+  232:  }
+  0037 7e0000       [3]     STX   p2led
+  003a 3d           [5]     RTS   
+  233:  
+  234:  
+  235:  unsigned char (*p2led3)[TEST_COLS*sizeof(LEDSTR)];  
+  236:  unsigned char col=0;
+  237:  unsigned char row=0;
+  238:      
+  239:  unsigned char *pc;
+  240:  unsigned char uc; 
+  241:  
+  242:  void pointerAccessTest2(void)
+  243:  {
+*** EVALUATION ***
+
+Function: pointerAccessTest2
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\main.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o.lst" -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\main.c.o" -WmsgSd1106
+
+  244:    
+  245:   
+  246:    //
+  247:    ////////  return (LEDSTR *)LedScreen;
+  248:    
+  249:    
+  250:    p2led3=(unsigned char (*)[TEST_COLS*sizeof(LEDSTR)])LedScreen; 
+  0000 180300000000 [5]     MOVW  #LedScreen,p2led3
+  251:    pc= DestLedScreen;
+  0006 180300000000 [5]     MOVW  #DestLedScreen,pc
+  252:  
+  253:    while (1){
+  254:      
+  255:    
+  256:        
+  257:    // *** THIS TAKES MUCH TIME (uses IDIV)           
+  258:    /// uc=  *(*(p2led3 + row%TEST_ROWS)+col%TEST_COLS); 
+  259:   
+  260:   
+  261:     uc=  *(*(p2led3 + row)+col); 
+  000c c60c         [1]     LDAB  #12
+  000e b60000       [3]     LDAA  row
+  0011 12           [1]     MUL   
+  0012 f30000       [3]     ADDD  p2led3
+  0015 b745         [1]     TFR   D,X
+  0017 f60000       [3]     LDAB  col
+  001a 87           [1]     CLRA  
+  001b 1ae6         [2]     LEAX  D,X
+  001d e600         [3]     LDAB  0,X
+  001f 7b0000       [3]     STAB  uc
+  262:          //uc=  p2led3[row][col];
+  263:          *pc++=uc;
+  0022 fe0000       [3]     LDX   pc
+  0025 6b30         [2]     STAB  1,X+
+  0027 7e0000       [3]     STX   pc
+  264:    
+  265:          col++;
+  002a 720000       [4]     INC   col
+  266:          
+  267:    
+  268:      if(col == TEST_COLS*sizeof(LEDSTR)) {
+  002d f60000       [3]     LDAB  col
+  0030 c10c         [1]     CMPB  #12
+  0032 26d8         [3/1]   BNE   *-38 ;abs = 000c
+  269:        
+  270:            row++;
+  0034 720000       [4]     INC   row
+  271:            col=0;
+  0037 7a0000       [3]     STAA  col
+  003a 20d0         [3]     BRA   *-46 ;abs = 000c
+  272:      }
+  273:      
+  274:   
+  275:   
+  276:    
+  277:    
+  278:   // pc=*p2led3;     // Pointer to an array of 5 colums
+  279:  
+  280:   ///   p2led3++;
+  281:    }
+  282:  
+  283:  }
+  284:  
