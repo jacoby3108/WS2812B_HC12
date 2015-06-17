@@ -31,8 +31,8 @@ void LEDscreen_setLEDcolorON(LEDSTR color);
 void LEDscreen_ShiftMSJ(void);
 void LEDscreen_update(void);
 
-LEDSTR *LEDscreen_getScreenData(void);
-unsigned int LEDscreen_getScreenBytes(void);
+LEDSTR *LEDscreen_getScreenAddress(void);
+unsigned int LEDscreen_getScreenBytes(void);          
 
 
 

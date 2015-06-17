@@ -26,17 +26,16 @@ static unsigned char *p2rgb;      // Poiner to data to be send over DIN pin (WS2
 
 
 // Definitions for transposed display
+                                             
 
-#define RGB_COLS 32
-#define RGB_ROWS 8
 
-static unsigned char (*p2led)[RGB_COLS*sizeof(LEDSTR)]; 
+//static unsigned char (*p2led)[RGB_COLS*sizeof(LEDSTR)]; 
 
-static unsigned char rgb_col=0;
-static unsigned char rgb_row=0;
+//static unsigned char rgb_col=0;
+//static unsigned char rgb_row=0;
     
 
-static unsigned char rgb_data; 
+
 
 
 // ======================================
@@ -55,7 +54,7 @@ void WS2812B_Set_Data_pointer( unsigned char *data_ptr ) {
   p2rgb=data_ptr;    // 
                 
   // For transposed                
-  p2led=(unsigned char (*)[RGB_COLS*sizeof(LEDSTR)])data_ptr;
+///  p2led=(unsigned char (*)[RGB_COLS*sizeof(LEDSTR)])data_ptr;
  
   
 }
@@ -284,63 +283,3 @@ void WS2812B_Init(void)
 }
 
 
-// Testing different times
-// Access Data of transposed led matrix & update ptr
-// to long
-//  
-
-void Get_Tranposed_Data_and_Update_Pointer(void)    
-{
-  
-    
-        rgb_data=  *(*(p2led + rgb_row)+rgb_col); 
-        //rgb_data=p2led[rgb_row][rgb_col];
-   
-        rgb_col++;
-        
-  
-    if(rgb_col == RGB_COLS*sizeof(LEDSTR)) {
-      
-          rgb_row++;
-          rgb_col=0;
-    }
-    
- 
-}
-
-void Get_New_Tranposed_Data(void)    
-{
-  
- // 525 nseg
- 
-        rgb_data=  *(*(p2led + rgb_row)+rgb_col); 
-        //rgb_data=p2led[rgb_row][rgb_col];
-   
-    
- 
-}
-
- void Get_Tranposed_Data(void)    
-{
-  
- 
-        rgb_data;
- 
-}
-
-void Uptate_Tranposed_Data_Pointer(void)    
-{
-  
-   // 675 nseg
-  
-    rgb_col++;
-        
-  
-    if(rgb_col == RGB_COLS*sizeof(LEDSTR)) {
-      
-          rgb_row++;
-          rgb_col=0;
-    }
-    
- 
-}

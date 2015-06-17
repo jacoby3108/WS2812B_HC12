@@ -16,7 +16,7 @@
 
 //#define MAX_CHARACTERS 200
 
-
+unsigned char nnnn;
 #define DIM_MATRIX LED_SCREEN_DIM_MATRIX
 #define N_BLOCKS LED_SCREEN_N_BLOCKS
 
@@ -28,7 +28,7 @@ void LEDscreen_ShiftEnded(void);
 
 char msj[MAX_CHARACTERS] = "ITBA";
 int msjSize = 4;
-char nextMsj[MAX_CHARACTERS] = "ITBA";
+char nextMsj[MAX_CHARACTERS] = "ITBA";   
 int nextMsjSize = 4;
 
 LEDSTR colorLEDsON = {0xff,0xff,0xff};
@@ -40,7 +40,7 @@ static LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_
 
 /////////////////////////////////////////
 
-LEDSTR *LEDscreen_getScreenData(void)
+LEDSTR *LEDscreen_getScreenAddress(void)
 {
     return (LEDSTR *)LedScreen;
 }
@@ -157,6 +157,8 @@ const unsigned char* LEDscreen_decode_MSJ(const char data)
 
 /////////////////////////////////////////
 
+unsigned char globalv,dummy;
+
 void LEDscreen_ShiftMSJ(void)
 {
     static int iShift=0;
@@ -216,7 +218,18 @@ void LEDscreen_ShiftMSJ(void)
         {
             for(k=0 ; k < DIM_MATRIX  ; k++)
             {
-                if(((data[j] & (0x80>>k))>0))
+               // if(((data[j] & (0x80>>k))>0))
+               
+               //================================
+                          
+                   // if( globalv=data[j])
+                   // dummy++;
+               
+               
+               //================================
+               
+               
+                if(((data[j] & (0x80>>k))!=0))
                     LedScreen[j][k+iBlock*DIM_MATRIX] = colorLEDsON;
                 else
                     LedScreen[j][k+iBlock*DIM_MATRIX] = colorLEDsOFF;
