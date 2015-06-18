@@ -18,7 +18,6 @@ ivt.c.o                                 Model: SMALL,         Lang: ANSI-C
 simple_start12.c.o                      Model: SMALL,         Lang: ANSI-C
 rti.c.o                                 Model: SMALL,         Lang: ANSI-C
 sci.c.o                                 Model: SMALL,         Lang: ANSI-C
-WS2812B.c.o                             Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -27,8 +26,8 @@ Entry point: 0x1000 (_Startup)
 _startupData is allocated at 0x1032 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x3100     20
-  _Copy    *toCopyDownBeg 0x1178
+  _Range   pZeroOut       0x3100     1577
+  _Copy    *toCopyDownBeg 0x1107
 } _startupData;
 
 *********************************************************************************************
@@ -37,11 +36,11 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             50     R     0x1000     0x1031   RAM_RO
 .startData                        34     R     0x1032     0x1053   RAM_RO
-.text                            292     R     0x1054     0x1177   RAM_RO
-.copy                             16     R     0x1178     0x1187   RAM_RO
+.text                            179     R     0x1054     0x1106   RAM_RO
+.copy                             89     R     0x1107     0x115F   RAM_RO
 VECTORS                          240     R     0x3F10     0x3FFF   RAMVECTORS
 .stack                           256   R/W     0x3000     0x30FF   RAM_RW
-.data                             11   R/W     0x3100     0x310A   RAM_RW
+.data                            800   R/W     0x3100     0x341F   RAM_RW
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -689,11 +688,12 @@ VECTORS                          240     R     0x3F10     0x3FFF   RAMVECTORS
 .abs_section_3aa                   2   N/I      0x3AA      0x3AB   .absSeg644
 .abs_section_3ac                   2   N/I      0x3AC      0x3AD   .absSeg645
 .abs_section_3ae                   2   N/I      0x3AE      0x3AF   .absSeg646
-.bss                               9   R/W     0x310B     0x3113   RAM_RW
+.bss                               9   R/W     0x3420     0x3428   RAM_RW
+.common                          768   R/W     0x3429     0x3728   RAM_RW
 
 Summary of section sizes per section type:
-READ_ONLY (R):         278 (dec:      632)
-READ_WRITE (R/W):      114 (dec:      276)
+READ_ONLY (R):         250 (dec:      592)
+READ_WRITE (R/W):      729 (dec:     1833)
 NO_INIT (N/I):         300 (dec:      768)
 
 *********************************************************************************************
@@ -749,19 +749,19 @@ MODULE:                 -- mc9s12xdp512.c.o --
      _RTICTL                                     3B       1       1       0   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
-     _TIOS                                       40       1       1       2   .abs_section_40
-     _CFORC                                      41       1       1       2   .abs_section_41
-     _OC7M                                       42       1       1       1   .abs_section_42
-     _OC7D                                       43       1       1       2   .abs_section_43
-     _TSCR1                                      46       1       1       1   .abs_section_46
+     _TIOS                                       40       1       1       0   .abs_section_40
+     _CFORC                                      41       1       1       0   .abs_section_41
+     _OC7M                                       42       1       1       0   .abs_section_42
+     _OC7D                                       43       1       1       0   .abs_section_43
+     _TSCR1                                      46       1       1       0   .abs_section_46
      _TTOV                                       47       1       1       0   .abs_section_47
-     _TCTL1                                      48       1       1       4   .abs_section_48
+     _TCTL1                                      48       1       1       0   .abs_section_48
      _TCTL2                                      49       1       1       0   .abs_section_49
      _TCTL3                                      4A       1       1       0   .abs_section_4a
      _TCTL4                                      4B       1       1       0   .abs_section_4b
      _TIE                                        4C       1       1       0   .abs_section_4c
-     _TSCR2                                      4D       1       1       2   .abs_section_4d
-     _TFLG1                                      4E       1       1       8   .abs_section_4e
+     _TSCR2                                      4D       1       1       0   .abs_section_4d
+     _TFLG1                                      4E       1       1       0   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
      _PACTL                                      60       1       1       0   .abs_section_60
      _PAFLG                                      61       1       1       0   .abs_section_61
@@ -1234,21 +1234,21 @@ MODULE:                 -- mc9s12xdp512.c.o --
      _PITMTLD1                                  347       1       1       0   .abs_section_347
      _XGCHID                                    382       1       1       0   .abs_section_382
      _XGCCR                                     39D       1       1       0   .abs_section_39d
-     _PORTAB                                      0       2       2       5   .abs_section_0
+     _PORTAB                                      0       2       2       3   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTCD                                      4       2       2       0   .abs_section_4
      _DDRCD                                       6       2       2       0   .abs_section_6
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _DBGTB                                      24       2       2       0   .abs_section_24
-     _TCNT                                       44       2       2       1   .abs_section_44
+     _TCNT                                       44       2       2       0   .abs_section_44
      _TC0                                        50       2       2       0   .abs_section_50
      _TC1                                        52       2       2       0   .abs_section_52
      _TC2                                        54       2       2       0   .abs_section_54
      _TC3                                        56       2       2       0   .abs_section_56
      _TC4                                        58       2       2       0   .abs_section_58
      _TC5                                        5A       2       2       0   .abs_section_5a
-     _TC6                                        5C       2       2       4   .abs_section_5c
-     _TC7                                        5E       2       2       7   .abs_section_5e
+     _TC6                                        5C       2       2       0   .abs_section_5c
+     _TC7                                        5E       2       2       0   .abs_section_5e
      _PACN32                                     62       2       2       0   .abs_section_62
      _PACN10                                     64       2       2       0   .abs_section_64
      _PA32H                                      72       2       2       0   .abs_section_72
@@ -1359,9 +1359,17 @@ MODULE:                 -- main.c.o --
 - PROCEDURES:
      main                                      1054       8       8       1   .text       
      system_init                               105C       B      11       1   .text       
-     WS2812B_Test                              1067      14      20       1   .text       
+     LEDtest1                                  1067       6       6       1   .text       
+     Matrix2Linear                             106D      6A     106       1   .text       
 - VARIABLES:
-     temp                                      3100       9       9       1   .data       
+     LedScreen1                                3100     300     768       1   .data       
+     RowIndex                                  3400      10      16       1   .data       
+     ColUpdat                                  3410      10      16       1   .data       
+     col_index                                 3420       1       1       3   .bss        
+     src_index                                 3421       1       1       4   .bss        
+     dest_index                                3422       1       1       3   .bss        
+     n_pixels                                  3423       2       2       3   .bss        
+     DestLedScreen                             3429     300     768       2   .common     
 MODULE:                 -- ivt.c.o --
 - PROCEDURES:
 - VARIABLES:
@@ -1375,52 +1383,38 @@ MODULE:                 -- simple_start12.c.o --
      __SEG_END_SSTACK                          3100       0       0       1               
 MODULE:                 -- rti.c.o --
 - PROCEDURES:
-     ISR_rti                                   107B      14      20       1   .text       
+     ISR_rti                                   10D7      14      20       1   .text       
 - VARIABLES:
-     rti_dly                                   310B       2       2       2   .bss        
+     rti_dly                                   3425       2       2       2   .bss        
 MODULE:                 -- sci.c.o --
 - PROCEDURES:
-     Sci_Init                                  108F       F      15       1   .text       
-     ISR_sci                                   109E       D      13       1   .text       
+     Sci_Init                                  10EB       F      15       1   .text       
+     ISR_sci                                   10FA       D      13       1   .text       
 - VARIABLES:
-     rxdata                                    310D       1       1       1   .bss        
-     RxQueueStatus                             310E       1       1       1   .bss        
-MODULE:                 -- WS2812B.c.o --
-- PROCEDURES:
-     WS2812B_Set_Data_Length                   10AB       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  10AF       4       4       1   .text       
-     WS2812B_Send_data                         10B3      A1     161       1   .text       
-     WS2812B_Init                              1154      24      36       1   .text       
-- VARIABLES:
-     ByteCtr                                   3109       2       2       3   .data       
-     delta                                     310F       2       2       3   .bss        
-     mask                                      3111       1       1       4   .bss        
-     p2rgb                                     3112       2       2       5   .bss        
+     rxdata                                    3427       1       1       1   .bss        
+     RxQueueStatus                             3428       1       1       1   .bss        
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12xdp512.c.o                           768      0      0
-  main.c.o                                     9     39      0
+  main.c.o                                  1573    131      0
   ivt.c.o                                      0      0    240
   simple_start12.c.o                           0     50      0
   rti.c.o                                      2     20      0
   sci.c.o                                      2     28      0
-  WS2812B.c.o                                  7    205      0
-  other                                      256     34     16
+  other                                      256     34     89
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  main system_init WS2812B_Test ISR_rti Sci_Init ISR_sci 
-  WS2812B_Set_Data_Length WS2812B_Set_Data_pointer WS2812B_Send_data 
-  WS2812B_Init 
+  main system_init LEDtest1 Matrix2Linear ISR_rti Sci_Init ISR_sci 
 SECTION: ".data"
-  temp ByteCtr 
+  LedScreen1 RowIndex ColUpdat 
 SECTION: ".bss"
-  rti_dly rxdata RxQueueStatus delta mask p2rgb 
+  col_index src_index dest_index n_pixels rti_dly rxdata RxQueueStatus 
 SECTION: ".init"
   _Startup 
 SECTION: "VECTORS"
@@ -2719,12 +2713,14 @@ SECTION: ".abs_section_3ac"
   _XGR6 
 SECTION: ".abs_section_3ae"
   _XGR7 
+SECTION: ".common"
+  DestLedScreen 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       5   .abs_section_0
+     _PORTAB                                      0       2       2       3   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTCD                                      4       2       2       0   .abs_section_4
      _DDRCD                                       6       2       2       0   .abs_section_6
@@ -2771,20 +2767,20 @@ OBJECT LIST SORTED BY ADDRESS
      _RTICTL                                     3B       1       1       0   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
-     _TIOS                                       40       1       1       2   .abs_section_40
-     _CFORC                                      41       1       1       2   .abs_section_41
-     _OC7M                                       42       1       1       1   .abs_section_42
-     _OC7D                                       43       1       1       2   .abs_section_43
-     _TCNT                                       44       2       2       1   .abs_section_44
-     _TSCR1                                      46       1       1       1   .abs_section_46
+     _TIOS                                       40       1       1       0   .abs_section_40
+     _CFORC                                      41       1       1       0   .abs_section_41
+     _OC7M                                       42       1       1       0   .abs_section_42
+     _OC7D                                       43       1       1       0   .abs_section_43
+     _TCNT                                       44       2       2       0   .abs_section_44
+     _TSCR1                                      46       1       1       0   .abs_section_46
      _TTOV                                       47       1       1       0   .abs_section_47
-     _TCTL1                                      48       1       1       4   .abs_section_48
+     _TCTL1                                      48       1       1       0   .abs_section_48
      _TCTL2                                      49       1       1       0   .abs_section_49
      _TCTL3                                      4A       1       1       0   .abs_section_4a
      _TCTL4                                      4B       1       1       0   .abs_section_4b
      _TIE                                        4C       1       1       0   .abs_section_4c
-     _TSCR2                                      4D       1       1       2   .abs_section_4d
-     _TFLG1                                      4E       1       1       8   .abs_section_4e
+     _TSCR2                                      4D       1       1       0   .abs_section_4d
+     _TFLG1                                      4E       1       1       0   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
      _TC0                                        50       2       2       0   .abs_section_50
      _TC1                                        52       2       2       0   .abs_section_52
@@ -2792,8 +2788,8 @@ OBJECT LIST SORTED BY ADDRESS
      _TC3                                        56       2       2       0   .abs_section_56
      _TC4                                        58       2       2       0   .abs_section_58
      _TC5                                        5A       2       2       0   .abs_section_5a
-     _TC6                                        5C       2       2       4   .abs_section_5c
-     _TC7                                        5E       2       2       7   .abs_section_5e
+     _TC6                                        5C       2       2       0   .abs_section_5c
+     _TC7                                        5E       2       2       0   .abs_section_5e
      _PACTL                                      60       1       1       0   .abs_section_60
      _PAFLG                                      61       1       1       0   .abs_section_61
      _PACN32                                     62       2       2       0   .abs_section_62
@@ -3374,22 +3370,22 @@ OBJECT LIST SORTED BY ADDRESS
      _Startup                                  1000      32      50       1   .init       
      main                                      1054       8       8       1   .text       
      system_init                               105C       B      11       1   .text       
-     WS2812B_Test                              1067      14      20       1   .text       
-     ISR_rti                                   107B      14      20       1   .text       
-     Sci_Init                                  108F       F      15       1   .text       
-     ISR_sci                                   109E       D      13       1   .text       
-     WS2812B_Set_Data_Length                   10AB       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  10AF       4       4       1   .text       
-     WS2812B_Send_data                         10B3      A1     161       1   .text       
-     WS2812B_Init                              1154      24      36       1   .text       
-     temp                                      3100       9       9       1   .data       
-     ByteCtr                                   3109       2       2       3   .data       
-     rti_dly                                   310B       2       2       2   .bss        
-     rxdata                                    310D       1       1       1   .bss        
-     RxQueueStatus                             310E       1       1       1   .bss        
-     delta                                     310F       2       2       3   .bss        
-     mask                                      3111       1       1       4   .bss        
-     p2rgb                                     3112       2       2       5   .bss        
+     LEDtest1                                  1067       6       6       1   .text       
+     Matrix2Linear                             106D      6A     106       1   .text       
+     ISR_rti                                   10D7      14      20       1   .text       
+     Sci_Init                                  10EB       F      15       1   .text       
+     ISR_sci                                   10FA       D      13       1   .text       
+     LedScreen1                                3100     300     768       1   .data       
+     RowIndex                                  3400      10      16       1   .data       
+     ColUpdat                                  3410      10      16       1   .data       
+     col_index                                 3420       1       1       3   .bss        
+     src_index                                 3421       1       1       4   .bss        
+     dest_index                                3422       1       1       3   .bss        
+     n_pixels                                  3423       2       2       3   .bss        
+     rti_dly                                   3425       2       2       2   .bss        
+     rxdata                                    3427       1       1       1   .bss        
+     RxQueueStatus                             3428       1       1       1   .bss        
+     DestLedScreen                             3429     300     768       2   .common     
      interrupt_vector_table                    3F10      F0     240       0   VECTORS     
 
 *********************************************************************************************
@@ -3397,7 +3393,7 @@ UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
 main.c.o:
-  LEDtest2 test_delay LEDtest Scitest Matrix2Linear 
+  WS2812B_Test LEDtest2 test_delay LEDtest Scitest 
 ivt.c.o:
   UnimplementedISR 
 rti.c.o:
@@ -3407,31 +3403,54 @@ sci.c.o:
   TERMIO_PutChar TERMIO_GetChar 
 NOT USED VARIABLES
 main.c.o:
-  STRING.HOLA.MUNDO.1 STRING.HOLA.mundo.2 LedScreen1 RowIndex ColUpdat 
-  col_index src_index dest_index n_pixels DestLedScreen p2MatrixDeB 
+  STRING.HOLA.MUNDO.1 STRING.HOLA.mundo.2 temp p2MatrixDeB 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x1178 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x1107 ---- SIZE       4 ---
 Filling bytes inserted
- 000A3101
-------- ROM-ADDRESS: 0x117C ---- RAM-ADDRESS: 0x3101 ---- SIZE       3 ---
-Name of initialized Object : temp:1
- FF00FF
-------- ROM-ADDRESS: 0x117F ---- SIZE       4 ---
+ 00093100
+------- ROM-ADDRESS: 0x110B ---- RAM-ADDRESS: 0x3100 ---- SIZE       9 ---
+Name of initialized Object : LedScreen1
+ 0102030405 06070809
+------- ROM-ADDRESS: 0x1114 ---- SIZE       4 ---
 Filling bytes inserted
- 00000000
-------- ROM-ADDRESS: 0x1183 ---- RAM-ADDRESS: 0x3108 ---- SIZE       1 ---
-Name of initialized Object : temp:8
- FF
-------- ROM-ADDRESS: 0x1184 ---- SIZE       1 ---
+ 00093160
+------- ROM-ADDRESS: 0x1118 ---- RAM-ADDRESS: 0x3160 ---- SIZE       9 ---
+Name of initialized Object : LedScreen1:96
+ 1020304050 60708090
+------- ROM-ADDRESS: 0x1121 ---- SIZE       4 ---
 Filling bytes inserted
- 00
-------- ROM-ADDRESS: 0x1185 ---- RAM-ADDRESS: 0x310A ---- SIZE       1 ---
-Name of initialized Object : ByteCtr:1
- 02
-------- ROM-ADDRESS: 0x1186 ---- SIZE       2 ---
+ 000931C0
+------- ROM-ADDRESS: 0x1125 ---- RAM-ADDRESS: 0x31C0 ---- SIZE       9 ---
+Name of initialized Object : LedScreen1:192
+ 1112131415 16171819
+------- ROM-ADDRESS: 0x112E ---- SIZE       4 ---
+Filling bytes inserted
+ 00093220
+------- ROM-ADDRESS: 0x1132 ---- RAM-ADDRESS: 0x3220 ---- SIZE       9 ---
+Name of initialized Object : LedScreen1:288
+ 2122232425 26272829
+------- ROM-ADDRESS: 0x113B ---- SIZE       4 ---
+Filling bytes inserted
+ 001F3401
+------- ROM-ADDRESS: 0x113F ---- RAM-ADDRESS: 0x3401 ---- SIZE      14 ---
+Name of initialized Object : RowIndex:1
+ 0102030405 0607070605 04030201
+------- ROM-ADDRESS: 0x114D ---- SIZE       8 ---
+Filling bytes inserted
+ 0000000000 000000
+------- ROM-ADDRESS: 0x1155 ---- RAM-ADDRESS: 0x3417 ---- SIZE       1 ---
+Name of initialized Object : ColUpdat:7
+ 01
+------- ROM-ADDRESS: 0x1156 ---- SIZE       7 ---
+Filling bytes inserted
+ 0000000000 0000
+------- ROM-ADDRESS: 0x115D ---- RAM-ADDRESS: 0x341F ---- SIZE       1 ---
+Name of initialized Object : ColUpdat:15
+ 01
+------- ROM-ADDRESS: 0x115E ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3439,18 +3458,14 @@ Filling bytes inserted
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK _startupData main 
-main                      USES system_init WS2812B_Test 
+main                      USES system_init LEDtest1 
 system_init               USES Sci_Init _PORTAB _DDRAB 
-WS2812B_Test              USES WS2812B_Init temp WS2812B_Set_Data_pointer 
-                                WS2812B_Set_Data_Length WS2812B_Send_data 
+LEDtest1                  USES LedScreen1 Matrix2Linear 
+Matrix2Linear             USES src_index dest_index n_pixels RowIndex 
+                                col_index DestLedScreen ColUpdat 
 ISR_rti                   USES _CRGFLG _PORTAB rti_dly 
 Sci_Init                  USES _SCI1BD _SCI1ACR2 _SCI1CR2 
 ISR_sci                   USES _SCI1SR1 _SCI1DRL rxdata RxQueueStatus 
-WS2812B_Set_Data_Length   USES ByteCtr 
-WS2812B_Set_Data_pointer  USES p2rgb 
-WS2812B_Send_data         USES _TCNT _TC7 _TC6 _TFLG1 _OC7M _OC7D mask p2rgb 
-                                delta ByteCtr _PORTAB 
-WS2812B_Init              USES _TSCR2 _TSCR1 _TIOS _TCTL1 _CFORC 
 interrupt_vector_table    USES ISR_sci ISR_rti _Startup 
 
 *********************************************************************************************
@@ -3464,15 +3479,9 @@ DEPENDENCY TREE
  |  |  | 
  |  |  +- Sci_Init            
  |  |       
- |  +- WS2812B_Test        
+ |  +- LEDtest1            
  |     | 
- |     +- WS2812B_Init        
- |     |    
- |     +- WS2812B_Set_Data_pointer
- |     |    
- |     +- WS2812B_Set_Data_Length
- |     |    
- |     +- WS2812B_Send_data   
+ |     +- Matrix2Linear       
  |          
  +- _Startup            
     | 
@@ -3492,6 +3501,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 4
-Total size of all blocks to be downloaded: 632
+Number of blocks to be downloaded: 5
+Total size of all blocks to be downloaded: 592
 

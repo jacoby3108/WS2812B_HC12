@@ -21,7 +21,7 @@ unsigned char nnnn;
 #define N_BLOCKS LED_SCREEN_N_BLOCKS
 
 #define MAX_CHARACTERS LED_SCREEN_MAX_CHARACTERS
-
+            
 
 const unsigned char* LEDscreen_decode_MSJ(const char data);
 void LEDscreen_ShiftEnded(void);
@@ -31,7 +31,7 @@ int msjSize = 4;
 char nextMsj[MAX_CHARACTERS] = "ITBA";   
 int nextMsjSize = 4;
 
-LEDSTR colorLEDsON = {0xff,0xff,0xff};
+LEDSTR colorLEDsON = {0xff,0xff,0xff};           
 LEDSTR colorLEDsOFF = {0x00,0x00,0x00};
 
 
@@ -40,9 +40,11 @@ static LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_
 
 /////////////////////////////////////////
 
-LEDSTR *LEDscreen_getScreenAddress(void)
+LEDSTR* LEDscreen_getScreenAddress(void)
 {
-    return (LEDSTR *)LedScreen;
+
+    return LedScreen;
+
 }
 
 unsigned int LEDscreen_getScreenBytes(void)
