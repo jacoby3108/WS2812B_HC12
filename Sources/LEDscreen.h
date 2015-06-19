@@ -26,10 +26,13 @@ typedef struct
 }LEDSTR;
 
 
+
+unsigned char LEDscreen_isBufferFree(void);
 void LEDscreen_setMSJ(const char *newMSJ);
 void LEDscreen_setLEDcolorON(LEDSTR color);
 void LEDscreen_ShiftMSJ(void);
 void LEDscreen_update(void);
+
 
 LEDSTR *LEDscreen_getScreenAddress(void);
 unsigned int LEDscreen_getScreenBytes(void);          

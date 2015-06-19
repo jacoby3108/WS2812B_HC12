@@ -8,7 +8,7 @@
 #include "rti.h"
 #include "pll_asm.h"
 
-#include "LEDscreen.h"
+#include "LEDscreen.h"                    
 #include "ws2812b.h"
 
 #define _putchar            (void)putchar
@@ -34,7 +34,7 @@ typedef struct// es GRB
 
 */
 
-
+                                     
 
 
 #define TEST_COLS 32
@@ -82,9 +82,15 @@ void Test_Transfer(void);
 
                        
 void main(void) {                  
-                                   
-                                  
   
+  
+  ////   Test MAtrix2Vector                              
+         
+  //LEDSTR *p2Matrix=NULL;                      
+   ///p2Matrix=LEDscreen_getScreenAddress(); 
+      ///  Matrix2Vector(p2Matrix); 
+   
+ ///
  
  
  
@@ -95,9 +101,9 @@ void main(void) {
 //  for (;;)
 //  Scitest();
  
- Test_Transfer();
+// Test_Transfer();
   
- // LEDtest2();   // NO ANDA
+  LEDtest2();   // OK!!
 
  // LEDtest1();  
   
@@ -149,7 +155,7 @@ void Test_Transfer(void)
  _asm sei; //para que no moleste el monitor on getchar()
  
  LEDscreen_setMSJ("HOLA MUNDO");
- c=0;
+ c=0;                               
  
  
  while (1) {
@@ -263,7 +269,7 @@ void LEDtest2(void) {
     WS2812B_Send_data();
     
     
-    test_delay(1000);        
+    test_delay(100);        
     
     
   
@@ -383,17 +389,21 @@ void Set_Intensity(LEDSTR grb_gain ) {
       
         dest_index++;
       }
-        
+               
 
 
 }
 
-
+LEDSTR (*testptr)[32];
 
 void Matrix2Vector(LEDSTR* p2Matrix)      // 600 us ???  
 {
+          
+     
+     
      // LEDSTR (*p2p)[32]=(LEDSTR (*)[32])p2Matrix;
       
+      col_index=0;
       src_index=0;            
       dest_index=0;
       n_pixels=TEST_ROWS*TEST_COLS;
@@ -403,7 +413,12 @@ void Matrix2Vector(LEDSTR* p2Matrix)      // 600 us ???
         
        DestLedScreen[dest_index++]=((LEDSTR(*)[32])p2Matrix)[RowIndex[src_index]][col_index];
     
-    
+       
+       //testptr= &(((LEDSTR(*)[32])p2Matrix)[RowIndex[src_index]][col_index]);
+     
+      // testptr=testptr-0x35D5;
+     
+       //testptr=(LEDSTR (*)[32])0x35D5;
      
      //  DestLedScreen[dest_index++]=p2p[RowIndex[src_index]][col_index];
      //  DestLedScreen[dest_index++]=LedScreen1[RowIndex[src_index]][col_index]; // for test

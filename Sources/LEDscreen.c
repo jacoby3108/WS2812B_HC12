@@ -21,15 +21,22 @@ unsigned char nnnn;
 #define N_BLOCKS LED_SCREEN_N_BLOCKS
 
 #define MAX_CHARACTERS LED_SCREEN_MAX_CHARACTERS
+
+
+#define BUFFER_FREE 1
+#define BUFFER_NOT_FREE 0
+
+
             
 
 const unsigned char* LEDscreen_decode_MSJ(const char data);
 void LEDscreen_ShiftEnded(void);
 
-char msj[MAX_CHARACTERS] = "ITBA";
+char msj[MAX_CHARACTERS] = "ITBA";        // Buffer con mensaje actual (Reproduciendo)
 int msjSize = 4;
-char nextMsj[MAX_CHARACTERS] = "ITBA";   
+char nextMsj[MAX_CHARACTERS] = "ITBA";    // Buffer con mensaje a Reproducir (Este buffer se carga cuando llamo a LEDscreen_setMSJ())
 int nextMsjSize = 4;
+unsigned char isBufferFree = BUFFER_FREE;
 
 LEDSTR colorLEDsON = {0xff,0xff,0xff};           
 LEDSTR colorLEDsOFF = {0x00,0x00,0x00};
@@ -65,6 +72,12 @@ void LEDscreen_setMSJ(const char *newMSJ)
     
 }
 
+unsigned char LEDscreen_isBufferFree(void)
+{
+    return isBufferFree;
+}
+
+
 void LEDscreen_setLEDcolorON(LEDSTR color)
 {
     colorLEDsON = color;
@@ -73,7 +86,7 @@ void LEDscreen_setLEDcolorON(LEDSTR color)
 void LEDscreen_update(void)
 {
 
-    
+    // Era para llamar a WS2812send
     // hay que usar: LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX];
     
 }
@@ -89,7 +102,7 @@ void LEDscreen_ShiftEnded(void)
     }
     msj[msjSize] = '\0';
     
-    /*
+    /*  Test code
     static int i=0;
     if(i==0)
     {
