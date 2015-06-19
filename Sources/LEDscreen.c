@@ -43,7 +43,7 @@ static LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_
 LEDSTR* LEDscreen_getScreenAddress(void)
 {
 
-    return LedScreen;
+     return(LEDSTR*) LedScreen;
 
 }
 

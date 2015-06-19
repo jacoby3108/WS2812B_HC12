@@ -130,7 +130,7 @@ char Sci1_GetQueueData(void){
 // Both are the link between SCI0 interface 
 // and the C putchar() and getchar() functions
 //
-//           OJO SCI 0
+//           OJO SCI 0 la del Monitor 
 //=============================================================
 
 

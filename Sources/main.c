@@ -70,13 +70,15 @@ void Scitest(void);
 void test_delay(unsigned int dly); 
 
 
-void Matrix2Linear(LEDSTR *);
+void Matrix2Vector(LEDSTR *);
+void Set_Intensity(LEDSTR  );
 
 LEDSTR DestLedScreen [TEST_ROWS*TEST_COLS];  // The data stored is sent directly to the RGB Led Display      
 
+void PrintMatrix(LEDSTR * p2Matrix);
 
-
-
+void Test_Transfer(void);
+ LEDSTR intensidad={0x30,0x30,0x30};
 
                        
 void main(void) {                  
@@ -93,12 +95,11 @@ void main(void) {
 //  for (;;)
 //  Scitest();
  
-
+ Test_Transfer();
   
-    
-//  LEDtest2();   // NO ANDA
+ // LEDtest2();   // NO ANDA
 
-  LEDtest1();  
+ // LEDtest1();  
   
   
   
@@ -134,6 +135,63 @@ static void system_init(void)
 }
 
 
+void Test_Transfer(void)
+{
+
+ int c;
+
+ LEDSTR *p2Matrix=NULL;  
+    
+   
+
+ _printf("Start .. \n\n ") ;
+ 
+ _asm sei; //para que no moleste el monitor on getchar()
+ 
+ LEDscreen_setMSJ("HOLA MUNDO");
+ c=0;
+ 
+ 
+ while (1) {
+  
+ 
+  while ((c=getchar())!='q');
+  putchar(c);          
+ 
+  c=0;                             
+
+ 
+   
+  p2Matrix=LEDscreen_getScreenAddress();  
+   
+  PrintMatrix(p2Matrix);
+ 
+  Matrix2Vector(p2Matrix);  
+ 
+  Set_Intensity(intensidad);      
+    
+  WS2812B_Init();
+    
+  WS2812B_Set_Data_pointer((unsigned char *)DestLedScreen);
+    
+  WS2812B_Set_Data_Length(32*8*sizeof(LEDSTR));
+        
+  WS2812B_Send_data();
+   
+  LEDscreen_ShiftMSJ();
+ 
+ // test_delay(1000);
+
+ }
+
+
+  
+
+
+
+}
+
+
 
 
 #include "testpat.h"
@@ -150,14 +208,14 @@ void WS2812B_Test(void) {
 
 
 
-/* Prueba de Matrix2Linear function */
+/* Prueba de Matrix2Vector function */
 
 void LEDtest1(void)
 {
 
    LEDSTR * p2M;
    p2M= (LEDSTR *)LedScreen1;
-   Matrix2Linear(p2M);
+   Matrix2Vector(p2M);
 
 }
 
@@ -171,10 +229,11 @@ void LEDtest1(void)
  */
  
   LEDSTR *p2MatrixDeB; 
+ 
 
 void LEDtest2(void) {
   
-  int k;
+//  int k;
 
     LEDSTR *p2Matrix=NULL;  
     
@@ -189,10 +248,11 @@ void LEDtest2(void) {
     p2MatrixDeB=   p2Matrix;  
         
         
-   for (k=0;k<9;k++)     
+   //for (k=0;k<9;k++)     
     LEDscreen_ShiftMSJ();                                                    
     
-    Matrix2Linear(p2Matrix);
+    Matrix2Vector(p2Matrix);  
+    Set_Intensity(intensidad);      
     
     WS2812B_Init();
     
@@ -203,7 +263,7 @@ void LEDtest2(void) {
     WS2812B_Send_data();
     
     
-    test_delay(1000); 
+    test_delay(1000);        
     
     
   
@@ -308,7 +368,29 @@ unsigned char dest_index=0;
 unsigned int n_pixels=0; 
 
 
-void Matrix2Linear(LEDSTR* p2Matrix)      // 600 us ???  
+#define INTENSITY {0x30,0x30,0x30)
+
+
+void Set_Intensity(LEDSTR grb_gain ) {
+
+      n_pixels=TEST_ROWS*TEST_COLS;
+      while (n_pixels--) {
+      
+      
+        DestLedScreen[dest_index].Green &=grb_gain.Green;
+        DestLedScreen[dest_index].Red   &=grb_gain.Red ;
+        DestLedScreen[dest_index].Blue  &=grb_gain.Blue ;
+      
+        dest_index++;
+      }
+        
+
+
+}
+
+
+
+void Matrix2Vector(LEDSTR* p2Matrix)      // 600 us ???  
 {
      // LEDSTR (*p2p)[32]=(LEDSTR (*)[32])p2Matrix;
       
@@ -319,7 +401,7 @@ void Matrix2Linear(LEDSTR* p2Matrix)      // 600 us ???
       // copies all matrix pixels to Send Array
       while (n_pixels--) {
         
-          DestLedScreen[dest_index++]=((LEDSTR(*)[32])p2Matrix)[RowIndex[src_index]][col_index];
+       DestLedScreen[dest_index++]=((LEDSTR(*)[32])p2Matrix)[RowIndex[src_index]][col_index];
     
     
      
@@ -328,9 +410,36 @@ void Matrix2Linear(LEDSTR* p2Matrix)      // 600 us ???
      	
      	
      	  col_index+=ColUpdat[src_index++];		// Update colum index
-			  src_index&=0x0F;				            // modulo arithmetic
+			  src_index&=0x0F;				            // modulo arithmetic for Row indexing
       }
   
 }
 
 
+
+void PrintMatrix(LEDSTR * p2Matrix)
+
+{
+  int i,j ;
+  //unsigned char x;
+  
+      for(i=0;i<8;i++) 
+      {
+        
+            for(j=0;j<32;j++)
+            
+            {
+            
+               if(((LEDSTR(*)[32])p2Matrix)[i][j].Green==0xFF)
+               _printf("%c",'*') ;
+               else 
+               _printf("%c",'-') ;
+            
+            
+            }
+            
+        _printf("\n");
+          
+      }
+}
+ 

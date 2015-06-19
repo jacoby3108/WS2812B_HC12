@@ -1,49 +1,49 @@
-g
+ter
+
 load ram.s19
-g
+g 
+ter
 load ram.s19
-g
+g -t
 load ram.s19
-g
+g -t
 load ram.s19
-g
+g -t
+help
+
+nrd 35d5
+nrd 35d5 40
+
+nread 35d5 10
+nread 35d5,10
+nrd 35d5,10
+nrd 35d5,10
 port com9
-regs
+
 load ram.s19
-g
+g -t
 load ram.s19
-g
+g -t
 load ram.s19
-g
 load ram.s19
-g
+g -t
 load ram.s19
-g
 load ram.s19
-g
+g -t
 load ram.s19
-g
 load ram.s19
-g
+g -t
 load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
+g -t
+
+
+
+
+nrd 35d5,100
+q
+ter
+nrd 35d5,100
+ter
+nrd 35d5,100
+ter
+nrd 35d5,100
