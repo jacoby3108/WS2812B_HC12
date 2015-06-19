@@ -1,20 +1,3 @@
-load ram.s19
-g -t
-load ram.s19
-load ram.s19
-g -t
-load ram.s19
-load ram.s19
-g -t
-load ram.s19
-g -t
-
-
-
-
-nrd 35d5,100
-q
-ter
 nrd 35d5,100
 ter
 nrd 35d5,100
@@ -45,5 +28,22 @@ g
 regs
 
 load ram.s19
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
 load ram.s19
 g

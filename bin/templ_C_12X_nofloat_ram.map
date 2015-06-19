@@ -29,8 +29,8 @@ Entry point: 0x1000 (_Startup)
 _startupData is allocated at 0x1032 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x3100     2001
-  _Copy    *toCopyDownBeg 0x15DF
+  _Range   pZeroOut       0x3100     1994
+  _Copy    *toCopyDownBeg 0x15C5
 } _startupData;
 
 *********************************************************************************************
@@ -41,8 +41,8 @@ Section Name                    Size  Type     From       To       Segment
 .startData                        34     R     0x1032     0x1053   RAM_RO
 .rodata                          232     R     0x1054     0x113B   RAM_RO
 .rodata1                          11     R     0x113C     0x1146   RAM_RO
-.text                           1176     R     0x1147     0x15DE   RAM_RO
-.copy                             64     R     0x15DF     0x161E   RAM_RO
+.text                           1150     R     0x1147     0x15C4   RAM_RO
+.copy                             64     R     0x15C5     0x1604   RAM_RO
 VECTORS                          240     R     0x3F10     0x3FFF   RAMVECTORS
 .stack                           256   R/W     0x3000     0x30FF   RAM_RW
 .data                            444   R/W     0x3100     0x32BB   RAM_RW
@@ -693,12 +693,12 @@ VECTORS                          240     R     0x3F10     0x3FFF   RAMVECTORS
 .abs_section_3aa                   2   N/I      0x3AA      0x3AB   .absSeg644
 .abs_section_3ac                   2   N/I      0x3AC      0x3AD   .absSeg645
 .abs_section_3ae                   2   N/I      0x3AE      0x3AF   .absSeg646
-.bss                             787   R/W     0x32BC     0x35CE   RAM_RW
-.common                          770   R/W     0x35CF     0x38D0   RAM_RW
+.bss                             782   R/W     0x32BC     0x35C9   RAM_RW
+.common                          768   R/W     0x35CA     0x38C9   RAM_RW
 
 Summary of section sizes per section type:
-READ_ONLY (R):         70F (dec:     1807)
-READ_WRITE (R/W):      8D1 (dec:     2257)
+READ_ONLY (R):         6F5 (dec:     1781)
+READ_WRITE (R/W):      8CA (dec:     2250)
 NO_INIT (N/I):         300 (dec:      768)
 
 *********************************************************************************************
@@ -1364,21 +1364,16 @@ MODULE:                 -- main.c.o --
 - PROCEDURES:
      main                                      1147       8       8       1   .text       
      system_init                               114F       B      11       1   .text       
-     LEDtest2                                  115A      37      55       1   .text       
-     test_delay                                1191      1E      30       1   .text       
-     Set_Intensity                             11AF      46      70       1   .text       
-     Matrix2Vector                             11F5      6D     109       1   .text       
+     LEDtest2                                  115A      43      67       1   .text       
+     test_delay                                119D      1E      30       1   .text       
+     Set_Intensity                             11BB      3E      62       1   .text       
+     Matrix2Vector                             11F9      60      96       1   .text       
 - VARIABLES:
-     STRING.HOLA.MUNDO.3                       113C       B      11       1   .rodata1    
+     STRING.HOLA.MUNDO.1                       113C       B      11       1   .rodata1    
      intensidad                                3100       3       3       2   .data       
      RowIndex                                  3103      10      16       1   .data       
      ColUpdat                                  3113      10      16       1   .data       
-     col_index                                 32BC       1       1       4   .bss        
-     src_index                                 32BD       1       1       4   .bss        
-     dest_index                                32BE       1       1       5   .bss        
-     n_pixels                                  32BF       2       2       6   .bss        
-     DestLedScreen                             35CF     300     768       9   .common     
-     p2MatrixDeB                               38CF       2       2       1   .common     
+     DestLedScreen                             35CA     300     768       9   .common     
 MODULE:                 -- ivt.c.o --
 - PROCEDURES:
 - VARIABLES:
@@ -1392,9 +1387,9 @@ MODULE:                 -- simple_start12.c.o --
      __SEG_END_SSTACK                          3100       0       0       1               
 MODULE:                 -- rti.c.o --
 - PROCEDURES:
-     ISR_rti                                   1262      14      20       1   .text       
+     ISR_rti                                   1259      14      20       1   .text       
 - VARIABLES:
-     rti_dly                                   32C1       2       2       2   .bss        
+     rti_dly                                   32BC       2       2       2   .bss        
 MODULE:                 -- characters8x8.c.o --
 - PROCEDURES:
 - VARIABLES:
@@ -1404,51 +1399,51 @@ MODULE:                 -- characters8x8.c.o --
      Exclamacion                               1134       8       8       1   .rodata     
 MODULE:                 -- sci.c.o --
 - PROCEDURES:
-     Sci_Init                                  1276       F      15       1   .text       
-     ISR_sci                                   1285       D      13       1   .text       
+     Sci_Init                                  126D       F      15       1   .text       
+     ISR_sci                                   127C       D      13       1   .text       
 - VARIABLES:
-     rxdata                                    32C3       1       1       1   .bss        
-     RxQueueStatus                             32C4       1       1       1   .bss        
+     rxdata                                    32BE       1       1       1   .bss        
+     RxQueueStatus                             32BF       1       1       1   .bss        
 MODULE:                 -- WS2812B.c.o --
 - PROCEDURES:
-     WS2812B_Set_Data_Length                   1292       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  1296       4       4       1   .text       
-     WS2812B_Send_data                         129A      A1     161       1   .text       
-     WS2812B_Init                              133B      24      36       1   .text       
+     WS2812B_Set_Data_Length                   1289       4       4       1   .text       
+     WS2812B_Set_Data_pointer                  128D       4       4       1   .text       
+     WS2812B_Send_data                         1291      90     144       1   .text       
+     WS2812B_Init                              1321      24      36       1   .text       
 - VARIABLES:
      ByteCtr                                   3123       2       2       3   .data       
-     delta                                     32C5       2       2       3   .bss        
-     mask                                      32C7       1       1       4   .bss        
-     p2rgb                                     32C8       2       2       5   .bss        
+     delta                                     32C0       2       2       2   .bss        
+     mask                                      32C2       1       1       4   .bss        
+     p2rgb                                     32C3       2       2       5   .bss        
 MODULE:                 -- LEDscreen.c.o --
 - PROCEDURES:
-     LEDscreen_getScreenAddress                135F       4       4       1   .text       
-     LEDscreen_setMSJ                          1363      26      38       1   .text       
-     LEDscreen_ShiftEnded                      1389      17      23       1   .text       
-     LEDscreen_decode_MSJ                      13A0      55      85       4   .text       
-     LEDscreen_ShiftMSJ                        13F5     1EA     490       2   .text       
+     LEDscreen_getScreenAddress                1345       4       4       1   .text       
+     LEDscreen_setMSJ                          1349      26      38       1   .text       
+     LEDscreen_ShiftEnded                      136F      17      23       1   .text       
+     LEDscreen_decode_MSJ                      1386      55      85       4   .text       
+     LEDscreen_ShiftMSJ                        13DB     1EA     490       2   .text       
 - VARIABLES:
      msj                                       3125      C8     200       6   .data       
      msjSize                                   31ED       2       2       4   .data       
      nextMsj                                   31EF      C8     200       3   .data       
      nextMsjSize                               32B7       2       2       1   .data       
      colorLEDsON                               32B9       3       3       2   .data       
-     colorLEDsOFF                              32CA       3       3       2   .bss        
-     iShift.3                                  32CD       2       2       7   .bss        
-     LedScreen                                 32CF     300     768       4   .bss        
+     colorLEDsOFF                              32C5       3       3       2   .bss        
+     iShift.3                                  32C8       2       2       7   .bss        
+     LedScreen                                 32CA     300     768       4   .bss        
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12xdp512.c.o                           768      0      0
-  main.c.o                                   810    283     11
+  main.c.o                                   803    274     11
   ivt.c.o                                      0      0    240
   simple_start12.c.o                           0     50      0
   rti.c.o                                      2     20      0
   characters8x8.c.o                            0      0    232
   sci.c.o                                      2     28      0
-  WS2812B.c.o                                  7    205      0
+  WS2812B.c.o                                  7    188      0
   LEDscreen.c.o                             1180    640      0
   other                                      256     34     64
 
@@ -1464,14 +1459,14 @@ SECTION: ".data"
   intensidad RowIndex ColUpdat ByteCtr msj msjSize nextMsj nextMsjSize 
   colorLEDsON 
 SECTION: ".bss"
-  col_index src_index dest_index n_pixels rti_dly rxdata RxQueueStatus delta 
-  mask p2rgb colorLEDsOFF iShift.3 LedScreen 
+  rti_dly rxdata RxQueueStatus delta mask p2rgb colorLEDsOFF iShift.3 
+  LedScreen 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
   LetrasMay Space Dot Exclamacion 
 SECTION: ".rodata1"
-  STRING.HOLA.MUNDO.3 
+  STRING.HOLA.MUNDO.1 
 SECTION: "VECTORS"
   interrupt_vector_table 
 SECTION: ".abs_section_8"
@@ -2769,7 +2764,7 @@ SECTION: ".abs_section_3ac"
 SECTION: ".abs_section_3ae"
   _XGR7 
 SECTION: ".common"
-  DestLedScreen p2MatrixDeB 
+  DestLedScreen 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
@@ -3427,25 +3422,25 @@ OBJECT LIST SORTED BY ADDRESS
      Space                                     1124       8       8       1   .rodata     
      Dot                                       112C       8       8       1   .rodata     
      Exclamacion                               1134       8       8       1   .rodata     
-     STRING.HOLA.MUNDO.3                       113C       B      11       1   .rodata1    
+     STRING.HOLA.MUNDO.1                       113C       B      11       1   .rodata1    
      main                                      1147       8       8       1   .text       
      system_init                               114F       B      11       1   .text       
-     LEDtest2                                  115A      37      55       1   .text       
-     test_delay                                1191      1E      30       1   .text       
-     Set_Intensity                             11AF      46      70       1   .text       
-     Matrix2Vector                             11F5      6D     109       1   .text       
-     ISR_rti                                   1262      14      20       1   .text       
-     Sci_Init                                  1276       F      15       1   .text       
-     ISR_sci                                   1285       D      13       1   .text       
-     WS2812B_Set_Data_Length                   1292       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  1296       4       4       1   .text       
-     WS2812B_Send_data                         129A      A1     161       1   .text       
-     WS2812B_Init                              133B      24      36       1   .text       
-     LEDscreen_getScreenAddress                135F       4       4       1   .text       
-     LEDscreen_setMSJ                          1363      26      38       1   .text       
-     LEDscreen_ShiftEnded                      1389      17      23       1   .text       
-     LEDscreen_decode_MSJ                      13A0      55      85       4   .text       
-     LEDscreen_ShiftMSJ                        13F5     1EA     490       2   .text       
+     LEDtest2                                  115A      43      67       1   .text       
+     test_delay                                119D      1E      30       1   .text       
+     Set_Intensity                             11BB      3E      62       1   .text       
+     Matrix2Vector                             11F9      60      96       1   .text       
+     ISR_rti                                   1259      14      20       1   .text       
+     Sci_Init                                  126D       F      15       1   .text       
+     ISR_sci                                   127C       D      13       1   .text       
+     WS2812B_Set_Data_Length                   1289       4       4       1   .text       
+     WS2812B_Set_Data_pointer                  128D       4       4       1   .text       
+     WS2812B_Send_data                         1291      90     144       1   .text       
+     WS2812B_Init                              1321      24      36       1   .text       
+     LEDscreen_getScreenAddress                1345       4       4       1   .text       
+     LEDscreen_setMSJ                          1349      26      38       1   .text       
+     LEDscreen_ShiftEnded                      136F      17      23       1   .text       
+     LEDscreen_decode_MSJ                      1386      55      85       4   .text       
+     LEDscreen_ShiftMSJ                        13DB     1EA     490       2   .text       
      intensidad                                3100       3       3       2   .data       
      RowIndex                                  3103      10      16       1   .data       
      ColUpdat                                  3113      10      16       1   .data       
@@ -3455,21 +3450,16 @@ OBJECT LIST SORTED BY ADDRESS
      nextMsj                                   31EF      C8     200       3   .data       
      nextMsjSize                               32B7       2       2       1   .data       
      colorLEDsON                               32B9       3       3       2   .data       
-     col_index                                 32BC       1       1       4   .bss        
-     src_index                                 32BD       1       1       4   .bss        
-     dest_index                                32BE       1       1       5   .bss        
-     n_pixels                                  32BF       2       2       6   .bss        
-     rti_dly                                   32C1       2       2       2   .bss        
-     rxdata                                    32C3       1       1       1   .bss        
-     RxQueueStatus                             32C4       1       1       1   .bss        
-     delta                                     32C5       2       2       3   .bss        
-     mask                                      32C7       1       1       4   .bss        
-     p2rgb                                     32C8       2       2       5   .bss        
-     colorLEDsOFF                              32CA       3       3       2   .bss        
-     iShift.3                                  32CD       2       2       7   .bss        
-     LedScreen                                 32CF     300     768       4   .bss        
-     DestLedScreen                             35CF     300     768       9   .common     
-     p2MatrixDeB                               38CF       2       2       1   .common     
+     rti_dly                                   32BC       2       2       2   .bss        
+     rxdata                                    32BE       1       1       1   .bss        
+     RxQueueStatus                             32BF       1       1       1   .bss        
+     delta                                     32C0       2       2       2   .bss        
+     mask                                      32C2       1       1       4   .bss        
+     p2rgb                                     32C3       2       2       5   .bss        
+     colorLEDsOFF                              32C5       3       3       2   .bss        
+     iShift.3                                  32C8       2       2       7   .bss        
+     LedScreen                                 32CA     300     768       4   .bss        
+     DestLedScreen                             35CA     300     768       9   .common     
      interrupt_vector_table                    3F10      F0     240       0   VECTORS     
 
 *********************************************************************************************
@@ -3477,7 +3467,7 @@ UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
 main.c.o:
-  Test_Transfer WS2812B_Test LEDtest1 LEDtest Scitest PrintMatrix 
+  Scitest PrintMatrix WS2812B_Test 
 ivt.c.o:
   UnimplementedISR 
 rti.c.o:
@@ -3490,8 +3480,7 @@ LEDscreen.c.o:
   LEDscreen_update 
 NOT USED VARIABLES
 main.c.o:
-  STRING.Start........1 STRING.HOLA.MUNDO.2 STRING.HOLA.mundo.4 STRING..c.5 
-  STRING..c.6 STRING...7 LedScreen1 temp channels testptr 
+  STRING..c.2 STRING..c.3 STRING...4 LedScreen1 temp 
 characters8x8.c.o:
   EnieMay EnieMin 
 LEDscreen.c.o:
@@ -3500,58 +3489,58 @@ LEDscreen.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x15DF ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x15C5 ---- SIZE       4 ---
 Filling bytes inserted
  00293100
-------- ROM-ADDRESS: 0x15E3 ---- RAM-ADDRESS: 0x3100 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0x15C9 ---- RAM-ADDRESS: 0x3100 ---- SIZE       3 ---
 Name of initialized Object : intensidad
  303030
-------- ROM-ADDRESS: 0x15E6 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x15CC ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0x15E7 ---- RAM-ADDRESS: 0x3104 ---- SIZE      14 ---
+------- ROM-ADDRESS: 0x15CD ---- RAM-ADDRESS: 0x3104 ---- SIZE      14 ---
 Name of initialized Object : RowIndex:1
  0102030405 0607070605 04030201
-------- ROM-ADDRESS: 0x15F5 ---- SIZE       8 ---
+------- ROM-ADDRESS: 0x15DB ---- SIZE       8 ---
 Filling bytes inserted
  0000000000 000000
-------- ROM-ADDRESS: 0x15FD ---- RAM-ADDRESS: 0x311A ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x15E3 ---- RAM-ADDRESS: 0x311A ---- SIZE       1 ---
 Name of initialized Object : ColUpdat:7
  01
-------- ROM-ADDRESS: 0x15FE ---- SIZE       7 ---
+------- ROM-ADDRESS: 0x15E4 ---- SIZE       7 ---
 Filling bytes inserted
  0000000000 0000
-------- ROM-ADDRESS: 0x1605 ---- RAM-ADDRESS: 0x3122 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x15EB ---- RAM-ADDRESS: 0x3122 ---- SIZE       1 ---
 Name of initialized Object : ColUpdat:15
  01
-------- ROM-ADDRESS: 0x1606 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x15EC ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0x1607 ---- RAM-ADDRESS: 0x3124 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x15ED ---- RAM-ADDRESS: 0x3124 ---- SIZE       1 ---
 Name of initialized Object : ByteCtr:1
  02
-------- ROM-ADDRESS: 0x1608 ---- RAM-ADDRESS: 0x3125 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x15EE ---- RAM-ADDRESS: 0x3125 ---- SIZE       4 ---
 Name of initialized Object : msj
  49544241
-------- ROM-ADDRESS: 0x160C ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x15F2 ---- SIZE       4 ---
 Filling bytes inserted
  000531EE
-------- ROM-ADDRESS: 0x1610 ---- RAM-ADDRESS: 0x31EE ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x15F6 ---- RAM-ADDRESS: 0x31EE ---- SIZE       1 ---
 Name of initialized Object : msjSize:1
  04
-------- ROM-ADDRESS: 0x1611 ---- RAM-ADDRESS: 0x31EF ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x15F7 ---- RAM-ADDRESS: 0x31EF ---- SIZE       4 ---
 Name of initialized Object : nextMsj
  49544241
-------- ROM-ADDRESS: 0x1615 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x15FB ---- SIZE       4 ---
 Filling bytes inserted
  000432B8
-------- ROM-ADDRESS: 0x1619 ---- RAM-ADDRESS: 0x32B8 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x15FF ---- RAM-ADDRESS: 0x32B8 ---- SIZE       1 ---
 Name of initialized Object : nextMsjSize:1
  04
-------- ROM-ADDRESS: 0x161A ---- RAM-ADDRESS: 0x32B9 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0x1600 ---- RAM-ADDRESS: 0x32B9 ---- SIZE       3 ---
 Name of initialized Object : colorLEDsON
  FFFFFF
-------- ROM-ADDRESS: 0x161D ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x1603 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3561,21 +3550,20 @@ OBJECT-DEPENDENCIES SECTION
 _Startup                  USES __SEG_END_SSTACK _startupData main 
 main                      USES system_init LEDtest2 
 system_init               USES Sci_Init _PORTAB _DDRAB 
-LEDtest2                  USES STRING.HOLA.MUNDO.3 LEDscreen_setMSJ 
-                                LEDscreen_getScreenAddress p2MatrixDeB LEDscreen_ShiftMSJ Matrix2Vector 
+LEDtest2                  USES STRING.HOLA.MUNDO.1 LEDscreen_setMSJ 
+                                LEDscreen_getScreenAddress _PORTAB LEDscreen_ShiftMSJ Matrix2Vector 
                                 intensidad Set_Intensity WS2812B_Init DestLedScreen 
                                 WS2812B_Set_Data_pointer WS2812B_Set_Data_Length WS2812B_Send_data 
                                 test_delay 
-Set_Intensity             USES n_pixels dest_index DestLedScreen 
-Matrix2Vector             USES col_index src_index dest_index n_pixels 
-                                RowIndex DestLedScreen ColUpdat 
+Set_Intensity             USES DestLedScreen 
+Matrix2Vector             USES RowIndex DestLedScreen ColUpdat 
 ISR_rti                   USES _CRGFLG _PORTAB rti_dly 
 Sci_Init                  USES _SCI1BD _SCI1ACR2 _SCI1CR2 
 ISR_sci                   USES _SCI1SR1 _SCI1DRL rxdata RxQueueStatus 
 WS2812B_Set_Data_Length   USES ByteCtr 
 WS2812B_Set_Data_pointer  USES p2rgb 
 WS2812B_Send_data         USES _TCNT _TC7 _TC6 _TFLG1 _OC7M _OC7D mask p2rgb 
-                                delta ByteCtr _PORTAB 
+                                delta ByteCtr 
 WS2812B_Init              USES _TSCR2 _TSCR1 _TIOS _TCTL1 _CFORC 
 LEDscreen_getScreenAddress USES LedScreen 
 LEDscreen_setMSJ          USES nextMsj nextMsjSize 
@@ -3641,6 +3629,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 5
-Total size of all blocks to be downloaded: 1807
+Number of blocks to be downloaded: 6
+Total size of all blocks to be downloaded: 1781
 

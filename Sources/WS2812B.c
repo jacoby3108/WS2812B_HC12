@@ -203,10 +203,14 @@ while (ByteCtr)
         // Actually each bit is sent every 3.25us (Tbit)
         // Tbit= 1.25us (TNOMINAL) + 2us (SPARE)
         // Tfree= Tbit - FreeTime(measured)
+
+/* 
           PORTA|=0x01;
           _asm nop;   
           _asm nop; 
           PORTA&=0xFE;
+  
+*/
           
 // measured values on actual code
 // measured from start of period to Port A rising edge:
