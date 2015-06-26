@@ -81,6 +81,16 @@ void PrintMatrix(LEDSTR * p2Matrix);
 
 LEDSTR intensidad={0x30,0x30,0x30};
 
+
+void timetoshift(void)
+
+{
+
+_printf("shift\n") ;
+
+
+}
+
                        
 void main(void) {                  
   
@@ -156,7 +166,7 @@ void LEDtest2(void) {
 
     LEDSTR *p2Matrix=NULL;  
     
-   
+    LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
     LEDscreen_setMSJ("HOLA MUNDO");  
     
@@ -237,11 +247,12 @@ void Scitest(void) {
     //putchar(0xA5);          // SCI 0
     //putchar(0xA5);           // SCI 0
     
-    //_printf("  1234   ");         // SCI 0
+    _printf("  1234   ");         // SCI 0
    
-   while (Sci1_GetQueueSatus()==EMPTY);           // SCI 1
+ //  while (Sci1_GetQueueSatus()==EMPTY);           // SCI 1
    
-   Sci1_Putchar(Sci1_GetQueueData()+2);
+ 
+ //  Sci1_Putchar(Sci1_GetQueueData()+2);
      
     
   

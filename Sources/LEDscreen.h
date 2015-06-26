@@ -26,7 +26,11 @@ typedef struct
 }LEDSTR;
 
 
-
+// Callback
+void LEDscreen_setUserData(void *userData);
+void LEDscreen_setShiftEnded_Callback(void (*userCallback)(void *userData));
+void LEDscreen_setShiftEnded_voidCallback(void (*userVoidCallback)(void));
+//
 unsigned char LEDscreen_isBufferFree(void);
 void LEDscreen_setMSJ(const char *newMSJ);
 void LEDscreen_setLEDcolorON(LEDSTR color);

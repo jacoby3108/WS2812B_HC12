@@ -26,11 +26,15 @@ unsigned char nnnn;
 #define BUFFER_FREE 1
 #define BUFFER_NOT_FREE 0
 
+#define NIL 0
 
-            
 
 const unsigned char* LEDscreen_decode_MSJ(const char data);
 void LEDscreen_ShiftEnded(void);
+
+void *LEDscreen_userData = (void *)NIL;
+void (*LEDscreen_userCallback)(void *userData) = (void (*)(void *userData))NIL;
+void (*LEDscreen_userVoidCallback)(void) = (void (*)(void))NIL;
 
 char msj[MAX_CHARACTERS] = "ITBA";        // Buffer con mensaje actual (Reproduciendo)
 int msjSize = 4;
@@ -45,6 +49,23 @@ LEDSTR colorLEDsOFF = {0x00,0x00,0x00};
 static LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX];
 
 
+/////////////////////////////////////////
+
+void LEDscreen_setUserData(void *userData)
+{
+    LEDscreen_userData = userData;
+}
+
+void LEDscreen_setShiftEnded_Callback(void (*userCallback)(void *userData))
+{
+    LEDscreen_userCallback = userCallback;
+}
+
+void LEDscreen_setShiftEnded_voidCallback(void (*userVoidCallback)(void))
+{
+   LEDscreen_userVoidCallback = userVoidCallback;
+}
+                                          
 /////////////////////////////////////////
 
 LEDSTR* LEDscreen_getScreenAddress(void)
@@ -101,6 +122,12 @@ void LEDscreen_ShiftEnded(void)
         msjSize++;
     }
     msj[msjSize] = '\0';
+    
+    if(LEDscreen_userCallback != NIL)
+        LEDscreen_userCallback(LEDscreen_userData);
+    
+    if(LEDscreen_userVoidCallback != NIL)
+        LEDscreen_userVoidCallback();
     
     /*  Test code
     static int i=0;
