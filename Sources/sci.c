@@ -88,10 +88,10 @@ void interrupt ISR_sci(void)
 
    char scists;
    
-           scists=SCI1SR1;
-           rxdata=SCI1DRL;
+   scists=SCI1SR1;
+   rxdata=SCI1DRL;
           
-           RxQueueStatus=FULL;
+   RxQueueStatus=FULL;
 
 }
 

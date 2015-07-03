@@ -48,6 +48,7 @@ LEDSTR colorLEDsOFF = {0x00,0x00,0x00};
 
 static LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX];
 
+static unsigned char End_of_shift=FALSE;
 
 /////////////////////////////////////////
 
@@ -128,6 +129,8 @@ void LEDscreen_ShiftEnded(void)
     
     if(LEDscreen_userVoidCallback != NIL)
         LEDscreen_userVoidCallback();
+    
+    End_of_shift=TRUE;       // signal
     
     /*  Test code
     static int i=0;
@@ -290,3 +293,20 @@ void LEDscreen_ShiftMSJ(void)
     
 }
 
+
+unsigned int Get_End_Of_Shift_Status(void) {
+
+
+         if(End_of_shift==TRUE)
+         
+         {
+                   
+            End_of_shift=FALSE;
+           
+            return(TRUE);
+                
+         } 
+         
+         return (FALSE);
+         
+}

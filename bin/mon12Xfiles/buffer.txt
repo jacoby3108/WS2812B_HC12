@@ -1,49 +1,49 @@
+
+load ram.s19
+load ram.s19
+g
+trem
+ter
+
+load ram.s19
+g
+
+port com9
+load ram.s19
+
+port com9
+port com9
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+load ram.s19
+g
+g
+load ram.s19
+g
+load ram.s19
+g
 load ram.s19
 g
 
 load ram.s19
 g
 load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-port com9
-regs
-load ram.s19
-g
-
-
-
-
-
-
-port com9
-port com9
-port com17
-port com9
-load ram.s19
-g
-load ram.s19
-g
-port com9
-load ram.s19
-g
-load ram.s19
-g
-port com9
-port com9
-load ram.s19
-g
-load ram.s19
-gn
 g -t
-load ram.s19
-g -t
-load ram.s19
-g
-term
-load ram.s19
 load ram.s19
 g -t

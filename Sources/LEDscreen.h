@@ -42,6 +42,6 @@ LEDSTR *LEDscreen_getScreenAddress(void);
 unsigned int LEDscreen_getScreenBytes(void);          
 
 
-
+unsigned int Get_End_Of_Shift_Status(void);
 
 #endif /* defined(__Interface__LEDscreen__) */

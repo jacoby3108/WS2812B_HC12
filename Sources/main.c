@@ -79,7 +79,7 @@ LEDSTR DestLedScreen [TEST_ROWS*TEST_COLS];  // The data stored is sent directly
 void PrintMatrix(LEDSTR * p2Matrix);
 
 
-LEDSTR intensidad={0x30,0x30,0x30};
+LEDSTR intensidad={0x28,0x28,0x28};
 
 
 void timetoshift(void)
@@ -113,7 +113,7 @@ void main(void) {
   
 
   
-// WS2812B_Test();                     
+/// WS2812B_Test();                     
 
 
    
@@ -168,7 +168,7 @@ void LEDtest2(void) {
     
     LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
-    LEDscreen_setMSJ("HOLA MUNDO");  
+    LEDscreen_setMSJ("HELLO WORLD");  
     
     for (;;) {    
     
@@ -176,9 +176,14 @@ void LEDtest2(void) {
     
     PORTA |= 0x01;
      
-    LEDscreen_ShiftMSJ();                                                    
+    LEDscreen_ShiftMSJ();  // shift msg one colum left
     
-    Matrix2Vector(p2Matrix);  
+    if( Get_End_Of_Shift_Status() == TRUE)   //Ckeck if the whole msg was sent
+      
+            _printf("Hallo Welt \n  ");
+                                                  
+    
+    Matrix2Vector(p2Matrix);     // Convert Matrix to Vector
     
     Set_Intensity(intensidad);      
     
@@ -220,10 +225,10 @@ unsigned int x,y,a;
 
 for (x=0;x<dly;x++)
     for (y=0;y<1000;y++)
-      //for (z=0;z<1000;z++)
+      
             a+=1;
 
-
+            
  
 
 
