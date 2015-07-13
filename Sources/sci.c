@@ -1,11 +1,23 @@
 #include "mc9s12xdp512.h"
 
 #include "sci.h"
+#include "cqueue.h"
 
 
-//static unsigned char sci_int = SCI_EMPTY;  //SCI driver rx Flag =  SCI_FULL if data was received
+void sendsci(unsigned char tx);
 
-static unsigned char rxdata,RxQueueStatus;               //SCI driver rx data contains valid data when sci_int= SCI_FULL
+static unsigned char rxdata;               //SCI driver rxdata 
+
+void irq_sci_fsm(void);
+static unsigned char Sci_State;
+enum states {S_ILDE,S_STX,S_DATA};
+
+
+static unsigned char op_status;
+
+static unsigned char msg=0;
+
+
 
 
 // Driver Init
@@ -38,7 +50,7 @@ void Sci_Init(void) {
 //
 // Returns 1 if one byte has been recieved
 //=========================================
-char Sci1_RxStatus(void){
+unsigned char Sci1_RxStatus(void){
   
 
   return (SCI1SR1 & SCI1SR1_RDRF_MASK);
@@ -50,7 +62,7 @@ char Sci1_RxStatus(void){
 //
 // Sends one byte to the serial Comunication interface 1
 //=======================================================
-void Sci1_Putchar(char ch) 
+void Sci1_Putchar(unsigned char ch) 
 {
 
     while (!(SCI1SR1 & SCI1SR1_TDRE_MASK));
@@ -72,16 +84,18 @@ void Sci1_Putchar(char ch)
 //=============================================================
 
 
-char Sci1_Gechar(void) 
+unsigned char Sci1_Gechar(void) 
 
 {
 
     while (!(SCI1SR1 & SCI1SR1_RDRF_MASK));
 
-    return SCI1DRL;
+    return SCI1DRL;      
 
 }
 
+
+// ***********************I*R*Q***S*C*I**********************************//
 
 void interrupt ISR_sci(void) 
 {     
@@ -90,33 +104,140 @@ void interrupt ISR_sci(void)
    
    scists=SCI1SR1;
    rxdata=SCI1DRL;
-          
-   RxQueueStatus=FULL;
+  
+   TERMIO_PutChar('[');
+   TERMIO_PutChar(rxdata);
+   TERMIO_PutChar(']');
+   irq_sci_fsm();      
+  
 
 }
 
-char Sci1_GetQueueSatus(void){
-  
-  char temp;
-  
-    temp=RxQueueStatus;
-    
-    if(RxQueueStatus==FULL)
-       RxQueueStatus=EMPTY;
+// *******************************************
+// irq_sci_fsm(void) 
+// This FSM implements a basic HDLC protocol
+// *******************************************
 
-  return (temp);
+void irq_sci_fsm(void)	
+{	
+	switch (Sci_State)		// Tiny FSM for SCI reception
+	{
+	
+	//**************ILDE State*********************//
+		case S_ILDE:		
+		
+			if(rxdata==ENQ)
+				sendsci(ACK);
+			else if(rxdata==STX)
+				Sci_State=S_STX;	
+		break;
+	
+		
+	//**************STX State*********************//
+		case S_STX:
+	
+			if(rxdata==ETX)
+			{
+							
+//				_printf("SCI FSM: End Of Transmision\n");
+				msg++;
+				sendsci(ACK);
+				op_status=PushQueue(EOT);
+				Sci_State=S_ILDE;
+				
+			}
+			else 
+			{
+				
+				op_status=PushQueue(rxdata);
+				Sci_State=S_DATA;
+			}
+		
+		break;
+		
+//**************DATA State*********************//
+
+		case S_DATA:
+		
+			if(rxdata==ETX)
+			{
+				
+			
+				
+//				_printf("SCI FSM: End Of message\n");
+				msg++;
+				sendsci(ACK);
+				op_status=PushQueue(0x00);
+				Sci_State=S_ILDE;
+				
+			}
+			else 
+			{
+				
+				op_status=PushQueue(rxdata);
+				
+			}
+				
+	
+			break;
+	
+		default:
+	
+	  do{
+	  }while(0);   // err   
+	  
+ 
+//		_printf("SCI FSM: Unexpected Event\n ");
+	
+	
+	}  // end  of Switch
+
+} //end of irq
+
+//// ************** END FSM ***************************
+
+
+void sendsci(unsigned char tx)
+{
+	
+	Sci1_Putchar(tx); 
+ 	
+}
+
+//*******************************************************************
+// new_messages(void)
+// 
+// Returns how many messages 
+// have been received and therefore pending
+//
+// Note A new message is avaiable when the following is recieved 
+// STX Data ETX
+// ******************************************************************
+
+unsigned char new_messages(void)
+{
+
+  unsigned char temp;
+  
+  temp=msg;
+  
+  if(msg)
+    msg--;
+
+  return(temp);
+
 
 }
 
-char Sci1_GetQueueData(void){
+unsigned char messages_count(void)
+{
+
   
 
-  return (rxdata);
+  return(msg);
+
 
 }
-
-
-
 
 
 

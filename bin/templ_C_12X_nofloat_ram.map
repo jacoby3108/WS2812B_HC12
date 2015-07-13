@@ -24,6 +24,7 @@ characters8x8.c.o                       Model: SMALL,         Lang: ANSI-C
 sci.c.o                                 Model: SMALL,         Lang: ANSI-C
 WS2812B.c.o                             Model: SMALL,         Lang: ANSI-C
 LEDscreen.c.o                           Model: SMALL,         Lang: ANSI-C
+cqueue.c.o                              Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -32,8 +33,8 @@ Entry point: 0x1000 (_Startup)
 _startupData is allocated at 0x1032 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x3100     2007
-  _Copy    *toCopyDownBeg 0x1B1B
+  _Range   pZeroOut       0x3100     2235
+  _Copy    *toCopyDownBeg 0x1D85
 } _startupData;
 
 *********************************************************************************************
@@ -43,12 +44,12 @@ Section Name                    Size  Type     From       To       Segment
 .init                             50     R     0x1000     0x1031   RAM_RO
 .startData                        34     R     0x1032     0x1053   RAM_RO
 .rodata                          348     R     0x1054     0x11AF   RAM_RO
-.rodata1                          34     R     0x11B0     0x11D1   RAM_RO
-.text                           2314     R     0x11D2     0x1ADB   RAM_RO
-.copy                             64     R     0x1B1B     0x1B5A   RAM_RO
+.rodata1                          99     R     0x11B0     0x1212   RAM_RO
+.text                           2847     R     0x1213     0x1D31   RAM_RO
+.copy                             82     R     0x1D85     0x1DD6   RAM_RO
 VECTORS                          240     R     0x3F10     0x3FFF   RAMVECTORS
 .stack                           256   R/W     0x3000     0x30FF   RAM_RW
-.data                            444   R/W     0x3100     0x32BB   RAM_RW
+.data                            462   R/W     0x3100     0x32CD   RAM_RW
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -696,13 +697,13 @@ VECTORS                          240     R     0x3F10     0x3FFF   RAMVECTORS
 .abs_section_3aa                   2   N/I      0x3AA      0x3AB   .absSeg644
 .abs_section_3ac                   2   N/I      0x3AC      0x3AD   .absSeg645
 .abs_section_3ae                   2   N/I      0x3AE      0x3AF   .absSeg646
-.bss                             795   R/W     0x32BC     0x35D6   RAM_RW
-.common                          768   R/W     0x35D7     0x38D6   RAM_RW
-RUNTIME                           63     R     0x1ADC     0x1B1A   RAM_RO
+.bss                            1005   R/W     0x32CE     0x36BA   RAM_RW
+.common                          768   R/W     0x36BB     0x39BA   RAM_RW
+RUNTIME                           83     R     0x1D32     0x1D84   RAM_RO
 
 Summary of section sizes per section type:
-READ_ONLY (R):         C4B (dec:     3147)
-READ_WRITE (R/W):      8D7 (dec:     2263)
+READ_ONLY (R):         EC7 (dec:     3783)
+READ_WRITE (R/W):      9BB (dec:     2491)
 NO_INIT (N/I):         300 (dec:      768)
 
 *********************************************************************************************
@@ -751,11 +752,11 @@ MODULE:                 -- mc9s12xdp512.c.o --
      _DDRK                                       33       1       1       0   .abs_section_33
      _SYNR                                       34       1       1       0   .abs_section_34
      _REFDV                                      35       1       1       0   .abs_section_35
-     _CRGFLG                                     37       1       1       1   .abs_section_37
-     _CRGINT                                     38       1       1       0   .abs_section_38
+     _CRGFLG                                     37       1       1       4   .abs_section_37
+     _CRGINT                                     38       1       1       4   .abs_section_38
      _CLKSEL                                     39       1       1       0   .abs_section_39
      _PLLCTL                                     3A       1       1       0   .abs_section_3a
-     _RTICTL                                     3B       1       1       0   .abs_section_3b
+     _RTICTL                                     3B       1       1       2   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
      _TIOS                                       40       1       1       2   .abs_section_40
@@ -813,10 +814,10 @@ MODULE:                 -- mc9s12xdp512.c.o --
      _SCI0DRL                                    CF       1       1       1   .abs_section_cf
      _SCI1ACR2                                   D2       1       1       1   .abs_section_d2
      _SCI1CR2                                    D3       1       1       2   .abs_section_d3
-     _SCI1SR1                                    D4       1       1       1   .abs_section_d4
+     _SCI1SR1                                    D4       1       1       2   .abs_section_d4
      _SCI1SR2                                    D5       1       1       0   .abs_section_d5
      _SCI1DRH                                    D6       1       1       0   .abs_section_d6
-     _SCI1DRL                                    D7       1       1       1   .abs_section_d7
+     _SCI1DRL                                    D7       1       1       2   .abs_section_d7
      _SPI0CR1                                    D8       1       1       0   .abs_section_d8
      _SPI0CR2                                    D9       1       1       0   .abs_section_d9
      _SPI0BR                                     DA       1       1       0   .abs_section_da
@@ -1243,7 +1244,7 @@ MODULE:                 -- mc9s12xdp512.c.o --
      _PITMTLD1                                  347       1       1       0   .abs_section_347
      _XGCHID                                    382       1       1       0   .abs_section_382
      _XGCCR                                     39D       1       1       0   .abs_section_39d
-     _PORTAB                                      0       2       2       5   .abs_section_0
+     _PORTAB                                      0       2       2       3   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTCD                                      4       2       2       0   .abs_section_4
      _DDRCD                                       6       2       2       0   .abs_section_6
@@ -1366,41 +1367,54 @@ MODULE:                 -- mc9s12xdp512.c.o --
      _XGR7                                      3AE       2       2       0   .abs_section_3ae
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     timetoshift                               11D2       A      10       1   .text       
-     main                                      11DC       8       8       1   .text       
-     system_init                               11E4       B      11       1   .text       
-     LEDtest2                                  11EF      58      88       1   .text       
-     test_delay                                1247      1E      30       1   .text       
-     Set_Intensity                             1265      3E      62       1   .text       
-     Matrix2Vector                             12A3      60      96       1   .text       
+     main                                      1213       8       8       1   .text       
+     system_init                               121B       E      14       1   .text       
+     LEDtest3                                  1229      95     149       2   .text       
+     test_delay                                12BE      1E      30       1   .text       
+     Set_Color                                 12DC      3E      62       1   .text       
+     Matrix2Vector                             131A      60      96       1   .text       
+     command_parser                            137A      31      49       1   .text       
+     Cmd_Set_Text                              13AB      67     103       4   .text       
+     Unknown_Cmd                               1412      12      18       1   .text       
+     Cmd_No_more_msj                           1424       F      15       1   .text       
 - VARIABLES:
-     STRING.shift..1                           11B0       7       7       1   .rodata1    
-     STRING.HELLO.WORLD.2                      11B7       C      12       1   .rodata1    
-     STRING.Hallo.Welt.....3                   11C3       F      15       1   .rodata1    
-     intensidad                                3100       3       3       2   .data       
-     RowIndex                                  3103      10      16       1   .data       
-     ColUpdat                                  3113      10      16       1   .data       
-     DestLedScreen                             35D7     300     768       9   .common     
+     STRING.NEW.WORLD.4                        11B0       A      10       1   .rodata1    
+     STRING.Hallo.Welt.....5                   11BA       F      15       1   .rodata1    
+     STRING.Remaining.mess..d..6               11C9      13      19       1   .rodata1    
+     STRING.Set.text.Cmd....10                 11DC      10      16       1   .rodata1    
+     STRING..c.11                              11EC       3       3       1   .rodata1    
+     STRING...12                               11EF       2       2       1   .rodata1    
+     STRING.Unknown.Cmd..13                    11F1       D      13       1   .rodata1    
+     STRING...14                               11FE       2       2       1   .rodata1    
+     STRING.End.of.Tranmision..15              1200      13      19       1   .rodata1    
+     commands                                  3100      12      18       1   .data       
+     color                                     3112       3       3       2   .data       
+     RowIndex                                  3115      10      16       1   .data       
+     ColUpdat                                  3125      10      16       1   .data       
+     end_of_transmision                        32CE       1       1       3   .bss        
+     op_status                                 32CF       1       1       3   .bss        
+     DestLedScreen                             36BB     300     768       9   .common     
 MODULE:                 -- EMBEDDED.C.o (ansixsi.lib) --
 - PROCEDURES:
-     printf                                    1303      13      19       2   .text       
+     printf                                    1433      13      19       8   .text       
 - VARIABLES:
 MODULE:                 -- PRINTF.C.o (ansixsi.lib) --
 - PROCEDURES:
-     vprintf                                   1316     40F    1039      43   .text       
-     _out                                      1725       9       9       9   .text       
-     set_printf                                172E       C      12       1   .text       
+     vprintf                                   1446     40F    1039      43   .text       
+     _out                                      1855       9       9       9   .text       
+     set_printf                                185E       C      12       1   .text       
 - VARIABLES:
      pow10                                     1054      28      40       4   .rodata     
      pow16                                     107C      20      32       4   .rodata     
      pow8                                      109C      2C      44       4   .rodata     
-     pbuf                                      32BC       6       6       9   .bss        
+     pbuf                                      32D0       6       6       9   .bss        
 MODULE:                 -- rtshc12.c.o (ansixsi.lib) --
 - PROCEDURES:
-     _LNEG                                     1ADC       9       9       1   RUNTIME     
-     _CASE_DIRECT_BYTE                         1AE5       5       5       1   RUNTIME     
-     _CASE_SEARCH_8                            1AEA      17      23       1   RUNTIME     
-     _CASE_SEARCH_8_BYTE                       1B01      1A      26       1   RUNTIME     
+     _LNEG                                     1D32       9       9       1   RUNTIME     
+     _CASE_DIRECT_BYTE                         1D3B       5       5       1   RUNTIME     
+     _CASE_CHECKED_BYTE                        1D40      14      20       1   RUNTIME     
+     _CASE_SEARCH_8                            1D54      17      23       1   RUNTIME     
+     _CASE_SEARCH_8_BYTE                       1D6B      1A      26       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- ivt.c.o --
 - PROCEDURES:
@@ -1415,9 +1429,13 @@ MODULE:                 -- simple_start12.c.o --
      __SEG_END_SSTACK                          3100       0       0       1               
 MODULE:                 -- rti.c.o --
 - PROCEDURES:
-     ISR_rti                                   173A      14      20       1   .text       
+     rti_start                                 186A       F      15       1   .text       
+     rti_stop                                  1879       F      15       1   .text       
+     Set_Timer_ms                              1888       E      14       1   .text       
+     Get_Timer_ms_Status                       1896       4       4       1   .text       
+     ISR_rti                                   189A       E      14       1   .text       
 - VARIABLES:
-     rti_dly                                   32C2       2       2       2   .bss        
+     rti_dly                                   32D6       2       2       5   .bss        
 MODULE:                 -- characters8x8.c.o --
 - PROCEDURES:
 - VARIABLES:
@@ -1427,87 +1445,110 @@ MODULE:                 -- characters8x8.c.o --
      Exclamacion                               11A8       8       8       1   .rodata     
 MODULE:                 -- sci.c.o --
 - PROCEDURES:
-     Sci_Init                                  174E       F      15       1   .text       
-     ISR_sci                                   175D       D      13       1   .text       
-     TERMIO_PutChar                            176A       9       9       1   .text       
+     Sci_Init                                  18A8       F      15       1   .text       
+     Sci1_Putchar                              18B7       9       9       2   .text       
+     ISR_sci                                   18C0      1B      27       1   .text       
+     irq_sci_fsm                               18DB      64     100       1   .text       
+     sendsci                                   193F       3       3       3   .text       
+     new_messages                              1942       D      13       1   .text       
+     messages_count                            194F       4       4       2   .text       
+     TERMIO_PutChar                            1953       9       9       5   .text       
 - VARIABLES:
-     rxdata                                    32C4       1       1       1   .bss        
-     RxQueueStatus                             32C5       1       1       1   .bss        
+     msg                                       32D8       1       1       5   .bss        
+     rxdata                                    32D9       1       1       5   .bss        
+     Sci_State                                 32DA       1       1       3   .bss        
+     op_status                                 32DB       1       1       3   .bss        
 MODULE:                 -- WS2812B.c.o --
 - PROCEDURES:
-     WS2812B_Set_Data_Length                   1773       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  1777       4       4       1   .text       
-     WS2812B_Send_data                         177B      90     144       1   .text       
-     WS2812B_Init                              180B      24      36       1   .text       
+     WS2812B_Set_Data_Length                   195C       4       4       1   .text       
+     WS2812B_Set_Data_pointer                  1960       4       4       1   .text       
+     WS2812B_Send_data                         1964      90     144       1   .text       
+     WS2812B_Init                              19F4      24      36       1   .text       
 - VARIABLES:
-     ByteCtr                                   3123       2       2       3   .data       
-     delta                                     32C6       2       2       2   .bss        
-     mask                                      32C8       1       1       4   .bss        
-     p2rgb                                     32C9       2       2       5   .bss        
+     ByteCtr                                   3135       2       2       3   .data       
+     delta                                     32DC       2       2       2   .bss        
+     mask                                      32DE       1       1       4   .bss        
+     p2rgb                                     32DF       2       2       5   .bss        
 MODULE:                 -- LEDscreen.c.o --
 - PROCEDURES:
-     LEDscreen_setShiftEnded_voidCallback       182F       4       4       1   .text       
-     LEDscreen_getScreenAddress                1833       4       4       1   .text       
-     LEDscreen_setMSJ                          1837      26      38       1   .text       
-     LEDscreen_ShiftEnded                      185D      31      49       1   .text       
-     LEDscreen_decode_MSJ                      188E      55      85       4   .text       
-     LEDscreen_ShiftMSJ                        18E3     1EA     490       2   .text       
-     Get_End_Of_Shift_Status                   1ACD       F      15       1   .text       
+     LEDscreen_getScreenAddress                1A18       4       4       1   .text       
+     LEDscreen_setMSJ                          1A1C      26      38       2   .text       
+     LEDscreen_ShiftEnded                      1A42      31      49       1   .text       
+     LEDscreen_decode_MSJ                      1A73      55      85       4   .text       
+     LEDscreen_ShiftMSJ                        1AC8     1EA     490       2   .text       
+     Get_End_Of_Shift_Status                   1CB2       F      15       1   .text       
 - VARIABLES:
-     msj                                       3125      C8     200       6   .data       
-     msjSize                                   31ED       2       2       4   .data       
-     nextMsj                                   31EF      C8     200       3   .data       
-     nextMsjSize                               32B7       2       2       1   .data       
-     colorLEDsON                               32B9       3       3       2   .data       
-     LEDscreen_userData                        32CB       2       2       1   .bss        
-     LEDscreen_userCallback                    32CD       2       2       2   .bss        
-     LEDscreen_userVoidCallback                32CF       2       2       3   .bss        
-     colorLEDsOFF                              32D1       3       3       2   .bss        
-     End_of_shift                              32D4       1       1       3   .bss        
-     iShift.3                                  32D5       2       2       7   .bss        
-     LedScreen                                 32D7     300     768       4   .bss        
+     msj                                       3137      C8     200       6   .data       
+     msjSize                                   31FF       2       2       4   .data       
+     nextMsj                                   3201      C8     200       3   .data       
+     nextMsjSize                               32C9       2       2       1   .data       
+     colorLEDsON                               32CB       3       3       2   .data       
+     LEDscreen_userData                        32E1       2       2       1   .bss        
+     LEDscreen_userCallback                    32E3       2       2       2   .bss        
+     LEDscreen_userVoidCallback                32E5       2       2       2   .bss        
+     colorLEDsOFF                              32E7       3       3       2   .bss        
+     End_of_shift                              32EA       1       1       3   .bss        
+     iShift.3                                  32EB       2       2       7   .bss        
+     LedScreen                                 32ED     300     768       4   .bss        
+MODULE:                 -- cqueue.c.o --
+- PROCEDURES:
+     QueueInit                                 1CC1      11      17       1   .text       
+     PushQueue                                 1CD2      2A      42       3   .text       
+     PullQueue                                 1CFC      32      50       2   .text       
+     QueueStatus                               1D2E       4       4       2   .text       
+- VARIABLES:
+     buffer                                    35ED      C8     200       6   .bss        
+     news                                      36B5       2       2       6   .bss        
+     pin                                       36B7       2       2       4   .bss        
+     pout                                      36B9       2       2       5   .bss        
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12xdp512.c.o                           768      0      0
-  main.c.o                                   803    305     34
+  main.c.o                                   823    544     99
   EMBEDDED.C.o (ansixsi.lib)                   0     19      0
   PRINTF.C.o (ansixsi.lib)                     6   1060    116
-  rtshc12.c.o (ansixsi.lib)                    0     63      0
+  rtshc12.c.o (ansixsi.lib)                    0     83      0
   ivt.c.o                                      0      0    240
   simple_start12.c.o                           0     50      0
-  rti.c.o                                      2     20      0
+  rti.c.o                                      2     62      0
   characters8x8.c.o                            0      0    232
-  sci.c.o                                      2     37      0
+  sci.c.o                                      4    180      0
   WS2812B.c.o                                  7    188      0
-  LEDscreen.c.o                             1187    685      0
-  other                                      256     34     64
+  LEDscreen.c.o                             1187    681      0
+  cqueue.c.o                                 206    113      0
+  other                                      256     34     82
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  timetoshift main system_init LEDtest2 test_delay Set_Intensity Matrix2Vector 
-  printf vprintf _out set_printf ISR_rti Sci_Init ISR_sci TERMIO_PutChar 
-  WS2812B_Set_Data_Length WS2812B_Set_Data_pointer WS2812B_Send_data 
-  WS2812B_Init LEDscreen_setShiftEnded_voidCallback LEDscreen_getScreenAddress 
-  LEDscreen_setMSJ LEDscreen_ShiftEnded LEDscreen_decode_MSJ LEDscreen_ShiftMSJ 
-  Get_End_Of_Shift_Status 
+  main system_init LEDtest3 test_delay Set_Color Matrix2Vector command_parser 
+  Cmd_Set_Text Unknown_Cmd Cmd_No_more_msj printf vprintf _out set_printf 
+  rti_start rti_stop Set_Timer_ms Get_Timer_ms_Status ISR_rti Sci_Init 
+  Sci1_Putchar ISR_sci irq_sci_fsm sendsci new_messages messages_count 
+  TERMIO_PutChar WS2812B_Set_Data_Length WS2812B_Set_Data_pointer 
+  WS2812B_Send_data WS2812B_Init LEDscreen_getScreenAddress LEDscreen_setMSJ 
+  LEDscreen_ShiftEnded LEDscreen_decode_MSJ LEDscreen_ShiftMSJ 
+  Get_End_Of_Shift_Status QueueInit PushQueue PullQueue QueueStatus 
 SECTION: ".data"
-  intensidad RowIndex ColUpdat ByteCtr msj msjSize nextMsj nextMsjSize 
+  commands color RowIndex ColUpdat ByteCtr msj msjSize nextMsj nextMsjSize 
   colorLEDsON 
 SECTION: ".bss"
-  pbuf rti_dly rxdata RxQueueStatus delta mask p2rgb LEDscreen_userData 
-  LEDscreen_userCallback LEDscreen_userVoidCallback colorLEDsOFF End_of_shift 
-  iShift.3 LedScreen 
+  end_of_transmision op_status pbuf rti_dly msg rxdata Sci_State op_status 
+  delta mask p2rgb LEDscreen_userData LEDscreen_userCallback 
+  LEDscreen_userVoidCallback colorLEDsOFF End_of_shift iShift.3 LedScreen 
+  buffer news pin pout 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
   pow10 pow16 pow8 LetrasMay Space Dot Exclamacion 
 SECTION: ".rodata1"
-  STRING.shift..1 STRING.HELLO.WORLD.2 STRING.Hallo.Welt.....3 
+  STRING.NEW.WORLD.4 STRING.Hallo.Welt.....5 STRING.Remaining.mess..d..6 
+  STRING.Set.text.Cmd....10 STRING..c.11 STRING...12 STRING.Unknown.Cmd..13 
+  STRING...14 STRING.End.of.Tranmision..15 
 SECTION: "VECTORS"
   interrupt_vector_table 
 SECTION: ".abs_section_8"
@@ -2807,13 +2848,14 @@ SECTION: ".abs_section_3ae"
 SECTION: ".common"
   DestLedScreen 
 SECTION: "RUNTIME"
-  _LNEG _CASE_DIRECT_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE 
+  _LNEG _CASE_DIRECT_BYTE _CASE_CHECKED_BYTE _CASE_SEARCH_8 
+  _CASE_SEARCH_8_BYTE 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       5   .abs_section_0
+     _PORTAB                                      0       2       2       3   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTCD                                      4       2       2       0   .abs_section_4
      _DDRCD                                       6       2       2       0   .abs_section_6
@@ -2853,11 +2895,11 @@ OBJECT LIST SORTED BY ADDRESS
      _DDRK                                       33       1       1       0   .abs_section_33
      _SYNR                                       34       1       1       0   .abs_section_34
      _REFDV                                      35       1       1       0   .abs_section_35
-     _CRGFLG                                     37       1       1       1   .abs_section_37
-     _CRGINT                                     38       1       1       0   .abs_section_38
+     _CRGFLG                                     37       1       1       4   .abs_section_37
+     _CRGINT                                     38       1       1       4   .abs_section_38
      _CLKSEL                                     39       1       1       0   .abs_section_39
      _PLLCTL                                     3A       1       1       0   .abs_section_3a
-     _RTICTL                                     3B       1       1       0   .abs_section_3b
+     _RTICTL                                     3B       1       1       2   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
      _TIOS                                       40       1       1       2   .abs_section_40
@@ -2958,10 +3000,10 @@ OBJECT LIST SORTED BY ADDRESS
      _SCI1BD                                     D0       2       2       1   .abs_section_d0
      _SCI1ACR2                                   D2       1       1       1   .abs_section_d2
      _SCI1CR2                                    D3       1       1       2   .abs_section_d3
-     _SCI1SR1                                    D4       1       1       1   .abs_section_d4
+     _SCI1SR1                                    D4       1       1       2   .abs_section_d4
      _SCI1SR2                                    D5       1       1       0   .abs_section_d5
      _SCI1DRH                                    D6       1       1       0   .abs_section_d6
-     _SCI1DRL                                    D7       1       1       1   .abs_section_d7
+     _SCI1DRL                                    D7       1       1       2   .abs_section_d7
      _SPI0CR1                                    D8       1       1       0   .abs_section_d8
      _SPI0CR2                                    D9       1       1       0   .abs_section_d9
      _SPI0BR                                     DA       1       1       0   .abs_section_da
@@ -3468,63 +3510,94 @@ OBJECT LIST SORTED BY ADDRESS
      Space                                     1198       8       8       1   .rodata     
      Dot                                       11A0       8       8       1   .rodata     
      Exclamacion                               11A8       8       8       1   .rodata     
-     STRING.shift..1                           11B0       7       7       1   .rodata1    
-     STRING.HELLO.WORLD.2                      11B7       C      12       1   .rodata1    
-     STRING.Hallo.Welt.....3                   11C3       F      15       1   .rodata1    
-     timetoshift                               11D2       A      10       1   .text       
-     main                                      11DC       8       8       1   .text       
-     system_init                               11E4       B      11       1   .text       
-     LEDtest2                                  11EF      58      88       1   .text       
-     test_delay                                1247      1E      30       1   .text       
-     Set_Intensity                             1265      3E      62       1   .text       
-     Matrix2Vector                             12A3      60      96       1   .text       
-     printf                                    1303      13      19       2   .text       
-     vprintf                                   1316     40F    1039      43   .text       
-     _out                                      1725       9       9       9   .text       
-     set_printf                                172E       C      12       1   .text       
-     ISR_rti                                   173A      14      20       1   .text       
-     Sci_Init                                  174E       F      15       1   .text       
-     ISR_sci                                   175D       D      13       1   .text       
-     TERMIO_PutChar                            176A       9       9       1   .text       
-     WS2812B_Set_Data_Length                   1773       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  1777       4       4       1   .text       
-     WS2812B_Send_data                         177B      90     144       1   .text       
-     WS2812B_Init                              180B      24      36       1   .text       
-     LEDscreen_setShiftEnded_voidCallback       182F       4       4       1   .text       
-     LEDscreen_getScreenAddress                1833       4       4       1   .text       
-     LEDscreen_setMSJ                          1837      26      38       1   .text       
-     LEDscreen_ShiftEnded                      185D      31      49       1   .text       
-     LEDscreen_decode_MSJ                      188E      55      85       4   .text       
-     LEDscreen_ShiftMSJ                        18E3     1EA     490       2   .text       
-     Get_End_Of_Shift_Status                   1ACD       F      15       1   .text       
-     _LNEG                                     1ADC       9       9       1   RUNTIME     
-     _CASE_DIRECT_BYTE                         1AE5       5       5       1   RUNTIME     
-     _CASE_SEARCH_8                            1AEA      17      23       1   RUNTIME     
-     _CASE_SEARCH_8_BYTE                       1B01      1A      26       1   RUNTIME     
-     intensidad                                3100       3       3       2   .data       
-     RowIndex                                  3103      10      16       1   .data       
-     ColUpdat                                  3113      10      16       1   .data       
-     ByteCtr                                   3123       2       2       3   .data       
-     msj                                       3125      C8     200       6   .data       
-     msjSize                                   31ED       2       2       4   .data       
-     nextMsj                                   31EF      C8     200       3   .data       
-     nextMsjSize                               32B7       2       2       1   .data       
-     colorLEDsON                               32B9       3       3       2   .data       
-     pbuf                                      32BC       6       6       9   .bss        
-     rti_dly                                   32C2       2       2       2   .bss        
-     rxdata                                    32C4       1       1       1   .bss        
-     RxQueueStatus                             32C5       1       1       1   .bss        
-     delta                                     32C6       2       2       2   .bss        
-     mask                                      32C8       1       1       4   .bss        
-     p2rgb                                     32C9       2       2       5   .bss        
-     LEDscreen_userData                        32CB       2       2       1   .bss        
-     LEDscreen_userCallback                    32CD       2       2       2   .bss        
-     LEDscreen_userVoidCallback                32CF       2       2       3   .bss        
-     colorLEDsOFF                              32D1       3       3       2   .bss        
-     End_of_shift                              32D4       1       1       3   .bss        
-     iShift.3                                  32D5       2       2       7   .bss        
-     LedScreen                                 32D7     300     768       4   .bss        
-     DestLedScreen                             35D7     300     768       9   .common     
+     STRING.NEW.WORLD.4                        11B0       A      10       1   .rodata1    
+     STRING.Hallo.Welt.....5                   11BA       F      15       1   .rodata1    
+     STRING.Remaining.mess..d..6               11C9      13      19       1   .rodata1    
+     STRING.Set.text.Cmd....10                 11DC      10      16       1   .rodata1    
+     STRING..c.11                              11EC       3       3       1   .rodata1    
+     STRING...12                               11EF       2       2       1   .rodata1    
+     STRING.Unknown.Cmd..13                    11F1       D      13       1   .rodata1    
+     STRING...14                               11FE       2       2       1   .rodata1    
+     STRING.End.of.Tranmision..15              1200      13      19       1   .rodata1    
+     main                                      1213       8       8       1   .text       
+     system_init                               121B       E      14       1   .text       
+     LEDtest3                                  1229      95     149       2   .text       
+     test_delay                                12BE      1E      30       1   .text       
+     Set_Color                                 12DC      3E      62       1   .text       
+     Matrix2Vector                             131A      60      96       1   .text       
+     command_parser                            137A      31      49       1   .text       
+     Cmd_Set_Text                              13AB      67     103       4   .text       
+     Unknown_Cmd                               1412      12      18       1   .text       
+     Cmd_No_more_msj                           1424       F      15       1   .text       
+     printf                                    1433      13      19       8   .text       
+     vprintf                                   1446     40F    1039      43   .text       
+     _out                                      1855       9       9       9   .text       
+     set_printf                                185E       C      12       1   .text       
+     rti_start                                 186A       F      15       1   .text       
+     rti_stop                                  1879       F      15       1   .text       
+     Set_Timer_ms                              1888       E      14       1   .text       
+     Get_Timer_ms_Status                       1896       4       4       1   .text       
+     ISR_rti                                   189A       E      14       1   .text       
+     Sci_Init                                  18A8       F      15       1   .text       
+     Sci1_Putchar                              18B7       9       9       2   .text       
+     ISR_sci                                   18C0      1B      27       1   .text       
+     irq_sci_fsm                               18DB      64     100       1   .text       
+     sendsci                                   193F       3       3       3   .text       
+     new_messages                              1942       D      13       1   .text       
+     messages_count                            194F       4       4       2   .text       
+     TERMIO_PutChar                            1953       9       9       5   .text       
+     WS2812B_Set_Data_Length                   195C       4       4       1   .text       
+     WS2812B_Set_Data_pointer                  1960       4       4       1   .text       
+     WS2812B_Send_data                         1964      90     144       1   .text       
+     WS2812B_Init                              19F4      24      36       1   .text       
+     LEDscreen_getScreenAddress                1A18       4       4       1   .text       
+     LEDscreen_setMSJ                          1A1C      26      38       2   .text       
+     LEDscreen_ShiftEnded                      1A42      31      49       1   .text       
+     LEDscreen_decode_MSJ                      1A73      55      85       4   .text       
+     LEDscreen_ShiftMSJ                        1AC8     1EA     490       2   .text       
+     Get_End_Of_Shift_Status                   1CB2       F      15       1   .text       
+     QueueInit                                 1CC1      11      17       1   .text       
+     PushQueue                                 1CD2      2A      42       3   .text       
+     PullQueue                                 1CFC      32      50       2   .text       
+     QueueStatus                               1D2E       4       4       2   .text       
+     _LNEG                                     1D32       9       9       1   RUNTIME     
+     _CASE_DIRECT_BYTE                         1D3B       5       5       1   RUNTIME     
+     _CASE_CHECKED_BYTE                        1D40      14      20       1   RUNTIME     
+     _CASE_SEARCH_8                            1D54      17      23       1   RUNTIME     
+     _CASE_SEARCH_8_BYTE                       1D6B      1A      26       1   RUNTIME     
+     commands                                  3100      12      18       1   .data       
+     color                                     3112       3       3       2   .data       
+     RowIndex                                  3115      10      16       1   .data       
+     ColUpdat                                  3125      10      16       1   .data       
+     ByteCtr                                   3135       2       2       3   .data       
+     msj                                       3137      C8     200       6   .data       
+     msjSize                                   31FF       2       2       4   .data       
+     nextMsj                                   3201      C8     200       3   .data       
+     nextMsjSize                               32C9       2       2       1   .data       
+     colorLEDsON                               32CB       3       3       2   .data       
+     end_of_transmision                        32CE       1       1       3   .bss        
+     op_status                                 32CF       1       1       3   .bss        
+     pbuf                                      32D0       6       6       9   .bss        
+     rti_dly                                   32D6       2       2       5   .bss        
+     msg                                       32D8       1       1       5   .bss        
+     rxdata                                    32D9       1       1       5   .bss        
+     Sci_State                                 32DA       1       1       3   .bss        
+     op_status                                 32DB       1       1       3   .bss        
+     delta                                     32DC       2       2       2   .bss        
+     mask                                      32DE       1       1       4   .bss        
+     p2rgb                                     32DF       2       2       5   .bss        
+     LEDscreen_userData                        32E1       2       2       1   .bss        
+     LEDscreen_userCallback                    32E3       2       2       2   .bss        
+     LEDscreen_userVoidCallback                32E5       2       2       2   .bss        
+     colorLEDsOFF                              32E7       3       3       2   .bss        
+     End_of_shift                              32EA       1       1       3   .bss        
+     iShift.3                                  32EB       2       2       7   .bss        
+     LedScreen                                 32ED     300     768       4   .bss        
+     buffer                                    35ED      C8     200       6   .bss        
+     news                                      36B5       2       2       6   .bss        
+     pin                                       36B7       2       2       4   .bss        
+     pout                                      36B9       2       2       5   .bss        
+     DestLedScreen                             36BB     300     768       9   .common     
      interrupt_vector_table                    3F10      F0     240       0   VECTORS     
 
 *********************************************************************************************
@@ -3532,7 +3605,7 @@ UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
 main.c.o:
-  Scitest PrintMatrix WS2812B_Test 
+  timetoshift LEDtest2 PrintMatrix WS2812B_Test Cqtestbench 
 EMBEDDED.C.o (ansixsi.lib):
   scanf gets puts fopen fflush fclose fprintf fputs fputc fgetc remove clock 
   abort exit 
@@ -3542,22 +3615,23 @@ rtshc12.c.o (ansixsi.lib):
   _BSHL _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU 
   _LSHRS _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LCOM _LINC _LDEC 
   _LMUL _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _NEG_P _LDIVS _LMODU _LMODS 
-  _ILSEXT _COPY _CASE_DIRECT _CASE_CHECKED _CASE_CHECKED_BYTE _CASE_SEARCH 
-  _CASE_SEARCH_BYTE _FCALL _FPCMP _PADD _PSUB _PINC _PDEC 
+  _ILSEXT _COPY _CASE_DIRECT _CASE_CHECKED _CASE_SEARCH _CASE_SEARCH_BYTE 
+  _FCALL _FPCMP _PADD _PSUB _PINC _PDEC 
 ivt.c.o:
   UnimplementedISR 
 rti.c.o:
-  rti_init delayms 
+  delayms 
 sci.c.o:
-  Sci1_RxStatus Sci1_Putchar Sci1_Gechar Sci1_GetQueueSatus Sci1_GetQueueData 
-  TERMIO_GetChar 
+  Sci1_RxStatus Sci1_Gechar TERMIO_GetChar 
 LEDscreen.c.o:
   LEDscreen_setUserData LEDscreen_setShiftEnded_Callback 
-  LEDscreen_getScreenBytes LEDscreen_isBufferFree LEDscreen_setLEDcolorON 
-  LEDscreen_update 
+  LEDscreen_setShiftEnded_voidCallback LEDscreen_getScreenBytes 
+  LEDscreen_isBufferFree LEDscreen_setLEDcolorON LEDscreen_update 
 NOT USED VARIABLES
 main.c.o:
-  STRING...1234....4 STRING..c.5 STRING..c.6 STRING...7 LedScreen1 temp 
+  STRING.shift..1 STRING.HELLO.WORLD.2 STRING.Hallo.Welt.....3 STRING..c.7 
+  STRING..c.8 STRING...9 STRING.Queue.Overflowed...16 
+  STRING.Data.pulled...d...Re.17 Led_Colors temp i 
 EMBEDDED.C.o (ansixsi.lib):
   STRING..1 
 rtshc12.c.o (ansixsi.lib):
@@ -3570,58 +3644,62 @@ LEDscreen.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x1B1B ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x1D85 ---- SIZE       4 ---
 Filling bytes inserted
- 00293100
-------- ROM-ADDRESS: 0x1B1F ---- RAM-ADDRESS: 0x3100 ---- SIZE       3 ---
-Name of initialized Object : intensidad
- 282828
-------- ROM-ADDRESS: 0x1B22 ---- SIZE       1 ---
+ 003B3100
+------- ROM-ADDRESS: 0x1D89 ---- RAM-ADDRESS: 0x3100 ---- SIZE      18 ---
+Name of initialized Object : commands
+ 5413AB4313 AB5313AB53 13AB041424
+ FF1412
+------- ROM-ADDRESS: 0x1D9B ---- RAM-ADDRESS: 0x3112 ---- SIZE       3 ---
+Name of initialized Object : color
+ 040404
+------- ROM-ADDRESS: 0x1D9E ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0x1B23 ---- RAM-ADDRESS: 0x3104 ---- SIZE      14 ---
+------- ROM-ADDRESS: 0x1D9F ---- RAM-ADDRESS: 0x3116 ---- SIZE      14 ---
 Name of initialized Object : RowIndex:1
  0102030405 0607070605 04030201
-------- ROM-ADDRESS: 0x1B31 ---- SIZE       8 ---
+------- ROM-ADDRESS: 0x1DAD ---- SIZE       8 ---
 Filling bytes inserted
  0000000000 000000
-------- ROM-ADDRESS: 0x1B39 ---- RAM-ADDRESS: 0x311A ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x1DB5 ---- RAM-ADDRESS: 0x312C ---- SIZE       1 ---
 Name of initialized Object : ColUpdat:7
  01
-------- ROM-ADDRESS: 0x1B3A ---- SIZE       7 ---
+------- ROM-ADDRESS: 0x1DB6 ---- SIZE       7 ---
 Filling bytes inserted
  0000000000 0000
-------- ROM-ADDRESS: 0x1B41 ---- RAM-ADDRESS: 0x3122 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x1DBD ---- RAM-ADDRESS: 0x3134 ---- SIZE       1 ---
 Name of initialized Object : ColUpdat:15
  01
-------- ROM-ADDRESS: 0x1B42 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x1DBE ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0x1B43 ---- RAM-ADDRESS: 0x3124 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0x1DBF ---- RAM-ADDRESS: 0x3136 ---- SIZE       1 ---
 Name of initialized Object : ByteCtr:1
  02
-------- ROM-ADDRESS: 0x1B44 ---- RAM-ADDRESS: 0x3125 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x1DC0 ---- RAM-ADDRESS: 0x3137 ---- SIZE       4 ---
 Name of initialized Object : msj
  49544241
-------- ROM-ADDRESS: 0x1B48 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x1DC4 ---- SIZE       4 ---
 Filling bytes inserted
- 000531EE
-------- ROM-ADDRESS: 0x1B4C ---- RAM-ADDRESS: 0x31EE ---- SIZE       1 ---
+ 00053200
+------- ROM-ADDRESS: 0x1DC8 ---- RAM-ADDRESS: 0x3200 ---- SIZE       1 ---
 Name of initialized Object : msjSize:1
  04
-------- ROM-ADDRESS: 0x1B4D ---- RAM-ADDRESS: 0x31EF ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x1DC9 ---- RAM-ADDRESS: 0x3201 ---- SIZE       4 ---
 Name of initialized Object : nextMsj
  49544241
-------- ROM-ADDRESS: 0x1B51 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0x1DCD ---- SIZE       4 ---
 Filling bytes inserted
- 000432B8
-------- ROM-ADDRESS: 0x1B55 ---- RAM-ADDRESS: 0x32B8 ---- SIZE       1 ---
+ 000432CA
+------- ROM-ADDRESS: 0x1DD1 ---- RAM-ADDRESS: 0x32CA ---- SIZE       1 ---
 Name of initialized Object : nextMsjSize:1
  04
-------- ROM-ADDRESS: 0x1B56 ---- RAM-ADDRESS: 0x32B9 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0x1DD2 ---- RAM-ADDRESS: 0x32CB ---- SIZE       3 ---
 Name of initialized Object : colorLEDsON
  FFFFFF
-------- ROM-ADDRESS: 0x1B59 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x1DD5 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3629,33 +3707,51 @@ Filling bytes inserted
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK _startupData main 
-timetoshift               USES STRING.shift..1 printf 
-main                      USES system_init LEDtest2 
-system_init               USES Sci_Init _PORTAB _DDRAB 
-LEDtest2                  USES timetoshift 
-                                LEDscreen_setShiftEnded_voidCallback STRING.HELLO.WORLD.2 LEDscreen_setMSJ 
+main                      USES system_init LEDtest3 
+system_init               USES QueueInit Sci_Init _PORTAB _DDRAB 
+LEDtest3                  USES STRING.NEW.WORLD.4 LEDscreen_setMSJ 
                                 LEDscreen_getScreenAddress _PORTAB LEDscreen_ShiftMSJ 
-                                Get_End_Of_Shift_Status STRING.Hallo.Welt.....3 printf Matrix2Vector 
-                                intensidad Set_Intensity WS2812B_Init DestLedScreen 
-                                WS2812B_Set_Data_pointer WS2812B_Set_Data_Length WS2812B_Send_data 
-                                test_delay 
-Set_Intensity             USES DestLedScreen 
+                                Get_End_Of_Shift_Status STRING.Hallo.Welt.....5 printf 
+                                end_of_transmision Sci1_Putchar rti_start Set_Timer_ms 
+                                messages_count STRING.Remaining.mess..d..6 new_messages 
+                                commands command_parser op_status Get_Timer_ms_Status 
+                                rti_stop Matrix2Vector color Set_Color WS2812B_Init 
+                                DestLedScreen WS2812B_Set_Data_pointer 
+                                WS2812B_Set_Data_Length WS2812B_Send_data test_delay LEDtest3 
+Set_Color                 USES DestLedScreen 
 Matrix2Vector             USES RowIndex DestLedScreen ColUpdat 
+command_parser            USES QueueStatus PullQueue op_status 
+Cmd_Set_Text              USES STRING.Set.text.Cmd....10 printf QueueStatus 
+                                PullQueue op_status STRING..c.11 LEDscreen_setMSJ 
+                                STRING...12 
+Unknown_Cmd               USES STRING.Unknown.Cmd..13 printf STRING...14 
+Cmd_No_more_msj           USES STRING.End.of.Tranmision..15 printf 
+                                end_of_transmision 
 printf                    USES TERMIO_PutChar set_printf vprintf 
 vprintf                   USES vprintf _out _CASE_SEARCH_8_BYTE 
                                 _CASE_DIRECT_BYTE _CASE_SEARCH_8 pbuf _LNEG pow8 pow16 pow10 
 _out                      USES pbuf 
 set_printf                USES pbuf 
-ISR_rti                   USES _CRGFLG _PORTAB rti_dly 
+rti_start                 USES _RTICTL _CRGFLG _CRGINT rti_dly 
+rti_stop                  USES _RTICTL _CRGFLG _CRGINT 
+Set_Timer_ms              USES _CRGINT rti_dly _CRGFLG 
+Get_Timer_ms_Status       USES rti_dly 
+ISR_rti                   USES _CRGFLG rti_dly 
 Sci_Init                  USES _SCI1BD _SCI1ACR2 _SCI1CR2 
-ISR_sci                   USES _SCI1SR1 _SCI1DRL rxdata RxQueueStatus 
+Sci1_Putchar              USES _SCI1SR1 _SCI1DRL 
+ISR_sci                   USES _SCI1SR1 _SCI1DRL rxdata TERMIO_PutChar 
+                                irq_sci_fsm 
+irq_sci_fsm               USES Sci_State _CASE_CHECKED_BYTE rxdata sendsci msg 
+                                PushQueue op_status 
+sendsci                   USES Sci1_Putchar 
+new_messages              USES msg 
+messages_count            USES msg 
 TERMIO_PutChar            USES _SCI0SR1 _SCI0DRL 
 WS2812B_Set_Data_Length   USES ByteCtr 
 WS2812B_Set_Data_pointer  USES p2rgb 
 WS2812B_Send_data         USES _TCNT _TC7 _TC6 _TFLG1 _OC7M _OC7D mask p2rgb 
                                 delta ByteCtr 
 WS2812B_Init              USES _TSCR2 _TSCR1 _TIOS _TCTL1 _CFORC 
-LEDscreen_setShiftEnded_voidCallback USES LEDscreen_userVoidCallback 
 LEDscreen_getScreenAddress USES LedScreen 
 LEDscreen_setMSJ          USES nextMsj nextMsjSize 
 LEDscreen_ShiftEnded      USES msj nextMsj msjSize LEDscreen_userCallback 
@@ -3665,6 +3761,11 @@ LEDscreen_ShiftMSJ        USES iShift.3 msjSize msj LEDscreen_decode_MSJ
                                 LEDscreen_ShiftMSJ colorLEDsON LedScreen colorLEDsOFF 
                                 LEDscreen_ShiftEnded 
 Get_End_Of_Shift_Status   USES End_of_shift 
+QueueInit                 USES buffer pin pout news 
+PushQueue                 USES news pin buffer 
+PullQueue                 USES news pout TERMIO_PutChar buffer 
+QueueStatus               USES news 
+commands                  USES Cmd_Set_Text Cmd_No_more_msj Unknown_Cmd 
 interrupt_vector_table    USES ISR_sci ISR_rti _Startup 
 
 *********************************************************************************************
@@ -3676,32 +3777,12 @@ DEPENDENCY TREE
  |  | 
  |  +- system_init         
  |  |  | 
+ |  |  +- QueueInit           
+ |  |  |    
  |  |  +- Sci_Init            
  |  |       
- |  +- LEDtest2            
+ |  +- LEDtest3            
  |     | 
- |     +- timetoshift         
- |     |  | 
- |     |  +- printf              
- |     |     | 
- |     |     +- TERMIO_PutChar      
- |     |     |    
- |     |     +- set_printf          
- |     |     |    
- |     |     +- vprintf             
- |     |        | 
- |     |        +- _out                
- |     |        |    
- |     |        +- _CASE_SEARCH_8_BYTE 
- |     |        |    
- |     |        +- _CASE_DIRECT_BYTE   
- |     |        |    
- |     |        +- _CASE_SEARCH_8      
- |     |        |    
- |     |        +- _LNEG               
- |     |             
- |     +- LEDscreen_setShiftEnded_voidCallback
- |     |    
  |     +- LEDscreen_setMSJ    
  |     |    
  |     +- LEDscreen_getScreenAddress
@@ -3714,11 +3795,69 @@ DEPENDENCY TREE
  |     |       
  |     +- Get_End_Of_Shift_Status
  |     |    
- |     +- printf               (see above)
- |     |  
+ |     +- printf              
+ |     |  | 
+ |     |  +- TERMIO_PutChar      
+ |     |  |    
+ |     |  +- set_printf          
+ |     |  |    
+ |     |  +- vprintf             
+ |     |     | 
+ |     |     +- _out                
+ |     |     |    
+ |     |     +- _CASE_SEARCH_8_BYTE 
+ |     |     |    
+ |     |     +- _CASE_DIRECT_BYTE   
+ |     |     |    
+ |     |     +- _CASE_SEARCH_8      
+ |     |     |    
+ |     |     +- _LNEG               
+ |     |          
+ |     +- Sci1_Putchar        
+ |     |    
+ |     +- rti_start           
+ |     |    
+ |     +- Set_Timer_ms        
+ |     |    
+ |     +- messages_count      
+ |     |    
+ |     +- new_messages        
+ |     |    
+ |     +- commands            
+ |     |  | 
+ |     |  +- Cmd_Set_Text        
+ |     |  |  | 
+ |     |  |  +- printf               (see above)
+ |     |  |  |  
+ |     |  |  +- QueueStatus         
+ |     |  |  |    
+ |     |  |  +- PullQueue           
+ |     |  |  |  | 
+ |     |  |  |  +- TERMIO_PutChar       (see above)
+ |     |  |  |     
+ |     |  |  +- LEDscreen_setMSJ     (see above)
+ |     |  |     
+ |     |  +- Cmd_No_more_msj     
+ |     |  |  | 
+ |     |  |  +- printf               (see above)
+ |     |  |     
+ |     |  +- Unknown_Cmd         
+ |     |     | 
+ |     |     +- printf               (see above)
+ |     |        
+ |     +- command_parser      
+ |     |  | 
+ |     |  +- QueueStatus          (see above)
+ |     |  |  
+ |     |  +- PullQueue            (see above)
+ |     |     
+ |     +- Get_Timer_ms_Status 
+ |     |    
+ |     +- rti_stop            
+ |     |    
  |     +- Matrix2Vector       
  |     |    
- |     +- Set_Intensity       
+ |     +- Set_Color           
  |     |    
  |     +- WS2812B_Init        
  |     |    
@@ -3737,7 +3876,19 @@ DEPENDENCY TREE
  interrupt_vector_table
  | 
  +- ISR_sci             
- |    
+ |  | 
+ |  +- TERMIO_PutChar       (see above)
+ |  |  
+ |  +- irq_sci_fsm         
+ |     | 
+ |     +- _CASE_CHECKED_BYTE  
+ |     |    
+ |     +- sendsci             
+ |     |  | 
+ |     |  +- Sci1_Putchar         (see above)
+ |     |     
+ |     +- PushQueue           
+ |          
  +- ISR_rti             
  |    
  +- _Startup             (see above)
@@ -3749,5 +3900,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 3147
+Total size of all blocks to be downloaded: 3783
 

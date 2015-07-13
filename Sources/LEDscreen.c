@@ -81,7 +81,7 @@ unsigned int LEDscreen_getScreenBytes(void)
     return sizeof(LEDSTR) * LED_SCREEN_DIM_MATRIX * LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX; // 3 por las estructura de LEDs
 }
 
-void LEDscreen_setMSJ(const char *newMSJ)
+void LEDscreen_setMSJ(const  char *newMSJ)
 {
     nextMsjSize = 0;
     
