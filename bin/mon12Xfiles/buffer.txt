@@ -1,36 +1,4 @@
 g -t
-rb
-rb 255
-
-help
-nrb 200 
-nrb 200,3
-help
-
-nread 0x35ED,100
-nrd 0x35ed,10
-nrd 0x35ed,50
-nrd 0x35ed,100
-nrd 0x35ed,200
-rd 0x36b5
-read 0x36b5
-help
-read 0x36b
-read 0x36b
-rb 0x36b5
-load ram.s19
-g -t
-rb 0x36b5
-nrd 0x35ed,200
-nrd 0x35ed,255
-load ram.s19
-g -t
-load ram.s19
-g -t
-load ram.s19
-g -t
-load ram.s19
-g -t
 port com9
 load ram.s19
 g -t
@@ -45,5 +13,37 @@ g -t
 load ram.s19
 g -t
 load ram.s19
+load ram.s19
+g -t
+port com9
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+port com9
+load ram.s19
+g -t
+load ram.s19
+port com9
+load ram.s19
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
 load ram.s19
 g -t

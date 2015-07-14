@@ -86,17 +86,17 @@ unsigned char data;
 //*************************************	
 
 
-TERMIO_PutChar('[');    
+//TERMIO_PutChar('[');    
 
 //if (*pdata==EOT)
 
 //  _printf("[EOT]");
 
-TERMIO_PutChar(*pdata);
+//TERMIO_PutChar(*pdata);
 
 
 
-TERMIO_PutChar(']');
+//TERMIO_PutChar(']');
 
 
 //**************************************

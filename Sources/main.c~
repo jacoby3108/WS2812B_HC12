@@ -290,7 +290,7 @@ void LEDtest2(void) {
     
   //  LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
-    LEDscreen_setActualMSJ("HELLO WORLD");  
+    LEDscreen_setMSJ("HELLO WORLD");  
   //  LEDscreen_setMSJ("LIESL");  
     
     for (;;) {    
@@ -356,7 +356,7 @@ void LEDtest3(void) {
     
  //   LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
-    LEDscreen_setActualMSJ("NEW WORLD");  
+    LEDscreen_setMSJ("NEW WORLD");  
  
     
     for (;;) {    
@@ -657,7 +657,7 @@ unsigned char data=0;
 	 textBuf[i]=data;
 	
 
-   LEDscreen_setActualMSJ(textBuf);
+   LEDscreen_setMSJ(textBuf);
 	
 	 _printf("\n");
 }
@@ -675,7 +675,7 @@ void Cmd_Set_Color(void)
 
 
 unsigned int i=0;
-unsigned char data=0;                                                   
+unsigned char data=0;
 
 
    _printf("Set Color Cmd : ");
@@ -689,7 +689,7 @@ unsigned char data=0;
 	    
 ///	  _printf("%c",data);
 
-   if ((data >= '0')  &&  (data <= '7') ) // Protect from unexpected data
+   if ((data >= '0')  &&  (data <= '7') ) // Protect of unexpected data
     
 	 color=Led_Colors[data-'0']; 
 
