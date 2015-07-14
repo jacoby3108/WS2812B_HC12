@@ -82,8 +82,24 @@ unsigned char data;
 
 	*pdata=*pout++;		// pull data and store at caller address
 	news--;				// update "news" counter
+	
+//*************************************	
+
+
+TERMIO_PutChar('[');    
+
+//if (*pdata==EOT)
+
+//  _printf("[EOT]");
 
 TERMIO_PutChar(*pdata);
+
+
+
+TERMIO_PutChar(']');
+
+
+//**************************************
 
 
 	if (pout == buffer+QSIZE)	// Check for Queue boundaries

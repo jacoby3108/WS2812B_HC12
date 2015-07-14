@@ -105,9 +105,9 @@ void interrupt ISR_sci(void)
    scists=SCI1SR1;
    rxdata=SCI1DRL;
   
-   TERMIO_PutChar('[');
-   TERMIO_PutChar(rxdata);
-   TERMIO_PutChar(']');
+ //  TERMIO_PutChar('[');
+ //  TERMIO_PutChar(rxdata);
+ //  TERMIO_PutChar(']');
    irq_sci_fsm();      
   
 

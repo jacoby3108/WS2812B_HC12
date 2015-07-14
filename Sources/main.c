@@ -42,6 +42,8 @@ typedef struct
 
 unsigned char command_parser(CMD_STR *p2cmd);	
 void Cmd_Set_Text(void);	
+void Cmd_Set_Color(void);
+
 void Cmd_No_more_msj(void);	
 void Unknown_Cmd(void);		  
 
@@ -50,10 +52,10 @@ void Unknown_Cmd(void);
 
 CMD_STR commands[]= { 
 					
-					 {'T',Cmd_Set_Text},	//text
-					 {'C',Cmd_Set_Text},	//color
-					 {'S',Cmd_Set_Text},	//speed
-					 {'S',Cmd_Set_Text},
+					 {'T',Cmd_Set_Text },	//text
+					 {'C',Cmd_Set_Color},	//color
+					 {'S',Cmd_Set_Text },	//speed
+					 {'S',Cmd_Set_Text },
 					 
 					 {EOT,Cmd_No_more_msj},
 					 
@@ -135,9 +137,9 @@ LEDSTR DestLedScreen [TEST_ROWS*TEST_COLS];  // The data stored is sent directly
 
 void PrintMatrix(LEDSTR * p2Matrix);
 
-//#define I_MAX   0x28      // Maxima intensidad  
+#define I_MAX   0x28      // Maxima intensidad  
 
-#define I_MAX   0x04      // Maxima intensidad
+//#define I_MAX   0x04      // Maxima intensidad     (At Home)
 
 // Green  Red  Blue
 
@@ -350,6 +352,7 @@ void LEDtest3(void) {
   
 
     LEDSTR *p2Matrix=NULL;  
+    	unsigned char temp;
     
  //   LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
@@ -399,8 +402,10 @@ void LEDtest3(void) {
             
            
               rti_stop(); 
+              
             
-            
+              while(QueueStatus())                  /// cleanup
+	                op_status=PullQueue(&temp);
             
     
     }
@@ -438,6 +443,9 @@ void LEDtest3(void) {
     
 }     
 
+
+
+
 void test_delay(unsigned int dly)  {
 
 
@@ -448,11 +456,6 @@ for (x=0;x<dly;x++)
     for (y=0;y<1000;y++)
       
             a+=1;
-
-            
- 
-
-
 
 
 }
@@ -483,7 +486,7 @@ unsigned char dest_index=0;
 }
 
 
-// =========================================================== 
+// =================Matrix2Vector Index Table================= 
 
 
 
@@ -585,66 +588,6 @@ void WS2812B_Test(void) {
 
 
 
-//========= testbench variables ============/
-
-
-
-// Test Variables
- 
-
-int i=0;		
-		
-
-void irq_sci(void);
-
-void testbench_2(void);
-
-
-
-//=== App variables =========//
-
-
-
-
-
-
-
-
- 
-
-/*
-
-void testbench_2(void)
-{
- 
-  
- 
- 
-   
-      Sci1_Putchar(XON);     // HC05 Bluetooth
-  
-     _printf("hola \n");
- 
-*/       
- 
-		
-     //// _printf("-(%c)[%.2X]-",ch,ch);
-/*    
-     while (1) {
-      
-         if(new_messages())
-            op_status=command_parser(commands);	// Process the cmd
- 
-     }
-
-  
-
-
-
-}
-
-*/
-
  
 
 /* ------------- Comand Parser ------------------ */
@@ -669,20 +612,24 @@ unsigned char command_parser(CMD_STR *p2cmd)
 	
 }
 
+//*****************************************
+//
+//      Cmd_Set_Text
+//
+//
+//*****************************************
 
-
-
-void Cmd_Set_Text(void)
+void Cmd_Set_Text(void)     
 {
 
-#define MAX_TEXT_LEN 150
+#define MAX_TEXT_LEN 200
 char textBuf[MAX_TEXT_LEN];
-unsigned int i=0;
 
+unsigned int i=0;
 unsigned char data=0;
 
 
-   _printf("Set text Cmd : ");
+   _printf("Set Text Cmd : ");
 	do
 	{
 		if (QueueStatus())				    // some news?
@@ -691,7 +638,7 @@ unsigned char data=0;
 			return;
 						
 	    
-	  _printf("%c",data);
+	 //// _printf("%c",data);
 	  textBuf[i++]=data; 
 	   
 	  
@@ -714,6 +661,42 @@ unsigned char data=0;
 	
 	 _printf("\n");
 }
+
+//*****************************************
+//
+//      Cmd_Set_Color
+//
+//
+//*****************************************
+
+
+void Cmd_Set_Color(void)
+{
+
+
+unsigned int i=0;
+unsigned char data=0;
+
+
+   _printf("Set Color Cmd : ");
+   
+
+		if (QueueStatus())				    // some news?
+			op_status=PullQueue(&data);
+		else
+			return;
+						
+	    
+///	  _printf("%c",data);
+
+   if ((data >= '0')  &&  (data <= '7') ) // Protect of unexpected data
+    
+	 color=Led_Colors[data-'0']; 
+
+	
+	 _printf("\n");
+}
+
 
 
 void Unknown_Cmd(void)
