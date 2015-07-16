@@ -19,6 +19,11 @@ static unsigned char msg=0;
 
 
 
+#define  SPYSIZE 50
+unsigned char spy[SPYSIZE];
+unsigned char *pspy;
+unsigned char spycount;
+
 
 // Driver Init
 
@@ -38,7 +43,19 @@ void Sci_Init(void) {
     // Rx interrupt enable 
     
     SCI1CR2 |=  SCI1CR2_RIE_MASK; 
-
+    
+    
+    ////
+    
+    pspy=spy;
+    
+    spycount=0;
+    while(spycount++<SPYSIZE-1)
+    *pspy++=0;
+    
+     pspy=spy;
+     
+    ////
   
 }
 
@@ -104,6 +121,12 @@ void interrupt ISR_sci(void)
    
    scists=SCI1SR1;
    rxdata=SCI1DRL;
+   
+
+/////////////////
+   *pspy++=rxdata;
+/////////////////
+
   
  //  TERMIO_PutChar('[');
    TERMIO_PutChar(rxdata);
@@ -112,6 +135,12 @@ void interrupt ISR_sci(void)
   
 
 }
+
+void Reset_FSM(void) {
+
+      Sci_State= S_ILDE;
+}
+
 
 // *******************************************
 // irq_sci_fsm(void) 
@@ -141,6 +170,8 @@ void irq_sci_fsm(void)
 							
 //				_printf("SCI FSM: End Of Transmision\n");
 				msg++;
+				
+				TERMIO_PutChar('K');
 				sendsci(ACK);
 				op_status=PushQueue(EOT);
 				Sci_State=S_ILDE;
@@ -167,6 +198,9 @@ void irq_sci_fsm(void)
 //				_printf("SCI FSM: End Of message\n");
 				msg++;
 				sendsci(ACK);
+///				
+				TERMIO_PutChar('K');
+///				
 				op_status=PushQueue(0x00);
 				Sci_State=S_ILDE;
 				
@@ -184,7 +218,7 @@ void irq_sci_fsm(void)
 		default:
 	
 	  do{
-	  }while(0);   // err   
+	  }while(0);   // err       
 	  
  
 //		_printf("SCI FSM: Unexpected Event\n ");

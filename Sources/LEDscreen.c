@@ -185,37 +185,20 @@ void LEDscreen_ShiftEnded(void)
 
 
 
+
 const unsigned char* LEDscreen_decode_MSJ(const char data)
 {
-    int pos=0;
     const unsigned char* retAddr = NULL;
-    if(data >= 'a' && data <= 'z')
-    {
-        pos = data - 'a';
-        retAddr = LetrasMay[pos];
-    }
-    else if(data >= 'A' && data <= 'Z')
-    {
-        pos = data - 'A';
-        retAddr = LetrasMay[pos];
-    }
-    
-    else if(data >= '0' && data <= '9')
-    {
-        pos = data - '0';
-    }
-    else if(data == ' ')
-        retAddr = Space;
-    else if(data == '!')
-        retAddr = Exclamacion;
-    else if(data == '.')
-        retAddr = Dot;              
-                                      
-    
+	
+	retAddr = font8x8_basic[(unsigned int)data];
+
     return retAddr;
-    
-    
+       
 }
+
+
+
+
 
 /////////////////////////////////////////
 

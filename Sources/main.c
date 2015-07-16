@@ -370,9 +370,11 @@ void LEDtest3(void) {
     if( Get_End_Of_Shift_Status() == TRUE)   //Ckeck if the whole msg was sent
     {
       
-            _printf("Hallo Welt \n  ");
+            //_printf("Hallo Welt \n  ");
             
              end_of_transmision = FALSE;
+             
+             Reset_FSM();
                         
              Sci1_Putchar(XON);     // HC05 Bluetooth
              

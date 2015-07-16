@@ -29,6 +29,8 @@ unsigned char new_messages(void);
 
 unsigned char messages_count(void);
 
+void Reset_FSM(void);
+
 
 // SCI0 HC12 Serial Port
 

@@ -16,6 +16,6 @@ extern const unsigned char EnieMin[8];
 extern const unsigned char Space[8];
 extern const unsigned char Dot[8];
 extern const unsigned char Exclamacion[8];
-
+extern const unsigned char font8x8_basic[128][8];
 
 #endif /* defined(__Interface__characters8x8__) */
