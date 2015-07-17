@@ -629,7 +629,10 @@ unsigned char command_parser(CMD_STR *p2cmd)
 	if(QueueStatus())
 	{
 		op_status=PullQueue(&cmd);
-		 		
+			
+		 _printf("$(%c)-[%.2X]$",cmd,cmd);
+	
+	
 		while (p2cmd->command!= END_OF_LIST && p2cmd->command!=cmd)
 				p2cmd++;
 	
@@ -667,7 +670,7 @@ unsigned char data=0;
 			return;
 						
 	    
-	 //// _printf("%c",data);
+	  _printf("%c",data);
 	  textBuf[i++]=data; 
 	   
 	  
@@ -716,12 +719,13 @@ unsigned char data=0;
 			return;
 						
 	    
-///	  _printf("%c",data);
+	  _printf("%c",data);
 
    if ((data >= '0')  &&  (data <= '7') ) // Protect from unexpected data
     
 	 color=Led_Colors[data-'0']; 
 
+	 op_status=PullQueue(&data);  // Get terminator and discard
 	
 	 _printf("\n");
 }
