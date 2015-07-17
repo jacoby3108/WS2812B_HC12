@@ -76,7 +76,7 @@ void Set_Timer_ms(unsigned int dly)     // Non Blocking delay
 unsigned char Get_Timer_ms_Status(void)      // Non Blocking delay Status 
 {
  	
-  return(	rti_dly );	    
+  return(!(rti_dly) );	    
 
 	 
 }

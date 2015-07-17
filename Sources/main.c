@@ -118,6 +118,9 @@ static void system_init(void);
 static unsigned char end_of_transmision = FALSE;
 static unsigned char op_status;
 
+unsigned char endsts=0;
+unsigned char timsts=0; 
+
 
 void WS2812B_Test(void);
 
@@ -226,6 +229,8 @@ void main(void) {
   
 ////  LEDtest2();   // OK!!
 
+  _printf("Start");
+
   LEDtest3();
   
   
@@ -253,7 +258,7 @@ static void system_init(void)
     pll_init();	  // solo para flash  (ver config.h)
 
   #endif				     
-    
+                           
     QueueInit();
     Sci_Init();
 
@@ -290,7 +295,7 @@ void LEDtest2(void) {
     
   //  LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
-    LEDscreen_setActualMSJ("HELLO WORLD");  
+    LEDscreen_setActualMSJ("HELLO");  
   //  LEDscreen_setMSJ("LIESL");  
     
     for (;;) {    
@@ -346,7 +351,9 @@ void LEDtest2(void) {
     
      
     
-}     
+}    
+
+#define TIME_OUT 1 
 
 void LEDtest3(void) {
   
@@ -356,7 +363,7 @@ void LEDtest3(void) {
     
  //   LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
-    LEDscreen_setActualMSJ("NEW WORLD");  
+    LEDscreen_setActualMSJ("NEW");  
  
     
     for (;;) {    
@@ -375,20 +382,33 @@ void LEDtest3(void) {
              end_of_transmision = FALSE;
              
              Reset_FSM();
+             
+             QueueInit();
                         
              Sci1_Putchar(XON);     // HC05 Bluetooth
              
              rti_start();                     // Non Blocking W/hardware Timer
     
-             Set_Timer_ms(1000);
+             Set_Timer_ms(3000);    // 2 seconds window
   
-  
-  
-     ///         while( Get_Timer_ms_Status())
-     
-     //           ;
+ 
+/* TIMER TEST 
+             _printf("Timer in \n");
+           while(1){
+            
+             if( Get_Timer_ms_Status()) {
+              
+                  _printf("Timer\n");
+                    
+                    Set_Timer_ms(1000);     
+                        
+             }
+           }
+TIMER TEST END*/           
 		
      //// _printf("-(%c)[%.2X]-",ch,ch);
+    
+             
     
               do  
               {
@@ -400,7 +420,14 @@ void LEDtest3(void) {
             
               }
               
-              while ((end_of_transmision ==  FALSE) && Get_Timer_ms_Status());
+              while ((endsts=(end_of_transmision ==  FALSE)) && (timsts=(Get_Timer_ms_Status()!=TIME_OUT)));
+            
+               if(!endsts)
+                   _printf("endoftrans EOT\n");
+               if(!timsts)
+                  _printf("timout EOT\n");
+            
+ 
             
            
               rti_stop(); 
