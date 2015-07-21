@@ -4,6 +4,9 @@
 
 #include "mc9s12xdp512.h"
 
+// SCK0  pin 11 H4   (Clk in 74HC595)
+// MOSI0 pin 10 H4   (Data in 74HC595)
+// SS0   pin 12 H4   (LOAD 74HC595)
 
   
 

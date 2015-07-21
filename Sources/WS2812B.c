@@ -35,8 +35,8 @@ static unsigned char *p2rgb;      // Poiner to data to be send over DIN pin (WS2
 //static unsigned char rgb_row=0;
     
 
-
-
+// OC6  pin 17 H3   (Din WS2812B)
+// OC7  pin 18 H3   (Scope Test Point)
 
 // ======================================
 

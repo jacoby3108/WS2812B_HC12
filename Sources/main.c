@@ -13,7 +13,7 @@
 #include "cqueue.h"
 #include "sci.h"
 #include "spi.h"
-
+#include "adc.h"
 
 
 
@@ -120,6 +120,7 @@ static unsigned char op_status;
 
 unsigned char endsts=0;
 unsigned char timsts=0; 
+unsigned int adcval=0;
 
 
 void WS2812B_Test(void);
@@ -267,6 +268,8 @@ static void system_init(void)
     DDRA = 0xFF;
     
     init_SPI();
+    
+    atd_init();
  
     
 //    rti_init();
@@ -375,6 +378,9 @@ void LEDtest3(void) {
     for (;;) {    
     
       
+    adcval=atd_getsample();
+      _printf("ADC;%d \n",adcval);
+    
     
     putcspi0(show_led++);
     
