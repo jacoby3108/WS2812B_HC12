@@ -124,7 +124,7 @@ void interrupt ISR_sci(void)
    
 
 /////////////////
-   *pspy++=rxdata;          // OJOOOOOOOOOOOOOOOOOOOOOO
+////   *pspy++=rxdata;          // OJO !!!! solo para debug sino pisa la memoria
 /////////////////
 
   

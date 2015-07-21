@@ -12,7 +12,7 @@
 
 #include "cqueue.h"
 #include "sci.h"
-
+#include "spi.h"
 
 
 
@@ -23,7 +23,7 @@
 #include "LEDscreen.h"                    
 #include "ws2812b.h"
 
-#define _putchar            (void)putchar
+#define _putchar           (void)putchar
 #define _printf            (void)printf
 
 #define OK 0
@@ -266,6 +266,9 @@ static void system_init(void)
     PORTA = 0x00;
     DDRA = 0xFF;
     
+    init_SPI();
+ 
+    
 //    rti_init();
 }
 
@@ -359,7 +362,10 @@ void LEDtest3(void) {
   
 
     LEDSTR *p2Matrix=NULL;  
-    	unsigned char temp;
+    unsigned char temp;
+    unsigned char show_led=0;
+    
+    
     
  //   LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
@@ -367,6 +373,10 @@ void LEDtest3(void) {
  
     
     for (;;) {    
+    
+      
+    
+    putcspi0(show_led++);
     
     p2Matrix=LEDscreen_getScreenAddress();
     
@@ -389,7 +399,7 @@ void LEDtest3(void) {
              
              rti_start();                     // Non Blocking W/hardware Timer
     
-             Set_Timer_ms(3000);    // 2 seconds window
+             Set_Timer_ms(3000);    // 3 seconds window
   
  
 /* TIMER TEST 
@@ -423,9 +433,9 @@ TIMER TEST END*/
               while ((endsts=(end_of_transmision ==  FALSE)) && (timsts=(Get_Timer_ms_Status()!=TIME_OUT)));
             
                if(!endsts)
-                   _printf("endoftrans EOT\n");
+                   _printf("end_of_trans EOT\n");
                if(!timsts)
-                  _printf("timout EOT\n");
+                  _printf("timeout EOT\n");
             
  
             
