@@ -378,7 +378,8 @@ void LEDtest3(void) {
     for (;;) {    
     
       
-    adcval=atd_getsample();
+       adcval=atd_getsample();
+       
       _printf("ADC;%d \n",adcval);
     
     
@@ -686,7 +687,8 @@ unsigned char data=0;
 			return;
 						
 	    
-	  _printf("%c",data);
+	  //_printf("%c",data);
+	  //	 _printf("*(%c)-[%.2X]* ",data,data);
 	  textBuf[i++]=data; 
 	   
 	  

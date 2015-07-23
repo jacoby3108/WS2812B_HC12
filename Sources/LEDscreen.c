@@ -8,6 +8,10 @@
 
 #include "LEDscreen.h"
 #include "characters8x8.h"
+#include <stdio.h>
+
+#define _putchar           (void)putchar
+#define _printf            (void)printf
 
 
 //#define DIM_MATRIX 8  // Filas y columnas de un bloque de LEDs
@@ -190,7 +194,8 @@ const unsigned char* LEDscreen_decode_MSJ(const char data)
 {
     const unsigned char* retAddr = NULL;
 	
-	retAddr = font8x8_basic[(unsigned int)data];
+///_printf("*(%c)-[%.2X]* ",data,data);
+	  retAddr = font8x8_basic[((unsigned int)data) & 0x00FF];        //Avoid Sign Extension
 
     return retAddr;
        
