@@ -44,6 +44,10 @@ unsigned char command_parser(CMD_STR *p2cmd);
 void Cmd_Set_Text(void);	
 void Cmd_Set_Color(void);
 
+void Cmd_Set_Speed(void);
+
+
+
 void Cmd_No_more_msj(void);	
 void Unknown_Cmd(void);		  
 
@@ -54,8 +58,8 @@ CMD_STR commands[]= {
 					
 					 {'T',Cmd_Set_Text },	//text
 					 {'C',Cmd_Set_Color},	//color
-					 {'S',Cmd_Set_Text },	//speed
-					 {'S',Cmd_Set_Text },
+					 {'S',Cmd_Set_Speed },	//speed
+					 {'B',Cmd_Set_Text },
 					 
 					 {EOT,Cmd_No_more_msj},
 					 
@@ -65,9 +69,6 @@ CMD_STR commands[]= {
 					 
 	
 	
-
-
-
 
 
 // ===================================================================
@@ -197,12 +198,33 @@ void timetoshift(void)
 
 {
 
-_printf("shift\n") ;
+_printf("shift\n") ;             
 
 
 }
 
-                       
+
+#define DEFAULT_SPEED  20     // '3'
+  
+unsigned int speed; 
+
+#define S_0  1  
+#define S_1  5  
+#define S_2  10  
+#define S_3  20 
+#define S_4  40  
+#define S_5  50 
+#define S_6  80 
+#define S_7  100 
+#define S_8  200 
+#define S_9  300
+
+
+
+unsigned int SpeedTable[]={S_0,S_1,S_2,S_3,S_4,S_5,S_6,S_7,S_8,S_9};    // 0-9
+
+
+              
 void main(void) {                  
   
  
@@ -253,6 +275,7 @@ static void system_init(void)
 
 
 
+  _asm sei; 
 
   #ifdef FLASH     
 
@@ -270,9 +293,16 @@ static void system_init(void)
     init_SPI();
     
     atd_init();
+    
+    rti_start();
+    
+    speed=DEFAULT_SPEED;   // message shift speed
  
     
 //    rti_init();
+
+  _asm cli; 
+
 }
 
 
@@ -404,7 +434,7 @@ void LEDtest3(void) {
                         
              Sci1_Putchar(XON);     // HC05 Bluetooth
              
-             rti_start();                     // Non Blocking W/hardware Timer
+ ////////            rti_start();                     // Non Blocking W/hardware Timer
     
              Set_Timer_ms(3000);    // 3 seconds window
   
@@ -447,7 +477,7 @@ TIMER TEST END*/
  
             
            
-              rti_stop(); 
+       //////////////       rti_stop(); 
               
             
               while(QueueStatus())                  /// cleanup
@@ -470,10 +500,19 @@ TIMER TEST END*/
     
     PORTA &= 0xFE;          //21.3 ms        
     
-    test_delay(100);        //24.8 ms
+    
+ /// Set_Timer_ms(24);       // 24 ms   esto es normal velocidad posta
+     
+     
+     Set_Timer_ms(speed); 
+     while (Get_Timer_ms_Status()!=TIME_OUT) ;
+     
+   // test_delay(100);        //24.8 ms  (OLD)
     
   
-    
+
+
+
                                     
        _asm nop;
        _asm nop;   
@@ -747,6 +786,64 @@ unsigned char data=0;
 	
 	 _printf("\n");
 }
+
+
+
+ //*****************************************
+//
+//      Cmd_Set_Speed
+//
+//
+//*****************************************
+
+
+void Cmd_Set_Speed(void)
+{
+
+
+unsigned int i=0;
+unsigned char data=0;                                                   
+
+
+   _printf("Set Speed Cmd : ");
+   
+
+		if (QueueStatus())				    // some news?
+			op_status=PullQueue(&data);
+		else
+			return;
+						
+	    
+	  _printf("%c",data);
+
+   if ((data >= '0')  &&  (data <= '9') ) // Protect from unexpected data
+    
+	 speed=SpeedTable[data-'0']; 
+
+	 op_status=PullQueue(&data);  // Get terminator and discard
+	
+	 _printf("\n");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+         
+
+
+
+
 
 
 
