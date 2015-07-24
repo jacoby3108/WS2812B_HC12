@@ -22,7 +22,7 @@ void Sci_Init(void);
 // SCI1 HC05 Bluetooth
 
 void Sci1_Putchar(unsigned char ch);    
-
+                                            
 unsigned char Sci1_Gechar(void);
 
 unsigned char new_messages(void);
@@ -30,6 +30,8 @@ unsigned char new_messages(void);
 unsigned char messages_count(void);
 
 void Reset_FSM(void);
+
+void sendsci(unsigned char);
 
 
 // SCI0 HC12 Serial Port

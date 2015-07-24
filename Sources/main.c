@@ -23,6 +23,8 @@
 #include "LEDscreen.h"                    
 #include "ws2812b.h"
 
+#include "sci.h"
+
 #define _putchar           (void)putchar
 #define _printf            (void)printf
 
@@ -46,7 +48,7 @@ void Cmd_Set_Color(void);
 
 void Cmd_Set_Speed(void);
 
-
+void Cmd_Rd_Battery(void);
 
 void Cmd_No_more_msj(void);	
 void Unknown_Cmd(void);		  
@@ -59,7 +61,7 @@ CMD_STR commands[]= {
 					 {'T',Cmd_Set_Text },	//text
 					 {'C',Cmd_Set_Color},	//color
 					 {'S',Cmd_Set_Speed },	//speed
-					 {'B',Cmd_Set_Text },
+					 {'B',Cmd_Rd_Battery },  // Battery Status
 					 
 					 {EOT,Cmd_No_more_msj},
 					 
@@ -823,6 +825,45 @@ unsigned char data=0;
 	 op_status=PullQueue(&data);  // Get terminator and discard
 	
 	 _printf("\n");
+}
+
+
+
+ //*****************************************
+//
+//      Cmd_Rd_Battery
+//
+//
+//*****************************************
+
+
+void Cmd_Rd_Battery(void)
+{
+
+
+
+unsigned char data=0;                                                   
+
+
+   _printf("Rd_Battery Cmd : ");
+   
+
+		if (QueueStatus())				    // some news?
+			op_status=PullQueue(&data); // Get terminator and discard
+		else
+			return;
+			
+	 
+	 
+	 // send STX data ETX          data is Battery Status
+	 	sendsci(STX);
+	 	
+	 	sendsci('N');       // Mando estado de bateria
+	 	
+	 	sendsci(ETX);
+	 
+	 
+	 
 }
 
 
