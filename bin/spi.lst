@@ -1,0 +1,112 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  
+    2:  
+    3:  #include "spi.h"
+    4:  
+    5:  #include "mc9s12xdp512.h"
+    6:  
+    7:  // SCK0  pin 11 H4   (Clk in 74HC595)
+    8:  // MOSI0 pin 10 H4   (Data in 74HC595)
+    9:  // SS0   pin 12 H4   (LOAD 74HC595)
+   10:  
+   11:    
+   12:  
+   13:  // Driver Init
+   14:  
+   15:  void init_SPI(void) {
+
+Function: init_SPI
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\spi.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\spi.c.o" -WmsgSd1106
+
+   16:   
+   17:    DDRS=DDRS |PTS_PTS7_MASK ;      // SS Out  (latch for 74HC595)
+  0000 1c000080     [4]     BSET  _DDRS,#128
+   18:    PTS_PTS7=1;                     // SS Ilde (latch for 74HC595)
+  0004 1c000080     [4]     BSET  _PTS,#128
+   19:             
+   20:    // Bus Clock 40MHz 
+   21:  
+   22:    SPI0BR = ( 0b100 << SPI0BR_SPPR_BITNUM ) | ( 0b010 << SPI0BR_SPR_BITNUM );	  // set baud BusCLk / 40   1MHz
+  0008 cc5042       [2]     LDD   #20546
+  000b 5b00         [2]     STAB  _SPI0BR
+   23:  	SPI0CR1=SPI0CR1_SPE_MASK | SPI0CR1_MSTR_MASK;       //latched on rising edge, data transferred msb first
+  000d 5a00         [2]     STAA  _SPI0CR1
+   24:  	SPI0CR2=0x00;         
+  000f 790000       [3]     CLR   _SPI0CR2
+   25:  //	WOMS =0;              //enable Port S pull-up
+   26:  	
+   27:  }
+  0012 3d           [5]     RTS   
+   28:  
+   29:  
+   30:  // Driver ISR
+   31:  
+   32:  
+   33:  
+   34:  // Driver Services
+   35:   
+   36:   
+   37:   
+   38:  void putcspi0 (char cx)
+   39:  {
+
+Function: putcspi0
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\spi.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\spi.c.o" -WmsgSd1106
+
+  0000 37           [2]     PSHB  
+   40:  	    char 	temp;
+   41:  	    
+   42:  	    PTS_PTS7=0; // SS Low     (latch for 74HC595)
+  0001 1d000080     [4]     BCLR  _PTS,#128
+   43:  	    
+   44:       	while(!(SPI0SR & SPI0SR_SPTEF_MASK)); 	/* wait until write is permissible */
+  0005 4f0020fc     [4]     BRCLR _SPI0SR,#32,*+0 ;abs = 0005
+   45:       	SPI0DR = cx;              	            /* output the byte to the SPI */
+  0009 e680         [3]     LDAB  0,SP
+  000b 5b00         [2]     STAB  _SPI0DR
+   46:       	while(!(SPI0SR & SPI0SR_SPIF_MASK));  	/* wait until write operation is complete */
+  000d 4f0080fc     [4]     BRCLR _SPI0SR,#128,*+0 ;abs = 000d
+   47:  	    temp 	= SPI0DR;	                        /* clear the SPIF flag */
+  0011 d600         [3]     LDAB  _SPI0DR
+   48:  	    
+   49:  	    PTS_PTS7=1; // SS goes Hi (latch for 74HC595 rising edge Shift regitrer is transfered to parallel outpus)
+  0013 1c000080     [4]     BSET  _PTS,#128
+   50:  	    
+   51:  	    
+   52:  }
+  0017 1b81         [2]     LEAS  1,SP
+  0019 3d           [5]     RTS   
+   53:  
+   54:  
+   55:  char getcspi0(void)
+   56:  {
+
+Function: getcspi0
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\spi.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\spi.c.o" -WmsgSd1106
+
+   57:        char algo=0x045;
+  0000 c645         [1]     LDAB  #69
+  0002 37           [2]     PSHB  
+   58:       	while(!(SPI0SR & SPI0SR_SPTEF_MASK)); 	/* wait until write is permissible */
+  0003 4f0020fc     [4]     BRCLR _SPI0SR,#32,*+0 ;abs = 0003
+   59:       	SPI0DR = algo; 	                        /* trigger 8 SCK pulses to shift in data */
+  0007 e680         [3]     LDAB  0,SP
+  0009 5b00         [2]     STAB  _SPI0DR
+   60:       	while(!(SPI0SR & SPI0SR_SPIF_MASK));  	/* wait until a byte has been shifted in */
+  000b 4f0080fc     [4]     BRCLR _SPI0SR,#128,*+0 ;abs = 000b
+   61:       	return SPI0DR; 	                        /* return the character */
+  000f d600         [3]     LDAB  _SPI0DR
+   62:  }
+  0011 1b81         [2]     LEAS  1,SP
+  0013 3d           [5]     RTS   
+   63:  
+   64:  
+   65:  
+   66:  
+   67:  
+   68:  
+   69:  

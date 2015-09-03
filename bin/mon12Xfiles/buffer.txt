@@ -1,49 +1,49 @@
-g -t
 load ram.s19
-g -t
 load ram.s19
-g -t
 load ram.s19
-g -t
+port com9
 
+
+load ram.s19
+port com9
+load ram.s19
 port com9
 load ram.s19
 g -t
 
-
-reg
-
-
-reg
-
+port com9
+port com9
+load ram.s19
+load ram.s19
 
 
-regsa
+
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
+
 regs
+load ram.s19
+g -t
+load ram.s19
+g -t
+load ram.s19
+g -t
+
+reegs
 regs
 load ram.s19
 g -t
-g t 
-g 
 load ram.s19
 g -t
 load ram.s19
 g -t
 load ram.s19
-g
+
+g -t
 load ram.s19
-g
+g -t
 load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
-load ram.s19
-g
+g -t

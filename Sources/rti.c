@@ -1,5 +1,29 @@
 #include "mc9s12xdp512.h"
 #include "rti.h"
+#include "spi.h"
+
+#define PARTY_RELOAD 100                    // 100 ms
+#define FALSE 0
+#define TRUE  1
+
+
+
+static unsigned int  party_counter=PARTY_RELOAD;
+static unsigned char show_led=0;
+static unsigned int  Party_Enabled=FALSE;
+
+
+unsigned char Party_Show[]={
+                            0b01010101, //1
+                            0b11101101,
+                            0b00000000,
+                            0b11101110,
+                            0b01010101,
+                            0b10101010,
+						              	0b01110111,
+							              0b11001100,
+                           };
+
 
 static volatile unsigned int rti_dly;
 
@@ -79,7 +103,7 @@ unsigned char Get_Timer_ms_Status(void)      // Non Blocking delay Status
   return(!(rti_dly) );	    
 
 	 
-}
+}         
 
 
 
@@ -99,8 +123,46 @@ void interrupt ISR_rti(void)
 	
 	// pump down user timer  
 	if (rti_dly) rti_dly--;
+	
+	
+	if (party_counter) 
+	
+	  party_counter--;
+
+	else 
+	{
+	  
+	  party_counter=PARTY_RELOAD;
+
+
+   if(Party_Enabled==TRUE)
+	
+	  //  putcspi0(Party_Show[0x07 & show_led++]);
+	    putcspi0(0xFF);
+	
+	}
+}
+
+
+void   Set_Party_Mode_On(void)
+{
+
+        
+        Party_Enabled=TRUE; 
+
 
 }
+
+void   Set_Party_Mode_Off(void)
+{
+
+        
+        Party_Enabled=FALSE; 
+
+
+}
+
+
 
 
 

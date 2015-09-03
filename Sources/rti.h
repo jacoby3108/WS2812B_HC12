@@ -14,4 +14,10 @@ unsigned char Get_Timer_ms_Status(void);
 
 
 
+void   Set_Party_Mode_On(void);
+void   Set_Party_Mode_Off(void);
+
+
+
+
 #endif

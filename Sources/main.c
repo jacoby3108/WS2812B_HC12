@@ -49,6 +49,8 @@ void Cmd_Set_Color(void);
 void Cmd_Set_Speed(void);
 
 void Cmd_Rd_Battery(void);
+void Cmd_Set_Intensity(void);
+void Cmd_Set_Party(void);
 
 void Cmd_No_more_msj(void);	
 void Unknown_Cmd(void);		  
@@ -58,10 +60,13 @@ void Unknown_Cmd(void);
 
 CMD_STR commands[]= { 
 					
-					 {'T',Cmd_Set_Text },	//text
-					 {'C',Cmd_Set_Color},	//color
-					 {'S',Cmd_Set_Speed },	//speed
-					 {'B',Cmd_Rd_Battery },  // Battery Status
+					 {'T',Cmd_Set_Text },	      //text
+					 {'C',Cmd_Set_Color},	      //color
+					 {'S',Cmd_Set_Speed },	    //speed
+					 {'I',Cmd_Set_Intensity },  // Set Intensity
+					 {'B',Cmd_Rd_Battery },     // Battery Status
+					 {'F',Cmd_Set_Party },     // Fiesta!!!
+					 
 					 
 					 {EOT,Cmd_No_more_msj},
 					 
@@ -140,6 +145,11 @@ void test_delay(unsigned int dly);
 void Matrix2Vector(LEDSTR *);
 void Set_Color(LEDSTR  );
 
+void Set_Intensity(unsigned char new_intensity);
+
+
+
+
 LEDSTR DestLedScreen [TEST_ROWS*TEST_COLS];  // The data stored is sent directly to the RGB Led Display      
 
 void PrintMatrix(LEDSTR * p2Matrix);
@@ -150,9 +160,10 @@ void PrintMatrix(LEDSTR * p2Matrix);
 
 // Green  Red  Blue
 
-
 //LEDSTR colorLEDsON = {0xff,0xff,0xff};           
 //LEDSTR colorLEDsOFF = {0x00,0x00,0x00};
+
+
 
 LEDSTR color={I_MAX,I_MAX,I_MAX};  // White (default)
 
@@ -181,15 +192,11 @@ LEDSTR Led_Colors[]={{0x00 ,0x00 ,0x00 },     // Black
 
 
 
+#define DEFAULT_INTENSITY  I_MAX  // '0'
 
 
-
-
-
-
-
-
-
+unsigned char Intensity_Table[]={I_MAX,I_MAX/2,I_MAX/4};  //'0'-'2'
+unsigned char Led_intensity; 
 
 
 void Cqtestbench(void);
@@ -206,6 +213,9 @@ _printf("shift\n") ;
 }
 
 
+
+// -----------------------------------------------
+
 #define DEFAULT_SPEED  20     // '3'
   
 unsigned int speed; 
@@ -221,16 +231,17 @@ unsigned int speed;
 #define S_8  200 
 #define S_9  300
 
-
-
 unsigned int SpeedTable[]={S_0,S_1,S_2,S_3,S_4,S_5,S_6,S_7,S_8,S_9};    // 0-9
+
+
+// -----------------------------------------------
 
 
               
 void main(void) {                  
   
  
-
+               
  
  
  system_init();
@@ -296,9 +307,11 @@ static void system_init(void)
     
     atd_init();
     
-    rti_start();
-    
+    rti_start();      
+
+                 
     speed=DEFAULT_SPEED;   // message shift speed
+    Led_intensity=DEFAULT_INTENSITY;
  
     
 //    rti_init();
@@ -326,7 +339,7 @@ static void system_init(void)
 
  
 
-void LEDtest2(void) {
+void LEDtest2(void) {        //// ojo no va mas   (only for tests)
   
 
     LEDSTR *p2Matrix=NULL;  
@@ -350,6 +363,8 @@ void LEDtest2(void) {
                                                   
     
     Matrix2Vector(p2Matrix);     // Convert Matrix to Vector
+    
+    
     
     Set_Color(color);      
     
@@ -398,7 +413,7 @@ void LEDtest3(void) {
 
     LEDSTR *p2Matrix=NULL;  
     unsigned char temp;
-    unsigned char show_led=0;
+//    unsigned char show_led=0;
     
     
     
@@ -412,10 +427,10 @@ void LEDtest3(void) {
       
        adcval=atd_getsample();
        
-      _printf("ADC;%d \n",adcval);
+   ///   _printf("ADC;%d \n",adcval);
     
     
-    putcspi0(show_led++);
+  /////  putcspi0(show_led++);
     
     p2Matrix=LEDscreen_getScreenAddress();
     
@@ -455,11 +470,11 @@ void LEDtest3(void) {
            }
 TIMER TEST END*/           
 		
-     //// _printf("-(%c)[%.2X]-",ch,ch);
+     //// _printf("-(%c)[%.2X]-",ch,ch);   
     
              
     
-              do  
+              do    
               {
                     if(messages_count())
                     _printf("Remaining mess %d\n",messages_count());
@@ -474,10 +489,10 @@ TIMER TEST END*/
                if(!endsts)
                    _printf("end_of_trans EOT\n");
                if(!timsts)
-                  _printf("timeout EOT\n");
+                  _printf("timeout EOT\n");                  
             
  
-            
+             
            
        //////////////       rti_stop(); 
               
@@ -490,7 +505,10 @@ TIMER TEST END*/
     
     Matrix2Vector(p2Matrix);     // Convert Matrix to Vector
     
-    Set_Color(color);      
+    Set_Color(color); 
+    
+    Set_Intensity(Led_intensity);
+      
     
     WS2812B_Init();
     
@@ -828,6 +846,134 @@ unsigned char data=0;
 }
 
 
+ //*****************************************
+//
+//      Cmd_Set_Party
+//
+//
+//*****************************************
+
+
+void Cmd_Set_Party(void)
+{
+
+
+unsigned int i=0;
+unsigned char data=0;                                                   
+
+
+   _printf("Set Party Cmd : ");
+   
+
+		if (QueueStatus())				    // some news?
+			op_status=PullQueue(&data);
+		else
+			return;
+						
+	    
+	  _printf("%c",data);
+
+   if ((data >= '0')  &&  (data <= '1') ) // Protect from unexpected data
+   {
+    
+	  if (data == '1') 
+	  Set_Party_Mode_On();
+	  if (data == '0')
+	  Set_Party_Mode_Off();
+	  
+	 }
+	  
+	 
+
+	 op_status=PullQueue(&data);  // Get terminator and discard
+	
+	 _printf("\n");
+}
+
+
+
+
+ //*****************************************
+//
+//      Cmd_Set_Intensity
+//
+//
+//*****************************************
+
+
+void Cmd_Set_Intensity(void)
+{
+
+
+unsigned int i=0;
+unsigned char data=0;                                                   
+
+
+   _printf("Set Intensity Cmd : ");
+   
+
+		if (QueueStatus())				    // some news?
+			op_status=PullQueue(&data);
+		else
+			return;
+						
+	    
+	  _printf("%c",data);
+
+   if ((data >= '0')  &&  (data <= '2') ) // Protect from unexpected data
+    
+	Led_intensity=Intensity_Table[data-'0']; 
+
+	 op_status=PullQueue(&data);  // Get terminator and discard
+	
+	 _printf("\n");
+}
+
+
+
+
+
+
+
+void Set_Intensity(unsigned char new_intensity)
+
+{
+
+
+  if (color.Green==0 && color.Blue==0 && color.Red==0)
+
+      return;
+
+  else {
+  
+      if(color.Green)
+    
+         color.Green=new_intensity;
+     
+      
+      if(color.Green)
+    
+        color.Blue=new_intensity;
+       
+       
+      if(color.Green)
+    
+         color.Red=new_intensity;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  //*****************************************
 //
@@ -865,24 +1011,6 @@ unsigned char data=0;
 	 
 	 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         
-         
-
-
 
 
 

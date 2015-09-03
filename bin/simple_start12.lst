@@ -1,0 +1,139 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  /* Código de Startup ANSI-C para HCS12, small memory model. Versión minimalista. */
+    2:  
+    3:  /* El vector de reset apunta a la función _Startup (más abajo). Ese código hace lo siguiente:
+    4:      1) inicializa stack pointer:
+    5:              - Para eso, el linker define el símbolo __SEG_END_SSTACK, que indica el valor a cargar en SP
+    6:         
+    7:      2) pone en cero las áreas de RAM donde se encuentran las variables  
+    8:              - Cuando hago "static char var;", 'var' debe valer cero al inicio del programa.
+    9:                 Como 'var' está reservado en RAM, y la RAM puede tener cualquier valor cuando se resetea el micro,
+   10:                 entonces alguien debe ponerla en cero antes de que se llame a 'main'. Este trabajo lo hace
+   11:                 el código de _Startup.
+   12:      
+   13:      3) copia los valores de las variables inicializadas (de ROM a RAM)
+   14:              - Cuando hago "static char buff[] = {11, 22};", 'buff' debe valer {11,22} al inicio del programa.
+   15:                 Como 'buff' está reservado en RAM, alguien debe cargar los valores {11,22} en 'buff' antes de
+   16:                 que se llame a 'main'. El código de _Startup copia los valores {11,22} de ROM a RAM.
+   17:      
+   18:      4) jump a main                                 
+   19:              - Como, en teoría, 'main' no retorna nunca, no vamos a gastar stack con un JSR. Directamente hacemos
+   20:                 un JMP.
+   21:  */
+   22:  
+   23:  
+   24:  /* attention: the linker scans the debug information for these structures */
+   25:  /* to obtain the available fields and their sizes. */
+   26:  /* So do not change the names in this file. */
+   27:  typedef struct _Range {
+   28:    unsigned char * beg; 
+   29:    int size;
+   30:  } _Range;
+   31:  
+   32:  typedef struct _Copy {
+   33:      int size; 
+   34:      unsigned char * dest;
+   35:  } _Copy;
+   36:  
+   37:      
+   38:  /* _startupData está reservada en ROM, e inicializada por el linker */
+   39:  #pragma DATA_SEG STARTUP_DATA 
+   40:  struct {
+   41:       unsigned int   nofZeroOuts;    /* number of zero out ranges */
+   42:       _Range         *pZeroOut;      /* vector of ranges with nofZeroOuts elements */
+   43:       _Copy          *toCopyDownBeg; /* rom-address where copydown-data begins */
+   44:  } _startupData;
+   45:  #pragma DATA_SEG DEFAULT
+   46:  
+   47:  
+   48:  /* símbolos definidos externos a este archivo */
+   49:  extern char __SEG_END_SSTACK[];     /* este símbolo lo define el linker */
+   50:  void main(void);                    /* prototipo de main */
+   51:  
+   52:  /* ¡Hay que decirle al Linker que cargue el vector de reset con la dirección de _Startup! (ver ivt.c) */
+   53:  #pragma MESSAGE DISABLE C12053 /* Stack-pointer change not in debugging-information */
+   54:  #pragma NO_ENTRY    /* deshabilita la generación de código "extra" de entrada. */
+   55:  #pragma NO_EXIT     /* deshabilita la generación de código "extra" de salida. */
+   56:  #pragma NO_RETURN   /* deshabilita la generación del RTS */
+   57:  void _Startup(void) 
+   58:  {
+
+Function: _Startup
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\simple_start12.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\simple_start12.c.o" -WmsgSd12053
+
+   59:      __asm {
+   60:      
+   61:  /* estos NOPs no son necesarios, pero el simulador tiene un BUG
+   62:      que se soluciona de esta manera: */
+   63:                  NOP
+  0000 a7           [1]     NOP   
+   64:                  NOP
+  0001 a7           [1]     NOP   
+   65:                  NOP
+  0002 a7           [1]     NOP   
+   66:                  NOP
+  0003 a7           [1]     NOP   
+   67:                  
+   68:  /* inicializar stack pointer */
+   69:                  LDS #__SEG_END_SSTACK;
+  0004 cf0000       [2]     LDS   #__SEG_END_SSTACK
+   70:     
+   71:  /* zero out */
+   72:  ZeroOut:
+   73:                  LDX   _startupData.pZeroOut    ; X=*pZeroOut
+  0007 fe0000       [3]     LDX   _startupData:2
+   74:                  LDY   _startupData.nofZeroOuts ; Y=nofZeroOuts
+  000a fd0000       [3]     LDY   _startupData
+   75:                  BEQ   CopyDown                 ; if nothing to zero out
+  000d 270e         [3/1]   BEQ   *+16 ;abs = 001d
+   76:  
+   77:  NextZeroOut:    PSHY                           ; save nofZeroOuts
+  000f 35           [2]     PSHY  
+   78:                  LDY   2,X+                     ; Y=start address, X=X+2
+  0010 ed31         [3]     LDY   2,X+
+   79:                  LDD   2,X+                     ; D=byte count, X=X+2
+  0012 ec31         [3]     LDD   2,X+
+   80:  
+   81:  NextWord:       CLR   1,Y+                     ; clear memory byte
+  0014 6970         [2]     CLR   1,Y+
+   82:                  DBNE  D, NextWord              ; dec byte count
+  0016 0434fb       [3]     DBNE  D,*-2 ;abs = 0014
+   83:  
+   84:                  PULY                           ; restore nofZeroOuts
+  0019 31           [3]     PULY  
+   85:                  DEY                            ; dec nofZeroOuts
+  001a 03           [1]     DEY   
+   86:                  BNE  NextZeroOut
+  001b 26f2         [3/1]   BNE   *-12 ;abs = 000f
+   87:  
+   88:  
+   89:  /* copy down */
+   90:  CopyDown:
+   91:                  LDX   _startupData.toCopyDownBeg ; load address of copy down desc.
+  001d fe0000       [3]     LDX   _startupData:4
+   92:  
+   93:  NextBlock:      LDD   2,X+                     ; D=size of init-data, X=X+2
+  0020 ec31         [3]     LDD   2,X+
+   94:                  BEQ   Done                     ; end of copy down desc.
+  0022 270b         [3/1]   BEQ   *+13 ;abs = 002f
+   95:                  LDY   2,X+                     ; Y=destination address, X=X+2
+  0024 ed31         [3]     LDY   2,X+
+   96:  
+   97:  Copy:           MOVB  1,X+,1,Y+                ; move a byte from ROM to the data area
+  0026 180a3070     [5]     MOVB  1,X+,1,Y+
+   98:                  DBNE  D,Copy                   ; copy-byte loop
+  002a 0434f9       [3]     DBNE  D,*-4 ;abs = 0026
+   99:  
+  100:                  BRA   NextBlock
+  002d 20f1         [3]     BRA   *-13 ;abs = 0020
+  101:  
+  102:  /* jump a main(). ¡Asegurarse de no ejecutar NUNCA un RTS en main()! */
+  103:  Done:
+  104:                  JMP main;
+  002f 060000       [3]     JMP   main
+  105:  
+  106:      }
+  107:  }
+  108:  

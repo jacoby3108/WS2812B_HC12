@@ -1,0 +1,153 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  //Vectores de interrupción para MonS12X
+    2:  
+    3:  #include "config.h"
+    4:  
+    5:  #ifndef NOTUSED
+    6:  #define NOTUSED ((const *)0xFFFF)
+    7:  #endif
+    8:  
+    9:  extern void _Startup(); /* startup routine */
+   10:  extern void ISR_rti();
+   11:  extern void ISR_sci();
+   12:  
+   13:  #pragma CODE_SEG __NEAR_SEG NON_BANKED /* Interrupt section for this module. Placement will be in NON_BANKED area. */
+   14:  
+   15:  __interrupt void UnimplementedISR(void)  {                                                 
+
+Function: UnimplementedISR
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\ivt.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\ivt.c.o"
+
+   16:     asm BGND; /* Unimplemented ISRs trap.*/
+  0000 00           [5]     BGND  
+   17:  }                                         
+  0001 0b           [8]     RTI   
+   18:  
+   19:  #pragma CONST_SEG VECTORS
+   20:  
+   21:  void (* const interrupt_vector_table[])() ={
+   22:      NOTUSED,	// VECT119	spurious
+   23:      NOTUSED,	// VECT118	Reserved119
+   24:      NOTUSED,	// VECT117	Reserved118
+   25:      NOTUSED,	// VECT116	Reserved117
+   26:      NOTUSED,	// VECT115	Reserved116
+   27:      NOTUSED,	// VECT114	Reserved115
+   28:      NOTUSED,	// VECT113	Reserved114
+   29:      NOTUSED,	// VECT112	Reserved113
+   30:      NOTUSED,	// VECT111	Reserved112
+   31:      NOTUSED,	// VECT110	Reserved111
+   32:      NOTUSED,	// VECT109	Reserved110
+   33:      NOTUSED,	// VECT108	Reserved109
+   34:      NOTUSED,	// VECT107	Reserved108
+   35:      NOTUSED,	// VECT106	Reserved107
+   36:      NOTUSED,	// VECT105	Reserved106
+   37:      NOTUSED,	// VECT104	Reserved105
+   38:      NOTUSED,	// VECT103	Reserved104
+   39:      NOTUSED,	// VECT102	Reserved103
+   40:      NOTUSED,	// VECT101	Reserved102
+   41:      NOTUSED,	// VECT100	Reserved101
+   42:      NOTUSED,	// VECT99	Reserved100
+   43:      NOTUSED,	// VECT98	Reserved99
+   44:      NOTUSED,	// VECT97	Reserved98
+   45:      NOTUSED,	// VECT96	Reserved97
+   46:      NOTUSED,	// VECT95	Reserved96
+   47:      NOTUSED,	// VECT94	Reserved95
+   48:      NOTUSED,	// VECT93	Reserved94
+   49:      NOTUSED,	// VECT92	Reserved93
+   50:      NOTUSED,	// VECT91	Reserved92
+   51:      NOTUSED,	// VECT90	Reserved91
+   52:      NOTUSED,	// VECT89	Reserved90
+   53:      NOTUSED,	// VECT88	Reserved89
+   54:      NOTUSED,	// VECT87	Reserved88
+   55:      NOTUSED,	// VECT86	Reserved87
+   56:      NOTUSED,	// VECT85	Reserved86
+   57:      NOTUSED,	// VECT84	Reserved85
+   58:      NOTUSED,	// VECT83	Reserved84
+   59:      NOTUSED,	// VECT82	Reserved83
+   60:      NOTUSED,	// VECT81	Reserved82
+   61:      NOTUSED,	// VECT80	Reserved81
+   62:      NOTUSED,	// VECT79	xsramav
+   63:      NOTUSED,	// VECT78	xsei
+   64:      NOTUSED,	// VECT77	xst7
+   65:      NOTUSED,	// VECT76	xst6
+   66:      NOTUSED,	// VECT75	xst5
+   67:      NOTUSED,	// VECT74	xst4
+   68:      NOTUSED,	// VECT73	xst3
+   69:      NOTUSED,	// VECT72	xst2
+   70:      NOTUSED,	// VECT71	xst1
+   71:      NOTUSED,	// VECT70	xst0
+   72:      NOTUSED,	// VECT69	pit3
+   73:      NOTUSED,	// VECT68	pit2
+   74:      NOTUSED,	// VECT67	pit1
+   75:      NOTUSED,	// VECT66	pit0
+   76:      NOTUSED,	// VECT65	Reserved65
+   77:      NOTUSED,	// VECT64	api
+   78:      NOTUSED,	// VECT63	lvi
+   79:      NOTUSED,	// VECT62	iic1
+   80:      NOTUSED,	// VECT61	sci5
+   81:      NOTUSED,	// VECT60	sci4
+   82:      NOTUSED,	// VECT59	sci3
+   83:      NOTUSED,	// VECT58	sci2
+   84:      NOTUSED,	// VECT57	pwmesdn
+   85:      NOTUSED,	// VECT56	portp
+   86:      NOTUSED,	// VECT55	can4tx
+   87:      NOTUSED,	// VECT54	can4rx
+   88:      NOTUSED,	// VECT53	can4err
+   89:      NOTUSED,	// VECT52	can4wkup
+   90:      NOTUSED,	// VECT51	can3tx
+   91:      NOTUSED,	// VECT50	can3rx
+   92:      NOTUSED,	// VECT49	can3err
+   93:      NOTUSED,	// VECT48	can3wkup
+   94:      NOTUSED,	// VECT47	can2tx
+   95:      NOTUSED,	// VECT46	can2rx
+   96:      NOTUSED,	// VECT45	can2err
+   97:      NOTUSED,	// VECT44	can2wkup
+   98:      NOTUSED,	// VECT43	can1tx
+   99:      NOTUSED,	// VECT42	can1rx
+  100:      NOTUSED,	// VECT41	can1err
+  101:      NOTUSED,	// VECT40	can1wkup
+  102:      NOTUSED,	// VECT39	can0tx
+  103:      NOTUSED,	// VECT38	can0rx
+  104:      NOTUSED,	// VECT37	can0err
+  105:      NOTUSED,	// VECT36	can0wkup
+  106:      NOTUSED,	// VECT35	flash
+  107:      NOTUSED,	// VECT34	eeprom
+  108:      NOTUSED,	// VECT33	spi2
+  109:      NOTUSED,	// VECT32	spi1
+  110:      NOTUSED,	// VECT31	iic0
+  111:      NOTUSED,	// VECT30	Reserved30
+  112:      NOTUSED,	// VECT29	crgscm
+  113:      NOTUSED,	// VECT28	crgplllck
+  114:      NOTUSED,	// VECT27	timpabovf
+  115:      NOTUSED,	// VECT26	timmdcu
+  116:      NOTUSED,	// VECT25	porth
+  117:      NOTUSED,	// VECT24	portj
+  118:      NOTUSED,	// VECT23	atd1
+  119:      NOTUSED,	// VECT22	atd0
+  120:      ISR_sci,	// VECT21	sci1
+  121:      NOTUSED,	// VECT20	sci0
+  122:      NOTUSED,	// VECT19	spi0
+  123:      NOTUSED,	// VECT18	timpaie
+  124:      NOTUSED,	// VECT17	timpaaovf
+  125:      NOTUSED,	// VECT16	timovf
+  126:      NOTUSED,	// VECT15	timch7
+  127:      NOTUSED,	// VECT14	timch6
+  128:      NOTUSED,	// VECT13	timch5
+  129:      NOTUSED,	// VECT12	timch4
+  130:      NOTUSED,	// VECT11	timch3
+  131:      NOTUSED,	// VECT10	timch2
+  132:      NOTUSED,	// VECT9	timch1
+  133:      NOTUSED,	// VECT8	timch0
+  134:      ISR_rti,	// VECT7	rti
+  135:      NOTUSED,	// VECT6	irq
+  136:      NOTUSED,	// VECT5	xirq
+  137:      NOTUSED,	// VECT4	swi
+  138:      NOTUSED,	// VECT3	trap
+  139:      NOTUSED,	// VECT2	cop
+  140:      NOTUSED,	// VECT1	clkmon
+  141:      _Startup,	// VECT0	reset
+  142:  };
+  143:  
+  144:  

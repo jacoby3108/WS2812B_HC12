@@ -1,0 +1,391 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  
+    2:  //#define TP 25  // 1.25 us @ 50ns OCTic
+    3:  #include "mc9s12xdp512.h"
+    4:  #include "ws2812b.h"
+    5:  #include "LEDscreen.h"
+    6:  
+    7:      
+    8:  #define OCTIC 50            // 50ns (prescaler must be at 2)  
+    9:  #define T1H   800/OCTIC     // 800ns  @ 50ns OCTic
+   10:  #define T0H   400/OCTIC     // 400ns  @ 50ns OCTic
+   11:  #define TRES  50000/OCTIC   // 50us @ 50ns OCTic
+   12:  
+   13:  // Variables used by Driver                                     
+   14:  
+   15:  static unsigned int  delta;
+   16:  static unsigned char mask;
+   17:  
+   18:  // ************* OJO **********
+   19:  // OJO ByteCtr debe ser int no char pues el maximo es 32x8x3= 768 me ovide !!!
+   20:  // Medir como impacta en los tiempos
+   21:    
+   22:  //static unsigned char ByteCtr=2;   // How many bytes will be send to WS2812B
+   23:  static unsigned int  ByteCtr=2;   // How many bytes will be send to WS2812B
+   24:  
+   25:  static unsigned char *p2rgb;      // Poiner to data to be send over DIN pin (WS2812B) 
+   26:  
+   27:  
+   28:  // Definitions for transposed display
+   29:                                               
+   30:  
+   31:  
+   32:  //static unsigned char (*p2led)[RGB_COLS*sizeof(LEDSTR)]; 
+   33:  
+   34:  //static unsigned char rgb_col=0;
+   35:  //static unsigned char rgb_row=0;
+   36:      
+   37:  
+   38:  // OC6  pin 17 H3   (Din WS2812B)
+   39:  // OC7  pin 18 H3   (Scope Test Point)
+   40:  
+   41:  // ======================================
+   42:  
+   43:  void WS2812B_Set_Data_Length( unsigned int length ) {
+
+Function: WS2812B_Set_Data_Length
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\WS2812B.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\WS2812B.c.o" -WmsgSd1106
+
+   44:   
+   45:   
+   46:          ByteCtr=length;    //
+  0000 7c0000       [3]     STD   ByteCtr
+   47:   
+   48:    
+   49:  }
+  0003 3d           [5]     RTS   
+   50:  
+   51:  void WS2812B_Set_Data_pointer( unsigned char *data_ptr ) {
+
+Function: WS2812B_Set_Data_pointer
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\WS2812B.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\WS2812B.c.o" -WmsgSd1106
+
+   52:   
+   53:    // Not transposed
+   54:    p2rgb=data_ptr;    // 
+  0000 7c0000       [3]     STD   p2rgb
+   55:                  
+   56:    // For transposed                
+   57:  ///  p2led=(unsigned char (*)[RGB_COLS*sizeof(LEDSTR)])data_ptr;
+   58:   
+   59:    
+   60:  }
+  0003 3d           [5]     RTS   
+   61:  
+   62:  
+   63:  
+   64:  void WS2812B_Send_data(void)  // Important we don't use any local variables for speed reasons
+   65:  
+   66:  {
+
+Function: WS2812B_Send_data
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\WS2812B.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\WS2812B.c.o" -WmsgSd1106
+
+   67:    
+   68:       
+   69:   
+   70:    
+   71:       _asm sei;          // Disable Interrupts Critical timing starts here
+  0000 1410         [1]     SEI   
+   72:    
+   73:  // ====================================================
+   74:  
+   75:    TC7=TCNT+1000;   // lets syncronize OC7 & OC6 with TCNT 
+  0002 dc00         [3]     LDD   _TCNT
+  0004 c303e8       [2]     ADDD  #1000
+  0007 5c00         [2]     STD   _TC7
+   76:    TC6=TC7;         // and Reset WS2812B (TRES = 50000/OCTIC=1000)
+  0009 dc00         [3]     LDD   _TC7
+  000b 5c00         [2]     STD   _TC6
+   77:        
+   78:    TFLG1=0x80; //  Clr C7F
+  000d c680         [1]     LDAB  #128
+  000f 5b00         [2]     STAB  _TFLG1
+   79:    TFLG1=0x40; //  Clr C6F
+  0011 54           [1]     LSRB  
+  0012 5b00         [2]     STAB  _TFLG1
+   80:     
+   81:    
+   82:    while (!TFLG1_C7F); // Wait for Sync 
+  0014 4f0080fc     [4]     BRCLR _TFLG1,#128,*+0 ;abs = 0014
+   83:    while (!TFLG1_C6F);   
+  0018 4f0040fc     [4]     BRCLR _TFLG1,#64,*+0 ;abs = 0018
+   84:     
+   85:    // Reset flags
+   86:    
+   87:    TFLG1=0x80; //  Clr C7F
+  001c c680         [1]     LDAB  #128
+  001e 5b00         [2]     STAB  _TFLG1
+   88:    TFLG1=0x40; //  Clr C6F
+  0020 54           [1]     LSRB  
+  0021 5b00         [2]     STAB  _TFLG1
+   89:   
+   90:    
+   91:    TC7=TC7+1000;  // Add some time to carry out the next tasks 
+  0023 dc00         [3]     LDD   _TC7
+  0025 c303e8       [2]     ADDD  #1000
+  0028 5c00         [2]     STD   _TC7
+   92:    TC6=TC6+1000;  // before next OC takes place
+  002a dc00         [3]     LDD   _TC6
+  002c c303e8       [2]     ADDD  #1000
+  002f 5c00         [2]     STD   _TC6
+   93:       
+   94:  // **********************************************     
+   95:  // DIN signal of WS2812B is generated at OC6 pin 
+   96:     
+   97:  // OC7 Timer generates the signal period (Tbit)
+   98:  // OC6 Timer generates the signal pulse width 
+   99:  // 0.4us for 0 and 0.8us for 1
+  100:  
+  101:  // At OC7 compare the following takes place:
+  102:   
+  103:  // OC7 sets OC6 at 1
+  104:   
+  105:                            
+  106:  
+  107:  // set up OC7 D and M to control OC6
+  108:  
+  109:  
+  110:      OC7M_OC7M6=1;          // OC7 controls OC6 pin 
+  0031 4c0040       [4]     BSET  _OC7M,#64
+  111:      OC7D=0x40;             // When OC7 is reached OC6 pin goes HI
+  0034 c640         [1]     LDAB  #64
+  0036 5b00         [2]     STAB  _OC7D
+  112:          
+  113:          
+  114:      mask=0x80;             // Init walking '1'
+  0038 58           [1]     LSLB  
+  0039 7b0000       [3]     STAB  mask
+  115:   
+  116:   
+  117:     // Bit value to pulse width conversion
+  118:     
+  119:      if((*p2rgb)&mask)      // Setup first Bit
+  003c e4fb0000     [6]     ANDB  [p2rgb,PCR]
+  0040 273d         [3/1]   BEQ   *+63 ;abs = 007f
+  120:            delta=T1H;
+  0042 2038         [3]     BRA   *+58 ;abs = 007c
+  121:      else
+  122:            delta=T0H;
+  123:      
+  124:  
+  125:  while (ByteCtr)
+  126:  {
+  127:  
+  128:     
+  129:      while (!TFLG1_C7F);  // Sync with start of period
+  0044 4f0080fc     [4]     BRCLR _TFLG1,#128,*+0 ;abs = 0044
+  130:    
+  131:    // WARNING: Critical timing Don't put any code here
+  132:  
+  133:  //=========== Set bit width ================================================
+  134:       TC6=TC7+delta;   // set bit width (T1H,T0H) value on OC6
+  0048 dc00         [3]     LDD   _TC7
+  004a f30000       [3]     ADDD  delta
+  004d 5c00         [2]     STD   _TC6
+  135:      
+  136:  //=========== Set bit period ==========================================================   
+  137:  
+  138:  //   TC7=TC7+25;      // 1.25us   (nominal period) 
+  139:  
+  140:  // Add some extra time to the nominal period (1.25us)
+  141:  // in order to have enough time set up next iteration.
+  142:  // Under no circumstances the total perios should exceed 5us
+  143:  // otherwise a reset condition will be detected by the WS2812B
+  144:  
+  145:  // 1.25us(25OC @50ns each) + 2us(40OC @50ns each) = 3.25us < 5us
+  146:  
+  147:  // Time in nseg
+  148:  #define TNOMINAL 1250     //1.25 us 
+  149:  #define TSPARE   2000     //2 us
+  150:  #define TBIT  TNOMINAL/OCTIC + TSPARE/OCTIC  // must be less than 5 us
+  151:   
+  152:  
+  153:     TC7=TC7+TBIT;     // Set bit period
+  004f dc00         [3]     LDD   _TC7
+  0051 c30041       [2]     ADDD  #65
+  0054 5c00         [2]     STD   _TC7
+  154:  
+  155:  
+  156:  //=====================================================================================
+  157:  
+  158:  // Reset OC flags           
+  159:  
+  160:       TFLG1=0x80|0x40; //  Clr C7F and C6F
+  0056 c6c0         [1]     LDAB  #192
+  0058 5b00         [2]     STAB  _TFLG1
+  161:  
+  162:  // Set up next bit     
+  163:       
+  164:       mask>>=1;        // Next bit
+  005a 740000       [4]     LSR   mask
+  165:  
+  166:       if(mask){        // Are more bits left ?
+  005d b60000       [3]     LDAA  mask
+  0060 2708         [3/1]   BEQ   *+10 ;abs = 006a
+  167:       
+  168:       // Bit value to pulse width conversion
+  169:                
+  170:            if((*p2rgb)&mask) 
+  0062 a4fb0000     [6]     ANDA  [p2rgb,PCR]
+  0066 2717         [3/1]   BEQ   *+25 ;abs = 007f
+  171:                delta=T1H;
+  0068 2012         [3]     BRA   *+20 ;abs = 007c
+  172:            else
+  173:                delta=T0H;
+  174:       }
+  175:       
+  176:       else{                  // Start a new Byte     
+  177:        
+  178:                        
+  179:            p2rgb++;          // Next byte
+  006a 18720000     [5]     INCW  p2rgb
+  180:            ByteCtr--;    
+  006e 18730000     [5]     DECW  ByteCtr
+  181:            mask=0x80;        // Reset mask
+  0072 58           [1]     LSLB  
+  0073 7b0000       [3]     STAB  mask
+  182:            
+  183:         // Setup first Bit
+  184:  
+  185:            if((*p2rgb)&mask)     
+  0076 e4fb0000     [6]     ANDB  [p2rgb,PCR]
+  007a 2703         [3/1]   BEQ   *+5 ;abs = 007f
+  186:                delta=T1H;
+  007c c610         [1]     LDAB  #16
+  007e 8f           [2]     SKIP2 
+  187:            else
+  188:                delta=T0H;
+  007f c608         [1]     LDAB  #8
+  0081 87           [1]     CLRA  
+  0082 7c0000       [3]     STD   delta
+  0085 fc0000       [3]     LDD   ByteCtr
+  0088 26ba         [3/1]   BNE   *-68 ;abs = 0044
+  189:            
+  190:         
+  191:         
+  192:       } // end of if
+  193:  
+  194:  
+  195:  // ========================================================== //
+  196:  
+  197:          // The following code is for Debug 
+  198:          // It shows how much time we have free 
+  199:          // before next bit must be sent
+  200:          // Free time is t2-t1
+  201:          // t1: rising edge of PORTA pin0
+  202:          // t2: next edge on OC7
+  203:          // Actually each bit is sent every 3.25us (Tbit)
+  204:          // Tbit= 1.25us (TNOMINAL) + 2us (SPARE)
+  205:          // Tfree= Tbit - FreeTime(measured)
+  206:  
+  207:  /* 
+  208:            PORTA|=0x01;
+  209:            _asm nop;   
+  210:            _asm nop; 
+  211:            PORTA&=0xFE;
+  212:    
+  213:  */
+  214:            
+  215:  // measured values on actual code
+  216:  // measured from start of period to Port A rising edge:
+  217:  // 
+  218:  // 1.38 us when byte is being sent  => Tfree=1.87 us
+  219:  // 1.83 us when next byte is loaded => Tfree=1.42 us        
+  220:  // =========================================================== //
+  221:            
+  222:  
+  223:  
+  224:         
+  225:     } //End of while
+  226:     
+  227:       OC7D=0x00;   // When OC7 is reached OC6 pin goes LO  
+  008a 790000       [3]     CLR   _OC7D
+  228:       _asm cli;    // Reenable Interrupts Critical section has ended     
+  008d 10ef         [1]     CLI   
+  229:       
+  230:     
+  231:     
+  232:  }  // End of WS2812B_Send_data
+  008f 3d           [5]     RTS   
+  233:  
+  234:  
+  235:  
+  236:  
+  237:  
+  238:  
+  239:  //***************************************************************
+  240:  //                            WS2812B_Init
+  241:  //===============================================================
+  242:  // WS2812B_Init initializes OC Hardware for WS2812B Led Controller 
+  243:  // OC6 drives the DIN pin on WS2812B. Init_display sets DIN to 0
+  244:  // and OC7 to toggle mode after the call   
+  245:  // How it works :
+  246:  // OC7 controls OC6 setting it HI at the start of each period
+  247:  // OC6 returns to LO after TH1/TH0. At the end of the period OC7 
+  248:  // returns OC6 to HI.
+  249:  //
+  250:  // |--------|                        |------
+  251:  // |  TH1/0 |                        |
+  252:  // |        |------------------------|
+  253:  // OC6 --> TH1/0
+  254:  // OC7 --> Period
+  255:  //
+  256:  // 
+  257:  //===============================================================
+  258:  
+  259:  
+  260:  void WS2812B_Init(void)
+  261:  
+  262:  {
+
+Function: WS2812B_Init
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\WS2812B.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\WS2812B.c.o" -WmsgSd1106
+
+  263:  
+  264:    // Set TCNT prescaler     
+  265:   
+  266:    TSCR2 = (TSCR2 & 0xF8) | 0x01;    // Prescaler en 2, cuenta cada 2/40MHz = 50ns
+  0000 d600         [3]     LDAB  _TSCR2
+  0002 c4f8         [1]     ANDB  #248
+  0004 ca01         [1]     ORAB  #1
+  0006 5b00         [2]     STAB  _TSCR2
+  267:    TSCR1 |= TSCR1_TEN_MASK;          // Habilita el timer para el IOC
+  0008 4c0080       [4]     BSET  _TSCR1,#128
+  268:  
+  269:    // Set Timer 6 and 7 in OC mode
+  270:    TIOS_IOS7=1;    
+  000b 4c0080       [4]     BSET  _TIOS,#128
+  271:    TIOS_IOS6=1;
+  000e 4c0040       [4]     BSET  _TIOS,#64
+  272:   
+  273:    // Toggle on OC7 (For debug)
+  274:    TCTL1_OL7 = 1;   
+  0011 4c0040       [4]     BSET  _TCTL1,#64
+  275:    TCTL1_OM7 = 0;
+  0014 4d0080       [4]     BCLR  _TCTL1,#128
+  276:  
+  277:    // Set OC6 for Low on succesfull OC
+  278:    
+  279:    TCTL1_OL6 =0;    // When OC6 is reached OC6 pin (DIN) goes LO 
+  0017 4d0010       [4]     BCLR  _TCTL1,#16
+  280:    TCTL1_OM6 =1;
+  001a 4c0020       [4]     BSET  _TCTL1,#32
+  281:  
+  282:    // Force OC to set previous settings
+  283:    
+  284:    CFORC_FOC6=1;    
+  001d 4c0040       [4]     BSET  _CFORC,#64
+  285:    CFORC_FOC7=1; 
+  0020 4c0080       [4]     BSET  _CFORC,#128
+  286:    
+  287:  }
+  0023 3d           [5]     RTS   
+  288:  
+  289:  
+  290:  
