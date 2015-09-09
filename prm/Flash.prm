@@ -86,7 +86,10 @@ PLACEMENT /* here all predefined and user segments are placed into the SEGMENTS 
                         INTO  ROM_C000;
                         
                         
-      VECTORS           INTO  ROMVECTORS;
+ /*     VECTORS           INTO  ROMVECTORS; */
+ 
+         VECTORS           INTO  TRUEVECTORS;
+      
 
       OTHER_ROM         INTO           PAGE_FE,          PAGE_FC, PAGE_FB, PAGE_FA, PAGE_F9, PAGE_F8, 
                               PAGE_F7, PAGE_F6, PAGE_F5, PAGE_F4, PAGE_F3, PAGE_F2, PAGE_F1, PAGE_F0, 

@@ -148,6 +148,9 @@ void Set_Color(LEDSTR  );
 void Set_Intensity(unsigned char new_intensity);
 
 
+unsigned char Batt_Status(unsigned int bat_level );
+
+
 
 
 LEDSTR DestLedScreen [TEST_ROWS*TEST_COLS];  // The data stored is sent directly to the RGB Led Display      
@@ -292,7 +295,7 @@ static void system_init(void)
 
   #ifdef FLASH     
 
-    pll_init();	  // solo para flash  (ver config.h)
+ /////    pll_init();	  // solo para flash  (ver config.h)
 
   #endif				     
                            
@@ -419,15 +422,15 @@ void LEDtest3(void) {
     
  //   LEDscreen_setShiftEnded_voidCallback(timetoshift);
         
-    LEDscreen_setActualMSJ("NEW");  
+    LEDscreen_setActualMSJ("**C5N**");  
  
     
     for (;;) {    
     
       
-       adcval=atd_getsample();
+    adcval=atd_getsample();
        
-   ///   _printf("ADC;%d \n",adcval);
+    _printf("ADC;%d \n",adcval);
     
     
   /////  putcspi0(show_led++);
@@ -863,7 +866,7 @@ unsigned char data=0;
 
 
    _printf("Set Party Cmd : ");
-   
+                  
 
 		if (QueueStatus())				    // some news?
 			op_status=PullQueue(&data);
@@ -1004,12 +1007,57 @@ unsigned char data=0;
 	 // send STX data ETX          data is Battery Status
 	 	sendsci(STX);
 	 	
-	 	sendsci('N');       // Mando estado de bateria
+//	 	sendsci('N');       // Mando estado de bateria
+
+    
+    adcval=atd_getsample();
+	  	
+	  sendsci(Batt_Status(adcval));
 	 	
 	 	sendsci(ETX);
 	 
 	 
 	 
+}
+
+
+// Battery Return codes and Levels 
+
+#define	NORMAL 	 '0'
+#define	MEDIUM 	 '1'
+#define	LOW	   	 '2'
+#define	CRITICAL '3'
+
+#define	NORMAL_LEVEL 	900
+#define	MEDIUM_LEVEL 	700
+#define	LOW_LEVEL	   	500 
+#define	CRITICAL_LEVEL  300 
+
+
+unsigned char Batt_Status(unsigned int bat_level )
+{
+
+unsigned char bat_status;
+	
+	if(bat_level >=NORMAL_LEVEL)
+	
+		bat_status=NORMAL;
+	
+	if(bat_level < NORMAL_LEVEL && bat_level >= MEDIUM_LEVEL)	
+	
+		bat_status=MEDIUM;
+	
+	if(bat_level < MEDIUM_LEVEL && bat_level >= CRITICAL_LEVEL)	
+	
+		bat_status=LOW;
+		
+		
+	if(bat_level < CRITICAL_LEVEL)	
+	
+		bat_status=CRITICAL;
+		
+	return (bat_status);
+	
 }
 
 

@@ -31,7 +31,7 @@ unsigned char spycount;
 
 void Sci_Init(void) {
 
-
+    /// **************** SCI 1 HC05 ************************////
 
     SCI1BD = 260; // SCI_Baud= BusClk/(16*BD_reg)=9615.38
     
@@ -47,7 +47,27 @@ void Sci_Init(void) {
     SCI1CR2 |=  SCI1CR2_RIE_MASK; 
     
     
-    ////
+    //// ******************SCI 0 Debug Port***************/////
+    
+    SCI0BD = 260; // SCI_Baud= BusClk/(16*BD_reg)=9615.38
+    
+    SCI0CR1 = 0;   // Set Default Values 8 bit No parity 1 Stop  
+        
+
+    //Transmit & Receive Enable
+
+    SCI0CR2 |= (SCI0CR2_TE_MASK|SCI0CR2_RE_MASK); 
+    
+    // Rx interrupt enable 
+    
+    //// SCI0CR2 |=  SCI0CR2_RIE_MASK; 
+           
+    
+    
+    //// ***************************************************/////
+    
+    
+    
     
     pspy=spy;
     

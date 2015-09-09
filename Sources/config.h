@@ -4,8 +4,8 @@
 /* Definir RAM o FLASH según necesite.          */
 /* No olvidar cambiar el Target! (RAM o Flash)  */
 
-#define RAM
-//#define FLASH
+//#define RAM
+#define FLASH
 
 
 
@@ -16,7 +16,7 @@
 #error No puede compilar para RAM y Flash a la vez!
 #else
 #ifdef FLASH
-#warning Recuerde que el PLL es inicializado para 24MHz de bus por el programa Monitor, pero en modo Flash el PLL no es inicializado por nadie.
+#warning Recuerde que el PLL es inicializado para 40MHz de bus por el programa Monitor, pero en modo Flash el PLL no es inicializado por nadie.
 #endif
 #endif 
 

@@ -1,3 +1,6 @@
+             extern  pll_init;
+
+
 /* Código de Startup ANSI-C para HCS12, small memory model. Versión minimalista. */
 
 /* El vector de reset apunta a la función _Startup (más abajo). Ese código hace lo siguiente:
@@ -67,6 +70,15 @@ void _Startup(void)
                 
 /* inicializar stack pointer */
                 LDS #__SEG_END_SSTACK;
+                
+                
+                jsr pll_init
+            
+                
+                
+                
+                
+                
    
 /* zero out */
 ZeroOut:
