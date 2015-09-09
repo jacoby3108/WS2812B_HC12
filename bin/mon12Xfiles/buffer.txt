@@ -1,20 +1,6 @@
 g -t
 load ram.s19
 g -t
-
-reegs
-regs
-load ram.s19
-g -t
-load ram.s19
-g -t
-load ram.s19
-g -t
-load ram.s19
-
-g -t
-load ram.s19
-g -t
 load ram.s19
 g -t
 port com9
@@ -47,3 +33,17 @@ port com9
 regs
 load ram.s19
 g
+port com9
+regs
+regs
+
+
+load ram.s19
+g t 
+ter
+load ram.s19
+g 
+load ram.s19
+g 
+load ram.s19
+g 

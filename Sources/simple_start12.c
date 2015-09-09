@@ -69,9 +69,9 @@ void _Startup(void)
                 NOP
                 
 /* inicializar stack pointer */
-                LDS #__SEG_END_SSTACK;
-                
-                
+                LDS #__SEG_END_SSTACK;  // ojo con esto !! Ver
+                                        //1- pag 55/56 del manual Assembler_HC12.pdf  
+                                        //2- Flash.prm STACKSIZE
                 jsr pll_init
             
                 

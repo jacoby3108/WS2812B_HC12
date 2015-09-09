@@ -239,9 +239,10 @@ unsigned int SpeedTable[]={S_0,S_1,S_2,S_3,S_4,S_5,S_6,S_7,S_8,S_9};    // 0-9
 
 // -----------------------------------------------
 
-
+#define MAX_TEXT_LEN 200
+char textBuf[MAX_TEXT_LEN];
               
-void main(void) {                  
+void main(void) {                          
   
  
                
@@ -494,7 +495,7 @@ TIMER TEST END*/
                if(!timsts)
                   _printf("timeout EOT\n");                  
             
- 
+                                                             
              
            
        //////////////       rti_stop(); 
@@ -733,8 +734,8 @@ unsigned char command_parser(CMD_STR *p2cmd)
 void Cmd_Set_Text(void)     
 {
 
-#define MAX_TEXT_LEN 200
-char textBuf[MAX_TEXT_LEN];
+///#define MAX_TEXT_LEN 200
+///char textBuf[MAX_TEXT_LEN];
 
 unsigned int i=0;
 unsigned char data=0;
@@ -925,7 +926,7 @@ unsigned char data=0;
 
    if ((data >= '0')  &&  (data <= '2') ) // Protect from unexpected data
     
-	Led_intensity=Intensity_Table[data-'0']; 
+ 	Led_intensity=Intensity_Table[data-'0']; 
 
 	 op_status=PullQueue(&data);  // Get terminator and discard
 	
@@ -954,12 +955,12 @@ void Set_Intensity(unsigned char new_intensity)
          color.Green=new_intensity;
      
       
-      if(color.Green)
+      if(color.Blue)
     
         color.Blue=new_intensity;
        
        
-      if(color.Green)
+      if(color.Red)
     
          color.Red=new_intensity;
   }
