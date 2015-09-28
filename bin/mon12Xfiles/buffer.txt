@@ -1,8 +1,6 @@
 g -t
 load ram.s19
 g -t
-load ram.s19
-g -t
 port com9
 
 load ram.s19
@@ -47,3 +45,5 @@ load ram.s19
 g 
 load ram.s19
 g 
+port com9
+ter

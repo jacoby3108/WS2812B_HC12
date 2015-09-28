@@ -36,8 +36,8 @@ Entry point: 0xC000 (_Startup)
 _startupData is allocated at 0xC035 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x1100     2552
-  _Copy    *toCopyDownBeg 0xD4F2
+  _Range   pZeroOut       0x1100     2561
+  _Copy    *toCopyDownBeg 0xD502
 } _startupData;
 
 *********************************************************************************************
@@ -48,11 +48,11 @@ Section Name                    Size  Type     From       To       Segment
 .startData                        34     R     0xC035     0xC056   ROM_C000
 .rodata                         1524     R     0xC057     0xC64A   ROM_C000
 .rodata1                         249     R     0xC64B     0xC743   ROM_C000
-.text                           3392     R     0xC744     0xD483   ROM_C000
-.copy                            137     R     0xD4F2     0xD57A   ROM_C000
+.text                           3408     R     0xC744     0xD493   ROM_C000
+.copy                            145     R     0xD502     0xD592   ROM_C000
 VECTORS                          240     R     0xFF10     0xFFFF   TRUEVECTORS
 .stack                           256   R/W     0x1000     0x10FF   RAM
-.data                            517   R/W     0x1100     0x1304   RAM
+.data                            525   R/W     0x1100     0x130C   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -700,13 +700,13 @@ VECTORS                          240     R     0xFF10     0xFFFF   TRUEVECTORS
 .abs_section_3aa                   2   N/I      0x3AA      0x3AB   .absSeg644
 .abs_section_3ac                   2   N/I      0x3AC      0x3AD   .absSeg645
 .abs_section_3ae                   2   N/I      0x3AE      0x3AF   .absSeg646
-.bss                            1011   R/W     0x1305     0x16F7   RAM
-.common                         1024   R/W     0x16F8     0x1AF7   RAM
-RUNTIME                          110     R     0xD484     0xD4F1   ROM_C000
+.bss                            1012   R/W     0x130D     0x1700   RAM
+.common                         1024   R/W     0x1701     0x1B00   RAM
+RUNTIME                          110     R     0xD494     0xD501   ROM_C000
 
 Summary of section sizes per section type:
-READ_ONLY (R):        166B (dec:     5739)
-READ_WRITE (R/W):      AF8 (dec:     2808)
+READ_ONLY (R):        1683 (dec:     5763)
+READ_WRITE (R/W):      B01 (dec:     2817)
 NO_INIT (N/I):         300 (dec:      768)
 
 *********************************************************************************************
@@ -1419,15 +1419,15 @@ MODULE:                 -- main.c.o --
      SpeedTable                                1136      14      20       1   .data       
      RowIndex                                  114A      10      16       1   .data       
      ColUpdat                                  115A      10      16       1   .data       
-     end_of_transmision                        1305       1       1       3   .bss        
-     endsts                                    1306       1       1       2   .bss        
-     timsts                                    1307       1       1       2   .bss        
-     adcval                                    1308       2       2       2   .bss        
-     op_status                                 130A       1       1       9   .bss        
-     DestLedScreen                             16F8     300     768       9   .common     
-     Led_intensity                             19F8       1       1       3   .common     
-     speed                                     19F9       2       2       3   .common     
-     textBuf                                   19FB      C8     200       4   .common     
+     end_of_transmision                        130D       1       1       3   .bss        
+     endsts                                    130E       1       1       2   .bss        
+     timsts                                    130F       1       1       2   .bss        
+     adcval                                    1310       2       2       2   .bss        
+     op_status                                 1312       1       1       9   .bss        
+     DestLedScreen                             1701     300     768       9   .common     
+     Led_intensity                             1A01       1       1       3   .common     
+     speed                                     1A02       2       2       3   .common     
+     textBuf                                   1A04      C8     200       4   .common     
 MODULE:                 -- EMBEDDED.C.o (ansixsi.lib) --
 - PROCEDURES:
      printf                                    CB7C      13      19      24   .text       
@@ -1441,17 +1441,17 @@ MODULE:                 -- PRINTF.C.o (ansixsi.lib) --
      pow10                                     C057      28      40       4   .rodata     
      pow16                                     C07F      20      32       4   .rodata     
      pow8                                      C09F      2C      44       4   .rodata     
-     pbuf                                      130B       6       6       9   .bss        
+     pbuf                                      1313       6       6       9   .bss        
 MODULE:                 -- rtshc12.c.o (ansixsi.lib) --
 - PROCEDURES:
-     _BSHL                                     D484       8       8       1   RUNTIME     
-     _BSHRU                                    D48C       8       8       2   RUNTIME     
-     _ISHRU                                    D494       B      11       1   RUNTIME     
-     _LNEG                                     D49F       9       9       1   RUNTIME     
-     _CASE_DIRECT_BYTE                         D4A8       5       5       1   RUNTIME     
-     _CASE_CHECKED_BYTE                        D4AD      14      20       1   RUNTIME     
-     _CASE_SEARCH_8                            D4C1      17      23       1   RUNTIME     
-     _CASE_SEARCH_8_BYTE                       D4D8      1A      26       1   RUNTIME     
+     _BSHL                                     D494       8       8       1   RUNTIME     
+     _BSHRU                                    D49C       8       8       2   RUNTIME     
+     _ISHRU                                    D4A4       B      11       1   RUNTIME     
+     _LNEG                                     D4AF       9       9       1   RUNTIME     
+     _CASE_DIRECT_BYTE                         D4B8       5       5       1   RUNTIME     
+     _CASE_CHECKED_BYTE                        D4BD      14      20       1   RUNTIME     
+     _CASE_SEARCH_8                            D4D1      17      23       1   RUNTIME     
+     _CASE_SEARCH_8_BYTE                       D4E8      1A      26       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- ivt.c.o --
 - PROCEDURES:
@@ -1469,93 +1469,95 @@ MODULE:                 -- rti.c.o --
      rti_start                                 CFB3       F      15       1   .text       
      Set_Timer_ms                              CFC2       E      14       2   .text       
      Get_Timer_ms_Status                       CFD0       A      10       2   .text       
-     ISR_rti                                   CFDA      29      41       1   .text       
-     Set_Party_Mode_On                         D003       7       7       1   .text       
-     Set_Party_Mode_Off                        D00A       5       5       1   .text       
+     ISR_rti                                   CFDA      39      57       1   .text       
+     Set_Party_Mode_On                         D013       7       7       1   .text       
+     Set_Party_Mode_Off                        D01A       5       5       1   .text       
 - VARIABLES:
      party_counter                             116A       2       2       3   .data       
-     Party_Enabled                             1311       2       2       3   .bss        
-     rti_dly                                   1313       2       2       5   .bss        
+     Party_Show                                116C       8       8       1   .data       
+     show_led                                  1319       1       1       2   .bss        
+     Party_Enabled                             131A       2       2       3   .bss        
+     rti_dly                                   131C       2       2       5   .bss        
 MODULE:                 -- characters8x8.c.o --
 - PROCEDURES:
 - VARIABLES:
      font8x8_basic                             C0CB     580    1408       1   .rodata     
 MODULE:                 -- sci.c.o --
 - PROCEDURES:
-     Sci_Init                                  D00F      33      51       1   .text       
-     Sci1_Putchar                              D042       9       9       2   .text       
-     ISR_sci                                   D04B       E      14       1   .text       
-     Reset_FSM                                 D059       4       4       1   .text       
-     irq_sci_fsm                               D05D      69     105       1   .text       
-     sendsci                                   D0C6       3       3       6   .text       
-     new_messages                              D0C9       C      12       1   .text       
-     messages_count                            D0D5       4       4       2   .text       
-     TERMIO_PutChar                            D0D9       9       9       4   .text       
+     Sci_Init                                  D01F      33      51       1   .text       
+     Sci1_Putchar                              D052       9       9       2   .text       
+     ISR_sci                                   D05B       E      14       1   .text       
+     Reset_FSM                                 D069       4       4       1   .text       
+     irq_sci_fsm                               D06D      69     105       1   .text       
+     sendsci                                   D0D6       3       3       6   .text       
+     new_messages                              D0D9       C      12       1   .text       
+     messages_count                            D0E5       4       4       2   .text       
+     TERMIO_PutChar                            D0E9       9       9       4   .text       
 - VARIABLES:
-     msg                                       1315       1       1       5   .bss        
-     rxdata                                    1316       1       1       4   .bss        
-     Sci_State                                 1317       1       1       4   .bss        
-     op_status                                 1318       1       1       1   .bss        
-     spy                                       1AC3      32      50       2   .common     
-     pspy                                      1AF5       2       2       1   .common     
-     spycount                                  1AF7       1       1       3   .common     
+     msg                                       131E       1       1       5   .bss        
+     rxdata                                    131F       1       1       4   .bss        
+     Sci_State                                 1320       1       1       4   .bss        
+     op_status                                 1321       1       1       1   .bss        
+     spy                                       1ACC      32      50       2   .common     
+     pspy                                      1AFE       2       2       1   .common     
+     spycount                                  1B00       1       1       3   .common     
 MODULE:                 -- WS2812B.c.o --
 - PROCEDURES:
-     WS2812B_Set_Data_Length                   D0E2       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  D0E6       4       4       1   .text       
-     WS2812B_Send_data                         D0EA      8D     141       1   .text       
-     WS2812B_Init                              D177      24      36       1   .text       
+     WS2812B_Set_Data_Length                   D0F2       4       4       1   .text       
+     WS2812B_Set_Data_pointer                  D0F6       4       4       1   .text       
+     WS2812B_Send_data                         D0FA      8D     141       1   .text       
+     WS2812B_Init                              D187      24      36       1   .text       
 - VARIABLES:
-     ByteCtr                                   116C       2       2       3   .data       
-     delta                                     1319       2       2       2   .bss        
-     mask                                      131B       1       1       3   .bss        
-     p2rgb                                     131C       2       2       4   .bss        
+     ByteCtr                                   1174       2       2       3   .data       
+     delta                                     1322       2       2       2   .bss        
+     mask                                      1324       1       1       3   .bss        
+     p2rgb                                     1325       2       2       4   .bss        
 MODULE:                 -- LEDscreen.c.o --
 - PROCEDURES:
-     LEDscreen_getScreenAddress                D19B       4       4       1   .text       
-     LEDscreen_setNextMSJ                      D19F      25      37       1   .text       
-     LEDscreen_setActualMSJ                    D1C4      29      41       2   .text       
-     LEDscreen_ShiftEnded                      D1ED      31      49       1   .text       
-     LEDscreen_decode_MSJ                      D21E       8       8       2   .text       
-     LEDscreen_ShiftMSJ                        D226     17C     380      13   .text       
-     Get_End_Of_Shift_Status                   D3A2       F      15       1   .text       
+     LEDscreen_getScreenAddress                D1AB       4       4       1   .text       
+     LEDscreen_setNextMSJ                      D1AF      25      37       1   .text       
+     LEDscreen_setActualMSJ                    D1D4      29      41       2   .text       
+     LEDscreen_ShiftEnded                      D1FD      31      49       1   .text       
+     LEDscreen_decode_MSJ                      D22E       8       8       2   .text       
+     LEDscreen_ShiftMSJ                        D236     17C     380      13   .text       
+     Get_End_Of_Shift_Status                   D3B2       F      15       1   .text       
 - VARIABLES:
-     msj                                       116E      C8     200       6   .data       
-     msjSize                                   1236       2       2       5   .data       
-     nextMsj                                   1238      C8     200       3   .data       
-     nextMsjSize                               1300       2       2       1   .data       
-     colorLEDsON                               1302       3       3       2   .data       
-     LEDscreen_userData                        131E       2       2       1   .bss        
-     LEDscreen_userCallback                    1320       2       2       2   .bss        
-     LEDscreen_userVoidCallback                1322       2       2       2   .bss        
-     colorLEDsOFF                              1324       3       3       2   .bss        
-     End_of_shift                              1327       1       1       3   .bss        
-     iShift.3                                  1328       2       2       4   .bss        
-     LedScreen                                 132A     300     768       4   .bss        
+     msj                                       1176      C8     200       6   .data       
+     msjSize                                   123E       2       2       5   .data       
+     nextMsj                                   1240      C8     200       3   .data       
+     nextMsjSize                               1308       2       2       1   .data       
+     colorLEDsON                               130A       3       3       2   .data       
+     LEDscreen_userData                        1327       2       2       1   .bss        
+     LEDscreen_userCallback                    1329       2       2       2   .bss        
+     LEDscreen_userVoidCallback                132B       2       2       2   .bss        
+     colorLEDsOFF                              132D       3       3       2   .bss        
+     End_of_shift                              1330       1       1       3   .bss        
+     iShift.3                                  1331       2       2       4   .bss        
+     LedScreen                                 1333     300     768       4   .bss        
 MODULE:                 -- cqueue.c.o --
 - PROCEDURES:
-     QueueInit                                 D3B1      11      17       2   .text       
-     PushQueue                                 D3C2      29      41       1   .text       
-     PullQueue                                 D3EB      2B      43       8   .text       
-     QueueStatus                               D416       4       4       8   .text       
+     QueueInit                                 D3C1      11      17       2   .text       
+     PushQueue                                 D3D2      29      41       1   .text       
+     PullQueue                                 D3FB      2B      43       8   .text       
+     QueueStatus                               D426       4       4       8   .text       
 - VARIABLES:
-     buffer                                    162A      C8     200       6   .bss        
-     news                                      16F2       2       2       6   .bss        
-     pin                                       16F4       2       2       4   .bss        
-     pout                                      16F6       2       2       5   .bss        
+     buffer                                    1633      C8     200       6   .bss        
+     news                                      16FB       2       2       6   .bss        
+     pin                                       16FD       2       2       4   .bss        
+     pout                                      16FF       2       2       5   .bss        
 MODULE:                 -- spi.c.o --
 - PROCEDURES:
-     init_SPI                                  D41A      13      19       1   .text       
-     putcspi0                                  D42D      19      25       1   .text       
+     init_SPI                                  D42A      13      19       1   .text       
+     putcspi0                                  D43D      19      25       1   .text       
 - VARIABLES:
 MODULE:                 -- adc.c.o --
 - PROCEDURES:
-     atd_init                                  D446      1D      29       1   .text       
-     atd_getsample                             D463       D      13       2   .text       
+     atd_init                                  D456      1D      29       1   .text       
+     atd_getsample                             D473       D      13       2   .text       
 - VARIABLES:
 MODULE:                 -- pll.asm.o --
 - PROCEDURES:
-     pll_init                                  D470      14      20       1   .text       
+     pll_init                                  D480      14      20       1   .text       
 - VARIABLES:
 
 *********************************************************************************************
@@ -1569,7 +1571,7 @@ MODULE STATISTIC
   rtshc12.c.o (ansixsi.lib)                    0    110      0
   ivt.c.o                                      0      0    240
   simple_start12.c.o                           0     53      0
-  rti.c.o                                      6     92      0
+  rti.c.o                                     15    108      0
   characters8x8.c.o                            0      0   1408
   sci.c.o                                     57    211      0
   WS2812B.c.o                                  7    185      0
@@ -1578,7 +1580,7 @@ MODULE STATISTIC
   spi.c.o                                      0     44      0
   adc.c.o                                      0     42      0
   pll.asm.o                                    0     20      0
-  other                                      256     34    137
+  other                                      256     34    145
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
@@ -1597,12 +1599,12 @@ SECTION: ".text"
   QueueStatus init_SPI putcspi0 atd_init atd_getsample pll_init 
 SECTION: ".data"
   commands color Led_Colors Intensity_Table SpeedTable RowIndex ColUpdat 
-  party_counter ByteCtr msj msjSize nextMsj nextMsjSize colorLEDsON 
+  party_counter Party_Show ByteCtr msj msjSize nextMsj nextMsjSize colorLEDsON 
 SECTION: ".bss"
-  end_of_transmision endsts timsts adcval op_status pbuf Party_Enabled rti_dly 
-  msg rxdata Sci_State op_status delta mask p2rgb LEDscreen_userData 
-  LEDscreen_userCallback LEDscreen_userVoidCallback colorLEDsOFF End_of_shift 
-  iShift.3 LedScreen buffer news pin pout 
+  end_of_transmision endsts timsts adcval op_status pbuf show_led 
+  Party_Enabled rti_dly msg rxdata Sci_State op_status delta mask p2rgb 
+  LEDscreen_userData LEDscreen_userCallback LEDscreen_userVoidCallback 
+  colorLEDsOFF End_of_shift iShift.3 LedScreen buffer news pin pout 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
@@ -3578,45 +3580,47 @@ OBJECT LIST SORTED BY ADDRESS
      RowIndex                                  114A      10      16       1   .data       
      ColUpdat                                  115A      10      16       1   .data       
      party_counter                             116A       2       2       3   .data       
-     ByteCtr                                   116C       2       2       3   .data       
-     msj                                       116E      C8     200       6   .data       
-     msjSize                                   1236       2       2       5   .data       
-     nextMsj                                   1238      C8     200       3   .data       
-     nextMsjSize                               1300       2       2       1   .data       
-     colorLEDsON                               1302       3       3       2   .data       
-     end_of_transmision                        1305       1       1       3   .bss        
-     endsts                                    1306       1       1       2   .bss        
-     timsts                                    1307       1       1       2   .bss        
-     adcval                                    1308       2       2       2   .bss        
-     op_status                                 130A       1       1       9   .bss        
-     pbuf                                      130B       6       6       9   .bss        
-     Party_Enabled                             1311       2       2       3   .bss        
-     rti_dly                                   1313       2       2       5   .bss        
-     msg                                       1315       1       1       5   .bss        
-     rxdata                                    1316       1       1       4   .bss        
-     Sci_State                                 1317       1       1       4   .bss        
-     op_status                                 1318       1       1       1   .bss        
-     delta                                     1319       2       2       2   .bss        
-     mask                                      131B       1       1       3   .bss        
-     p2rgb                                     131C       2       2       4   .bss        
-     LEDscreen_userData                        131E       2       2       1   .bss        
-     LEDscreen_userCallback                    1320       2       2       2   .bss        
-     LEDscreen_userVoidCallback                1322       2       2       2   .bss        
-     colorLEDsOFF                              1324       3       3       2   .bss        
-     End_of_shift                              1327       1       1       3   .bss        
-     iShift.3                                  1328       2       2       4   .bss        
-     LedScreen                                 132A     300     768       4   .bss        
-     buffer                                    162A      C8     200       6   .bss        
-     news                                      16F2       2       2       6   .bss        
-     pin                                       16F4       2       2       4   .bss        
-     pout                                      16F6       2       2       5   .bss        
-     DestLedScreen                             16F8     300     768       9   .common     
-     Led_intensity                             19F8       1       1       3   .common     
-     speed                                     19F9       2       2       3   .common     
-     textBuf                                   19FB      C8     200       4   .common     
-     spy                                       1AC3      32      50       2   .common     
-     pspy                                      1AF5       2       2       1   .common     
-     spycount                                  1AF7       1       1       3   .common     
+     Party_Show                                116C       8       8       1   .data       
+     ByteCtr                                   1174       2       2       3   .data       
+     msj                                       1176      C8     200       6   .data       
+     msjSize                                   123E       2       2       5   .data       
+     nextMsj                                   1240      C8     200       3   .data       
+     nextMsjSize                               1308       2       2       1   .data       
+     colorLEDsON                               130A       3       3       2   .data       
+     end_of_transmision                        130D       1       1       3   .bss        
+     endsts                                    130E       1       1       2   .bss        
+     timsts                                    130F       1       1       2   .bss        
+     adcval                                    1310       2       2       2   .bss        
+     op_status                                 1312       1       1       9   .bss        
+     pbuf                                      1313       6       6       9   .bss        
+     show_led                                  1319       1       1       2   .bss        
+     Party_Enabled                             131A       2       2       3   .bss        
+     rti_dly                                   131C       2       2       5   .bss        
+     msg                                       131E       1       1       5   .bss        
+     rxdata                                    131F       1       1       4   .bss        
+     Sci_State                                 1320       1       1       4   .bss        
+     op_status                                 1321       1       1       1   .bss        
+     delta                                     1322       2       2       2   .bss        
+     mask                                      1324       1       1       3   .bss        
+     p2rgb                                     1325       2       2       4   .bss        
+     LEDscreen_userData                        1327       2       2       1   .bss        
+     LEDscreen_userCallback                    1329       2       2       2   .bss        
+     LEDscreen_userVoidCallback                132B       2       2       2   .bss        
+     colorLEDsOFF                              132D       3       3       2   .bss        
+     End_of_shift                              1330       1       1       3   .bss        
+     iShift.3                                  1331       2       2       4   .bss        
+     LedScreen                                 1333     300     768       4   .bss        
+     buffer                                    1633      C8     200       6   .bss        
+     news                                      16FB       2       2       6   .bss        
+     pin                                       16FD       2       2       4   .bss        
+     pout                                      16FF       2       2       5   .bss        
+     DestLedScreen                             1701     300     768       9   .common     
+     Led_intensity                             1A01       1       1       3   .common     
+     speed                                     1A02       2       2       3   .common     
+     textBuf                                   1A04      C8     200       4   .common     
+     spy                                       1ACC      32      50       2   .common     
+     pspy                                      1AFE       2       2       1   .common     
+     spycount                                  1B00       1       1       3   .common     
      _Startup                                  C000      35      53       1   .init       
      pow10                                     C057      28      40       4   .rodata     
      pow16                                     C07F      20      32       4   .rodata     
@@ -3670,46 +3674,46 @@ OBJECT LIST SORTED BY ADDRESS
      rti_start                                 CFB3       F      15       1   .text       
      Set_Timer_ms                              CFC2       E      14       2   .text       
      Get_Timer_ms_Status                       CFD0       A      10       2   .text       
-     ISR_rti                                   CFDA      29      41       1   .text       
-     Set_Party_Mode_On                         D003       7       7       1   .text       
-     Set_Party_Mode_Off                        D00A       5       5       1   .text       
-     Sci_Init                                  D00F      33      51       1   .text       
-     Sci1_Putchar                              D042       9       9       2   .text       
-     ISR_sci                                   D04B       E      14       1   .text       
-     Reset_FSM                                 D059       4       4       1   .text       
-     irq_sci_fsm                               D05D      69     105       1   .text       
-     sendsci                                   D0C6       3       3       6   .text       
-     new_messages                              D0C9       C      12       1   .text       
-     messages_count                            D0D5       4       4       2   .text       
-     TERMIO_PutChar                            D0D9       9       9       4   .text       
-     WS2812B_Set_Data_Length                   D0E2       4       4       1   .text       
-     WS2812B_Set_Data_pointer                  D0E6       4       4       1   .text       
-     WS2812B_Send_data                         D0EA      8D     141       1   .text       
-     WS2812B_Init                              D177      24      36       1   .text       
-     LEDscreen_getScreenAddress                D19B       4       4       1   .text       
-     LEDscreen_setNextMSJ                      D19F      25      37       1   .text       
-     LEDscreen_setActualMSJ                    D1C4      29      41       2   .text       
-     LEDscreen_ShiftEnded                      D1ED      31      49       1   .text       
-     LEDscreen_decode_MSJ                      D21E       8       8       2   .text       
-     LEDscreen_ShiftMSJ                        D226     17C     380      13   .text       
-     Get_End_Of_Shift_Status                   D3A2       F      15       1   .text       
-     QueueInit                                 D3B1      11      17       2   .text       
-     PushQueue                                 D3C2      29      41       1   .text       
-     PullQueue                                 D3EB      2B      43       8   .text       
-     QueueStatus                               D416       4       4       8   .text       
-     init_SPI                                  D41A      13      19       1   .text       
-     putcspi0                                  D42D      19      25       1   .text       
-     atd_init                                  D446      1D      29       1   .text       
-     atd_getsample                             D463       D      13       2   .text       
-     pll_init                                  D470      14      20       1   .text       
-     _BSHL                                     D484       8       8       1   RUNTIME     
-     _BSHRU                                    D48C       8       8       2   RUNTIME     
-     _ISHRU                                    D494       B      11       1   RUNTIME     
-     _LNEG                                     D49F       9       9       1   RUNTIME     
-     _CASE_DIRECT_BYTE                         D4A8       5       5       1   RUNTIME     
-     _CASE_CHECKED_BYTE                        D4AD      14      20       1   RUNTIME     
-     _CASE_SEARCH_8                            D4C1      17      23       1   RUNTIME     
-     _CASE_SEARCH_8_BYTE                       D4D8      1A      26       1   RUNTIME     
+     ISR_rti                                   CFDA      39      57       1   .text       
+     Set_Party_Mode_On                         D013       7       7       1   .text       
+     Set_Party_Mode_Off                        D01A       5       5       1   .text       
+     Sci_Init                                  D01F      33      51       1   .text       
+     Sci1_Putchar                              D052       9       9       2   .text       
+     ISR_sci                                   D05B       E      14       1   .text       
+     Reset_FSM                                 D069       4       4       1   .text       
+     irq_sci_fsm                               D06D      69     105       1   .text       
+     sendsci                                   D0D6       3       3       6   .text       
+     new_messages                              D0D9       C      12       1   .text       
+     messages_count                            D0E5       4       4       2   .text       
+     TERMIO_PutChar                            D0E9       9       9       4   .text       
+     WS2812B_Set_Data_Length                   D0F2       4       4       1   .text       
+     WS2812B_Set_Data_pointer                  D0F6       4       4       1   .text       
+     WS2812B_Send_data                         D0FA      8D     141       1   .text       
+     WS2812B_Init                              D187      24      36       1   .text       
+     LEDscreen_getScreenAddress                D1AB       4       4       1   .text       
+     LEDscreen_setNextMSJ                      D1AF      25      37       1   .text       
+     LEDscreen_setActualMSJ                    D1D4      29      41       2   .text       
+     LEDscreen_ShiftEnded                      D1FD      31      49       1   .text       
+     LEDscreen_decode_MSJ                      D22E       8       8       2   .text       
+     LEDscreen_ShiftMSJ                        D236     17C     380      13   .text       
+     Get_End_Of_Shift_Status                   D3B2       F      15       1   .text       
+     QueueInit                                 D3C1      11      17       2   .text       
+     PushQueue                                 D3D2      29      41       1   .text       
+     PullQueue                                 D3FB      2B      43       8   .text       
+     QueueStatus                               D426       4       4       8   .text       
+     init_SPI                                  D42A      13      19       1   .text       
+     putcspi0                                  D43D      19      25       1   .text       
+     atd_init                                  D456      1D      29       1   .text       
+     atd_getsample                             D473       D      13       2   .text       
+     pll_init                                  D480      14      20       1   .text       
+     _BSHL                                     D494       8       8       1   RUNTIME     
+     _BSHRU                                    D49C       8       8       2   RUNTIME     
+     _ISHRU                                    D4A4       B      11       1   RUNTIME     
+     _LNEG                                     D4AF       9       9       1   RUNTIME     
+     _CASE_DIRECT_BYTE                         D4B8       5       5       1   RUNTIME     
+     _CASE_CHECKED_BYTE                        D4BD      14      20       1   RUNTIME     
+     _CASE_SEARCH_8                            D4D1      17      23       1   RUNTIME     
+     _CASE_SEARCH_8_BYTE                       D4E8      1A      26       1   RUNTIME     
      interrupt_vector_table                    FF10      F0     240       0   VECTORS     
 
 *********************************************************************************************
@@ -3750,93 +3754,94 @@ EMBEDDED.C.o (ansixsi.lib):
   STRING..1 
 rtshc12.c.o (ansixsi.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
-rti.c.o:
-  Party_Show show_led 
 LEDscreen.c.o:
   isBufferFree nnnn globalv dummy 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xD4F2 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xD502 ---- SIZE       4 ---
 Filling bytes inserted
- 00721100
-------- ROM-ADDRESS: 0xD4F6 ---- RAM-ADDRESS: 0x1100 ---- SIZE      24 ---
+ 007A1100
+------- ROM-ADDRESS: 0xD506 ---- RAM-ADDRESS: 0x1100 ---- SIZE      24 ---
 Name of initialized Object : commands
  54C93E43C9 8F53C9E649 CA7F42CAF6
  46CA3004CB 6EFFCB5D
-------- ROM-ADDRESS: 0xD50E ---- RAM-ADDRESS: 0x1118 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0xD51E ---- RAM-ADDRESS: 0x1118 ---- SIZE       3 ---
 Name of initialized Object : color
  282828
-------- ROM-ADDRESS: 0xD511 ---- SIZE       5 ---
+------- ROM-ADDRESS: 0xD521 ---- SIZE       5 ---
 Filling bytes inserted
  0000000000
-------- ROM-ADDRESS: 0xD516 ---- RAM-ADDRESS: 0x1120 ---- SIZE      19 ---
+------- ROM-ADDRESS: 0xD526 ---- RAM-ADDRESS: 0x1120 ---- SIZE      19 ---
 Name of initialized Object : Led_Colors:5
  2828000028 0028002800 0028282828
  00282828
-------- ROM-ADDRESS: 0xD529 ---- RAM-ADDRESS: 0x1133 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0xD539 ---- RAM-ADDRESS: 0x1133 ---- SIZE       3 ---
 Name of initialized Object : Intensity_Table
  28140A
-------- ROM-ADDRESS: 0xD52C ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xD53C ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xD52D ---- RAM-ADDRESS: 0x1137 ---- SIZE      19 ---
+------- ROM-ADDRESS: 0xD53D ---- RAM-ADDRESS: 0x1137 ---- SIZE      19 ---
 Name of initialized Object : SpeedTable:1
  010005000A 0014002800 3200500064
  00C8012C
-------- ROM-ADDRESS: 0xD540 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xD550 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xD541 ---- RAM-ADDRESS: 0x114B ---- SIZE      14 ---
+------- ROM-ADDRESS: 0xD551 ---- RAM-ADDRESS: 0x114B ---- SIZE      14 ---
 Name of initialized Object : RowIndex:1
  0102030405 0607070605 04030201
-------- ROM-ADDRESS: 0xD54F ---- SIZE       8 ---
+------- ROM-ADDRESS: 0xD55F ---- SIZE       8 ---
 Filling bytes inserted
  0000000000 000000
-------- ROM-ADDRESS: 0xD557 ---- RAM-ADDRESS: 0x1161 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xD567 ---- RAM-ADDRESS: 0x1161 ---- SIZE       1 ---
 Name of initialized Object : ColUpdat:7
  01
-------- ROM-ADDRESS: 0xD558 ---- SIZE       7 ---
+------- ROM-ADDRESS: 0xD568 ---- SIZE       7 ---
 Filling bytes inserted
  0000000000 0000
-------- ROM-ADDRESS: 0xD55F ---- RAM-ADDRESS: 0x1169 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xD56F ---- RAM-ADDRESS: 0x1169 ---- SIZE       1 ---
 Name of initialized Object : ColUpdat:15
  01
-------- ROM-ADDRESS: 0xD560 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xD570 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xD561 ---- RAM-ADDRESS: 0x116B ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xD571 ---- RAM-ADDRESS: 0x116B ---- SIZE       1 ---
 Name of initialized Object : party_counter:1
  64
-------- ROM-ADDRESS: 0xD562 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xD572 ---- RAM-ADDRESS: 0x116C ---- SIZE       8 ---
+Name of initialized Object : Party_Show
+ 55ED00EE55 AA77CC
+------- ROM-ADDRESS: 0xD57A ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xD563 ---- RAM-ADDRESS: 0x116D ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xD57B ---- RAM-ADDRESS: 0x1175 ---- SIZE       1 ---
 Name of initialized Object : ByteCtr:1
  02
-------- ROM-ADDRESS: 0xD564 ---- RAM-ADDRESS: 0x116E ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xD57C ---- RAM-ADDRESS: 0x1176 ---- SIZE       4 ---
 Name of initialized Object : msj
  49544241
-------- ROM-ADDRESS: 0xD568 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xD580 ---- SIZE       4 ---
 Filling bytes inserted
- 00051237
-------- ROM-ADDRESS: 0xD56C ---- RAM-ADDRESS: 0x1237 ---- SIZE       1 ---
+ 0005123F
+------- ROM-ADDRESS: 0xD584 ---- RAM-ADDRESS: 0x123F ---- SIZE       1 ---
 Name of initialized Object : msjSize:1
  04
-------- ROM-ADDRESS: 0xD56D ---- RAM-ADDRESS: 0x1238 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xD585 ---- RAM-ADDRESS: 0x1240 ---- SIZE       4 ---
 Name of initialized Object : nextMsj
  49544241
-------- ROM-ADDRESS: 0xD571 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xD589 ---- SIZE       4 ---
 Filling bytes inserted
- 00041301
-------- ROM-ADDRESS: 0xD575 ---- RAM-ADDRESS: 0x1301 ---- SIZE       1 ---
+ 00041309
+------- ROM-ADDRESS: 0xD58D ---- RAM-ADDRESS: 0x1309 ---- SIZE       1 ---
 Name of initialized Object : nextMsjSize:1
  04
-------- ROM-ADDRESS: 0xD576 ---- RAM-ADDRESS: 0x1302 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0xD58E ---- RAM-ADDRESS: 0x130A ---- SIZE       3 ---
 Name of initialized Object : colorLEDsON
  FFFFFF
-------- ROM-ADDRESS: 0xD579 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xD591 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3896,7 +3901,7 @@ rti_start                 USES _RTICTL _CRGFLG _CRGINT rti_dly
 Set_Timer_ms              USES _CRGINT rti_dly _CRGFLG 
 Get_Timer_ms_Status       USES rti_dly 
 ISR_rti                   USES _CRGFLG rti_dly party_counter Party_Enabled 
-                                putcspi0 
+                                show_led Party_Show putcspi0 
 Set_Party_Mode_On         USES Party_Enabled 
 Set_Party_Mode_Off        USES Party_Enabled 
 Sci_Init                  USES _SCI1BD _SCI1ACR2 _SCI1CR2 _SCI0BD _SCI0ACR2 
@@ -4146,5 +4151,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 6
-Total size of all blocks to be downloaded: 5739
+Total size of all blocks to be downloaded: 5763
 

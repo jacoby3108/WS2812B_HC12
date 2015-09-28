@@ -137,8 +137,12 @@ void interrupt ISR_rti(void)
 
    if(Party_Enabled==TRUE)
 	
-	  //  putcspi0(Party_Show[0x07 & show_led++]);
-	    putcspi0(0xFF);
+	    putcspi0(Party_Show[0x07 & show_led++]);
+	  //  putcspi0(0xFF);
+	  
+	 else
+	 
+	    putcspi0(0x00);  /// All OFF
 	
 	}
 }
